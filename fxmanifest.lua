@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'MTJ2024'
 description 'GreenZone420 Professional HUD System for ESX Legacy'
-version '1.0.0'
+version '1.0.1'
 
 client_scripts {
     'config.lua',

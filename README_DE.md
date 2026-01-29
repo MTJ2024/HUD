@@ -54,7 +54,9 @@ Config.ShowArmor = true                 -- Panzerung
 ### Schritt 1: Download
 1. Dieses Repository herunterladen
 2. In deinen Server-Ordner `resources` entpacken
-3. Optional umbenennen in `greenzone420_hud`
+3. Ordner umbenennen in `greenzone420_hud` (OHNE eckige Klammern!)
+
+> **⚠️ WICHTIG:** Der Ordnername MUSS `greenzone420_hud` sein (ohne `[` und `]` Klammern). Benutze NICHT `[HUD]` oder `[greenzone420_hud]`. Eckige Klammern sind nur für Kategorie-Ordner in FiveM!
 
 ### Schritt 2: Server.cfg
 Füge diese Zeile zu deiner `server.cfg` hinzu:
@@ -184,6 +186,39 @@ greenzone420_hud/
 ```
 
 ## 🔧 Fehlerbehebung
+
+### Fehler beim Laden der Resource
+
+#### Fehler: "[HUD] is a category, but has a resource manifest"
+**Problem:** Der Ordnername hat eckige Klammern (z.B. `[HUD]` oder `[greenzone420_hud]`)
+
+**Lösung:**
+1. Server stoppen
+2. Ordner umbenennen zu `greenzone420_hud` (OHNE `[` und `]` Klammern!)
+3. In `server.cfg` ändern zu: `ensure greenzone420_hud`
+4. Server starten
+
+**Warum?** FiveM benutzt eckige Klammern für Kategorie-Ordner (wie `[esx]`, `[standalone]`). Einzelne Resources dürfen KEINE Klammern im Namen haben!
+
+#### Fehler: "client does not have a resource manifest" oder "html does not have a resource manifest"
+**Problem:** FiveM versucht die Unterordner `client` und `html` als separate Resources zu laden
+
+**Lösung:**
+1. Stelle sicher, dass die Ordnerstruktur korrekt ist:
+   ```
+   resources/
+   └── greenzone420_hud/          ← Hauptordner (keine Klammern!)
+       ├── fxmanifest.lua
+       ├── config.lua
+       ├── client/
+       │   └── main.lua
+       └── html/
+           ├── index.html
+           ├── style.css
+           └── script.js
+   ```
+2. `fxmanifest.lua` muss im Hauptordner sein
+3. Nur die Haupt-Resource in `server.cfg` laden: `ensure greenzone420_hud`
 
 ### HUD wird nicht angezeigt?
 1. Console prüfen (F8)

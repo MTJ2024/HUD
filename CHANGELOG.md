@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2025-01-29
+
+### Fixed
+- Added clear warnings in all documentation about NOT using brackets in folder names
+- Added troubleshooting section for common FiveM resource loading errors
+- Clarified that folder must be named `greenzone420_hud` (without `[` and `]` brackets)
+
+### Documentation
+- Updated README.md with installation warnings and troubleshooting
+- Updated INSTALLATION.md with detailed error resolution steps
+- Updated QUICKSTART.md with common questions about bracket errors
+- Updated README_DE.md with German troubleshooting section
+- Added explanation about FiveM category folders vs. individual resources
+
 ## [1.0.0] - 2025-01-29
 
 ### Initial Release 🎉

@@ -70,6 +70,8 @@ Created by **MTJ2025** for GreenZone420
    cd resources
    git clone https://github.com/MTJ2024/HUD.git greenzone420_hud
    ```
+   
+   > **⚠️ IMPORTANT:** Do NOT use brackets in the folder name (e.g., `[HUD]` or `[greenzone420_hud]`). Brackets are reserved for FiveM category folders. The folder name must be `greenzone420_hud` (without brackets).
 
 2. **Add to server.cfg**
    ```cfg
@@ -175,6 +177,26 @@ Config.MinimapPosition = "bottom-left"      -- or "bottom-right"
 
 ### Known Issues
 - None reported - if you find any, please open an issue on GitHub
+
+### Common Installation Errors
+
+#### Warning: "[HUD] is a category, but has a resource manifest"
+**Problem:** The resource folder is named with brackets (e.g., `[HUD]` or `[greenzone420_hud]`).
+
+**Solution:** 
+1. Rename the folder to remove brackets: `greenzone420_hud` (without `[` and `]`)
+2. Update your `server.cfg` to use the correct name: `ensure greenzone420_hud`
+3. Restart the server
+
+**Explanation:** In FiveM, folders with brackets like `[esx]` or `[standalone]` are category folders used to organize multiple resources. Individual resources must NOT use brackets in their folder names.
+
+#### Warning: "client does not have a resource manifest" or "html does not have a resource manifest"
+**Problem:** FiveM is trying to load the `client` and `html` subdirectories as separate resources.
+
+**Solution:**
+1. Ensure the main resource folder (containing `fxmanifest.lua`) is named correctly without brackets
+2. Make sure only the main resource folder is being loaded in `server.cfg`, not its subdirectories
+3. The `client` and `html` folders should be inside the main resource folder and will be loaded automatically via `fxmanifest.lua`
 
 ---
 

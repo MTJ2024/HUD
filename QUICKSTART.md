@@ -12,8 +12,10 @@
    ```
    YourServer/
    └── resources/
-       └── greenzone420_hud/    ← Put it here
+       └── greenzone420_hud/    ← Put it here (NO brackets!)
    ```
+   
+   > **⚠️ WARNING:** Do NOT use brackets! The folder must be named `greenzone420_hud`, NOT `[HUD]` or `[greenzone420_hud]`. Brackets are for category folders only.
 
 3. **Add to server.cfg**
    ```cfg
@@ -126,6 +128,22 @@ Config.UpdateInterval = 200
 ---
 
 ## Common Questions
+
+### Q: Getting "[HUD] is a category" error?
+**A:** 
+1. The folder name has brackets - rename it!
+2. Change `[HUD]` or `[greenzone420_hud]` to just `greenzone420_hud`
+3. Update server.cfg: `ensure greenzone420_hud`
+4. Restart server
+
+**Remember:** Brackets `[` `]` are for category folders, NOT individual resources!
+
+### Q: "client does not have a resource manifest" error?
+**A:**
+1. Make sure the folder structure is correct
+2. The `fxmanifest.lua` should be in the main folder
+3. Don't try to load `client` or `html` as separate resources
+4. Only use: `ensure greenzone420_hud` in server.cfg
 
 ### Q: HUD not showing?
 **A:** 

@@ -5,7 +5,9 @@
 ### Step 1: Download
 1. Download this repository as ZIP or clone it
 2. Extract to your FiveM server's `resources` folder
-3. Rename the folder to `greenzone420_hud` (optional but recommended)
+3. Rename the folder to `greenzone420_hud` (required - do NOT use brackets)
+
+> **⚠️ CRITICAL:** The folder name MUST be `greenzone420_hud` (without brackets). Do NOT name it `[HUD]`, `[greenzone420_hud]`, or any name with `[` and `]` brackets. Brackets are reserved for FiveM category folders.
 
 ### Step 2: Configuration
 1. Open `config.lua` in a text editor
@@ -99,6 +101,39 @@ Config.CinematicModeKey = 'F9'  -- Key to toggle HUD
 - **Fuel Script** - Any fuel script (LegacyFuel, okokFuel, etc.) for fuel display
 
 ## Troubleshooting
+
+### Resource Loading Errors
+
+#### Error: "[HUD] is a category, but has a resource manifest"
+**Cause:** The folder is named with brackets (e.g., `[HUD]` or `[greenzone420_hud]`)
+
+**Fix:**
+1. Stop the server
+2. Rename the resource folder to `greenzone420_hud` (remove all brackets)
+3. Update `server.cfg`: `ensure greenzone420_hud`
+4. Start the server
+
+**Why?** FiveM uses brackets for category folders (like `[esx]`, `[standalone]`). Individual resources must not use brackets.
+
+#### Error: "client does not have a resource manifest" or "html does not have a resource manifest"
+**Cause:** FiveM is incorrectly scanning subdirectories as separate resources
+
+**Fix:**
+1. Ensure your folder structure is:
+   ```
+   resources/
+   └── greenzone420_hud/          ← Main folder (no brackets!)
+       ├── fxmanifest.lua
+       ├── config.lua
+       ├── client/
+       │   └── main.lua
+       └── html/
+           ├── index.html
+           ├── style.css
+           └── script.js
+   ```
+2. Make sure `fxmanifest.lua` exists in the main folder
+3. Only load the main resource in `server.cfg`: `ensure greenzone420_hud`
 
 ### HUD Not Showing
 1. Make sure the resource is started: `/restart greenzone420_hud`
