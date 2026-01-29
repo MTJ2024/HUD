@@ -1,6 +1,6 @@
 // ========================================
 // GreenZone420 HUD Script
-// Created by MTJ2025
+// Created by MTJ2024
 // Professional FiveM HUD JavaScript
 // ========================================
 
@@ -20,9 +20,11 @@ let config = {
     themeColor: { r: 76, g: 175, b: 80 }
 };
 
+let themeStylesApplied = false;
+
 // Initialize HUD
-$(document).ready(function() {
-    console.log("GreenZone420 HUD Loaded - Created by MTJ2025");
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("GreenZone420 HUD Loaded - Created by MTJ2024");
 });
 
 // Listen for NUI messages
@@ -51,20 +53,21 @@ function initializeHUD(cfg) {
     
     // Show/hide elements based on config
     if (config.showLogo) {
-        $('#server-logo').removeClass('hidden');
-        $('.logo-text').text(`🌿 ${config.serverName}`);
+        removeClass(getId('server-logo'), 'hidden');
+        getId('server-logo').querySelector('.logo-text').textContent = `🌿 ${config.serverName}`;
     }
     
     // Status bars visibility
-    if (!config.showHealth) $('#health-bar').hide();
-    if (!config.showArmor) $('#armor-bar').hide();
-    if (!config.showHunger) $('#hunger-bar').hide();
-    if (!config.showThirst) $('#thirst-bar').hide();
-    if (!config.showStamina) $('#stamina-bar').hide();
+    if (!config.showHealth) getId('health-bar').style.display = 'none';
+    if (!config.showArmor) getId('armor-bar').style.display = 'none';
+    if (!config.showHunger) getId('hunger-bar').style.display = 'none';
+    if (!config.showThirst) getId('thirst-bar').style.display = 'none';
+    if (!config.showStamina) getId('stamina-bar').style.display = 'none';
     
     // Apply theme
-    if (config.useGreenZoneTheme) {
+    if (config.useGreenZoneTheme && !themeStylesApplied) {
         applyGreenZoneTheme();
+        themeStylesApplied = true;
     }
     
     console.log("HUD Initialized:", config);
@@ -78,9 +81,9 @@ function updateHUD(data) {
         
         // Critical health warning
         if (data.health < 25) {
-            $('#health-bar').addClass('health-critical');
+            addClass(getId('health-bar'), 'health-critical');
         } else {
-            $('#health-bar').removeClass('health-critical');
+            removeClass(getId('health-bar'), 'health-critical');
         }
     }
     
@@ -94,68 +97,68 @@ function updateHUD(data) {
     
     // Update vehicle speedometer
     if (data.isInVehicle && data.vehicleType !== 'none') {
-        $('#speedometer').removeClass('hidden');
-        $('#speed-value').text(data.speed);
-        $('#speed-unit').text(data.speedUnit);
+        removeClass(getId('speedometer'), 'hidden');
+        getId('speed-value').textContent = data.speed;
+        getId('speed-unit').textContent = data.speedUnit;
         
         // Update vehicle icon
         const icon = getVehicleIcon(data.vehicleType);
-        $('#vehicle-icon').text(icon);
+        getId('vehicle-icon').textContent = icon;
         
         // High speed effect
         if (data.speed > 120) {
-            $('#speed-value').addClass('speed-high');
+            addClass(getId('speed-value'), 'speed-high');
         } else {
-            $('#speed-value').removeClass('speed-high');
+            removeClass(getId('speed-value'), 'speed-high');
         }
         
         // Update fuel
         if (config.showFuel) {
-            $('#fuel-value').text(data.fuel);
+            getId('fuel-value').textContent = data.fuel;
             
             // Low fuel warning
             if (data.fuel < 20) {
-                $('#fuel-info').addClass('warning');
+                addClass(getId('fuel-info'), 'warning');
             } else {
-                $('#fuel-info').removeClass('warning');
+                removeClass(getId('fuel-info'), 'warning');
             }
         }
         
         // Update engine health
         if (config.showEngineHealth) {
-            $('#engine-value').text(data.engineHealth);
+            getId('engine-value').textContent = data.engineHealth;
             
             // Engine damage warning
             if (data.engineHealth < 50) {
-                $('#engine-info').addClass('warning');
+                addClass(getId('engine-info'), 'warning');
             } else {
-                $('#engine-info').removeClass('warning');
+                removeClass(getId('engine-info'), 'warning');
             }
         }
     } else {
-        $('#speedometer').addClass('hidden');
+        addClass(getId('speedometer'), 'hidden');
     }
     
     // Update location and time
-    $('#location-info').removeClass('hidden');
-    $('#time-display').text(data.time);
+    removeClass(getId('location-info'), 'hidden');
+    getId('time-display').textContent = data.time;
     
     if (config.showStreetName) {
-        $('#street-name').text(data.streetName);
-        $('#street-name').show();
+        getId('street-name').textContent = data.streetName;
+        getId('street-name').style.display = 'block';
     } else {
-        $('#street-name').hide();
+        getId('street-name').style.display = 'none';
     }
     
     if (config.showZoneName) {
-        $('#zone-name').text(data.zoneName);
-        $('#zone-name').show();
+        getId('zone-name').textContent = data.zoneName;
+        getId('zone-name').style.display = 'block';
     } else {
-        $('#zone-name').hide();
+        getId('zone-name').style.display = 'none';
     }
     
     // Show status container
-    $('#status-container').removeClass('hidden');
+    removeClass(getId('status-container'), 'hidden');
 }
 
 // Update individual status
@@ -167,8 +170,16 @@ function updateStatus(statusType, value) {
 function updateStatusBar(type, value) {
     const clampedValue = Math.max(0, Math.min(100, value));
     
-    $(`#${type}-bar .status-fill`).css('width', clampedValue + '%');
-    $(`#${type}-bar .status-value`).text(Math.floor(clampedValue));
+    const fillElement = getId(`${type}-bar`).querySelector('.status-fill');
+    const valueElement = getId(`${type}-bar`).querySelector('.status-value');
+    
+    if (fillElement) {
+        fillElement.style.width = clampedValue + '%';
+    }
+    
+    if (valueElement) {
+        valueElement.textContent = Math.floor(clampedValue);
+    }
 }
 
 // Get vehicle icon
@@ -187,60 +198,58 @@ function getVehicleIcon(vehicleType) {
 
 // Apply GreenZone420 theme
 function applyGreenZoneTheme() {
-    $('body').addClass('greenzone-theme');
-    
-    // You can add more theme customizations here
-    const themeColor = `rgb(${config.themeColor.r}, ${config.themeColor.g}, ${config.themeColor.b})`;
+    addClass(document.body, 'greenzone-theme');
     
     // Apply dynamic theme color
-    $('<style>')
-        .prop('type', 'text/css')
-        .html(`
-            .status-bar {
-                border-left-color: ${themeColor} !important;
-            }
-            .speedo-container {
-                border-color: ${themeColor} !important;
-            }
-            .location-container {
-                border-left-color: ${themeColor} !important;
-            }
-            .speed-value {
-                color: ${themeColor} !important;
-            }
-            .info-value {
-                color: ${themeColor} !important;
-            }
-            .time-display {
-                color: ${themeColor} !important;
-            }
-        `)
-        .appendTo('head');
+    const themeColor = `rgb(${config.themeColor.r}, ${config.themeColor.g}, ${config.themeColor.b})`;
+    
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.id = 'greenzone-theme-styles';
+    style.innerHTML = `
+        .status-bar {
+            border-left-color: ${themeColor} !important;
+        }
+        .speedo-container {
+            border-color: ${themeColor} !important;
+        }
+        .location-container {
+            border-left-color: ${themeColor} !important;
+        }
+        .speed-value {
+            color: ${themeColor} !important;
+        }
+        .info-value {
+            color: ${themeColor} !important;
+        }
+        .time-display {
+            color: ${themeColor} !important;
+        }
+    `;
+    document.head.appendChild(style);
 }
 
 // Hide HUD
 function hideHUD() {
-    $('#status-container').addClass('hidden');
-    $('#speedometer').addClass('hidden');
-    $('#location-info').addClass('hidden');
+    addClass(getId('status-container'), 'hidden');
+    addClass(getId('speedometer'), 'hidden');
+    addClass(getId('location-info'), 'hidden');
 }
 
-// Smooth number animation
-function animateValue(element, start, end, duration) {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        const current = Math.floor(progress * (end - start) + start);
-        $(element).text(current);
-        if (progress < 1) {
-            window.requestAnimationFrame(step);
-        }
-    };
-    window.requestAnimationFrame(step);
+// Helper functions
+function getId(id) {
+    return document.getElementById(id);
 }
 
-// Warning flash effect
-function flashWarning(element) {
-    $(element).fadeOut(200).fadeIn(200);
+function addClass(element, className) {
+    if (element && !element.classList.contains(className)) {
+        element.classList.add(className);
+    }
 }
+
+function removeClass(element, className) {
+    if (element && element.classList.contains(className)) {
+        element.classList.remove(className);
+    }
+}
+

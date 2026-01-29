@@ -2,7 +2,7 @@ Config = {}
 
 -- ========================================
 -- GreenZone420 HUD Configuration
--- Created by MTJ2025
+-- Created by MTJ2024
 -- ========================================
 
 -- Main HUD Settings
@@ -39,7 +39,7 @@ Config.ShowCruiseControl = true             -- Show cruise control status
 Config.ThemeColor = {                       -- Main theme color (GreenZone420 green)
     r = 76,
     g = 175,
-    h = 80
+    b = 80
 }
 
 Config.UseGreenZoneTheme = true             -- Use GreenZone420 marijuana theme

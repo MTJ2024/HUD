@@ -317,7 +317,7 @@ The GreenZone420 HUD is a **complete, professional HUD system** built specifical
 - ✅ **Easy installation** - comprehensive documentation
 - ✅ **GreenZone420 branding** - marijuana theme
 
-**Created by MTJ2025** with attention to every detail, like a professional thesis project.
+**Created by MTJ2024** with attention to every detail, like a professional thesis project.
 
 ---
 

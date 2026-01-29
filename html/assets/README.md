@@ -48,4 +48,4 @@ The HUD works great without any assets - all icons use Unicode emoji characters 
 
 ---
 
-**Created by MTJ2025**
+**Created by MTJ2024**

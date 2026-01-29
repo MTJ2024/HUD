@@ -162,7 +162,7 @@ Need help?
 1. Check the documentation files
 2. Read the config.lua comments
 3. Open an issue on GitHub
-4. Contact MTJ2025
+4. Contact MTJ2024
 
 ---
 
@@ -178,8 +178,8 @@ Need help?
 
 ---
 
-**Created by MTJ2025 for the FiveM Community**
+**Created by MTJ2024 for the FiveM Community**
 
-*Professional quality HUD system for ESX Legacy servers.*
+*Professional HUD system for ESX Legacy servers.*
 
 🌿 **GreenZone420** - Where Quality Meets Performance 🌿

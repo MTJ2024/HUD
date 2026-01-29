@@ -1,7 +1,7 @@
 fx_version 'cerulean'
 game 'gta5'
 
-author 'MTJ2025'
+author 'MTJ2024'
 description 'GreenZone420 Professional HUD System for ESX Legacy'
 version '1.0.0'
 

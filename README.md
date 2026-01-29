@@ -188,7 +188,7 @@ Config.MinimapPosition = "bottom-left"      -- or "bottom-right"
 
 For support, questions, or feature requests:
 - Open an issue on GitHub
-- Contact MTJ2025
+- Contact MTJ2024
 
 ---
 
@@ -200,7 +200,7 @@ This project is licensed under the MIT License.
 
 ## 👨‍💻 Credits
 
-**Created by MTJ2025**
+**Created by MTJ2024**
 - Developed for GreenZone420 Server
 - Professional FiveM HUD System
 - Built with care and attention to detail
@@ -236,7 +236,7 @@ Planned features for future versions:
 
 <div align="center">
 
-**Made with ❤️ by MTJ2025 for the FiveM Community**
+**Made with ❤️ by MTJ2024 for the FiveM Community**
 
 🌿 GreenZone420 - *Where Quality Meets Performance* 🌿
 

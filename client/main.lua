@@ -1,6 +1,6 @@
 -- ========================================
 -- GreenZone420 HUD Client Script
--- Created by MTJ2025
+-- Created by MTJ2024
 -- Professional FiveM HUD for ESX Legacy
 -- ========================================
 
@@ -29,18 +29,16 @@ Citizen.CreateThread(function()
         Citizen.Wait(Config.UpdateInterval)
         
         if not playerLoaded or not Config.EnableHUD then
-            goto continue
-        end
-        
-        if cinematicMode or (Config.HideInPauseMenu and IsPauseMenuActive()) then
             SendNUIMessage({
                 action = "hideHUD"
             })
-            goto continue
-        end
-        
-        local playerPed = PlayerPedId()
-        local playerId = PlayerId()
+        elseif cinematicMode or (Config.HideInPauseMenu and IsPauseMenuActive()) then
+            SendNUIMessage({
+                action = "hideHUD"
+            })
+        else
+            local playerPed = PlayerPedId()
+            local playerId = PlayerId()
         
         -- Get player stats
         local health = (GetEntityHealth(playerPed) - 100) / (GetEntityMaxHealth(playerPed) - 100) * 100
@@ -125,26 +123,25 @@ Citizen.CreateThread(function()
         -- Get stamina
         local stamina = 100 - GetPlayerSprintStaminaRemaining(playerId)
         
-        -- Send data to NUI
-        SendNUIMessage({
-            action = "updateHUD",
-            data = {
-                health = math.floor(health),
-                armor = armor,
-                stamina = math.floor(stamina),
-                isInVehicle = isInVehicle,
-                vehicleType = vehicleType,
-                speed = speed,
-                fuel = math.floor(fuel),
-                engineHealth = math.floor(engineHealth),
-                streetName = streetName,
-                zoneName = zoneName,
-                time = timeString,
-                speedUnit = Config.SpeedUnit
-            }
-        })
-        
-        ::continue::
+            -- Send data to NUI
+            SendNUIMessage({
+                action = "updateHUD",
+                data = {
+                    health = math.floor(health),
+                    armor = armor,
+                    stamina = math.floor(stamina),
+                    isInVehicle = isInVehicle,
+                    vehicleType = vehicleType,
+                    speed = speed,
+                    fuel = math.floor(fuel),
+                    engineHealth = math.floor(engineHealth),
+                    streetName = streetName,
+                    zoneName = zoneName,
+                    time = timeString,
+                    speedUnit = Config.SpeedUnit
+                }
+            })
+        end
     end
 end)
 
