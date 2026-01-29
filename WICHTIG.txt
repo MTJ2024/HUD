@@ -1,0 +1,37 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║                    ⚠️  FEHLER BEHEBEN  ⚠️                        ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+DEINE FEHLERMELDUNG:
+───────────────────────────────────────────────────────────────────
+[HUD] is a category, but has a resource manifest
+client does not have a resource manifest
+html does not have a resource manifest
+
+URSACHE:
+───────────────────────────────────────────────────────────────────
+Der Ordnername hat eckige Klammern: [HUD]
+
+FiveM-Regel:
+• [ordner] = Kategorie-Ordner (nur für mehrere Resources)
+• ordner   = Einzelne Resource (ohne Klammern!)
+
+LÖSUNG (3 Schritte):
+───────────────────────────────────────────────────────────────────
+
+1. SERVER STOPPEN
+
+2. ORDNER UMBENENNEN:
+   VON: resources/[HUD]/
+   ZU:  resources/greenzone420_hud/
+   
+   (OHNE [ und ] Klammern!)
+
+3. SERVER.CFG ÄNDERN:
+   ensure greenzone420_hud
+
+4. SERVER STARTEN
+
+FERTIG - Keine Warnungen mehr!
+
+═══════════════════════════════════════════════════════════════════
