@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenZone420 HUD</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Server Logo/Branding -->
+    <div id="server-logo" class="hidden">
+        <div class="logo-container">
+            <span class="logo-text">🌿 GreenZone420</span>
+        </div>
+    </div>
+
+    <!-- Player Status Bars -->
+    <div id="status-container" class="hidden">
+        <!-- Health -->
+        <div class="status-bar" id="health-bar">
+            <div class="status-icon">❤️</div>
+            <div class="status-progress">
+                <div class="status-fill health-fill" style="width: 100%"></div>
+            </div>
+            <div class="status-value">100</div>
+        </div>
+
+        <!-- Armor -->
+        <div class="status-bar" id="armor-bar">
+            <div class="status-icon">🛡️</div>
+            <div class="status-progress">
+                <div class="status-fill armor-fill" style="width: 0%"></div>
+            </div>
+            <div class="status-value">0</div>
+        </div>
+
+        <!-- Hunger -->
+        <div class="status-bar" id="hunger-bar">
+            <div class="status-icon">🍔</div>
+            <div class="status-progress">
+                <div class="status-fill hunger-fill" style="width: 100%"></div>
+            </div>
+            <div class="status-value">100</div>
+        </div>
+
+        <!-- Thirst -->
+        <div class="status-bar" id="thirst-bar">
+            <div class="status-icon">💧</div>
+            <div class="status-progress">
+                <div class="status-fill thirst-fill" style="width: 100%"></div>
+            </div>
+            <div class="status-value">100</div>
+        </div>
+
+        <!-- Stamina -->
+        <div class="status-bar" id="stamina-bar">
+            <div class="status-icon">⚡</div>
+            <div class="status-progress">
+                <div class="status-fill stamina-fill" style="width: 100%"></div>
+            </div>
+            <div class="status-value">100</div>
+        </div>
+    </div>
+
+    <!-- Vehicle Speedometer -->
+    <div id="speedometer" class="hidden">
+        <div class="speedo-container">
+            <div class="speed-display">
+                <div class="speed-value" id="speed-value">0</div>
+                <div class="speed-unit" id="speed-unit">KMH</div>
+            </div>
+            
+            <div class="vehicle-type" id="vehicle-type">
+                <span id="vehicle-icon">🚗</span>
+            </div>
+
+            <!-- Fuel & Engine Info -->
+            <div class="vehicle-info">
+                <div class="info-item" id="fuel-info">
+                    <span class="info-icon">⛽</span>
+                    <span class="info-value" id="fuel-value">100</span>
+                    <span class="info-label">%</span>
+                </div>
+                <div class="info-item" id="engine-info">
+                    <span class="info-icon">🔧</span>
+                    <span class="info-value" id="engine-value">100</span>
+                    <span class="info-label">%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Location & Time Info -->
+    <div id="location-info" class="hidden">
+        <div class="location-container">
+            <div class="time-display" id="time-display">12:00 PM</div>
+            <div class="street-name" id="street-name">Main Street</div>
+            <div class="zone-name" id="zone-name">Los Santos</div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

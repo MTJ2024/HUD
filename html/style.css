@@ -1,0 +1,362 @@
+/* ========================================
+   GreenZone420 HUD Stylesheet
+   Created by MTJ2025
+   Professional Design with Marijuana Theme
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    overflow: hidden;
+    background: transparent;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ========================================
+   Server Logo/Branding
+   ======================================== */
+
+#server-logo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.logo-container {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(56, 142, 60, 0.9));
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 2px solid rgba(76, 175, 80, 0.5);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.logo-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1px;
+}
+
+/* ========================================
+   Player Status Bars
+   ======================================== */
+
+#status-container {
+    position: absolute;
+    bottom: 40px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 100;
+}
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border-left: 3px solid rgba(76, 175, 80, 0.8);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    min-width: 200px;
+    transition: all 0.3s ease;
+}
+
+.status-bar:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+}
+
+.status-icon {
+    font-size: 20px;
+    width: 25px;
+    text-align: center;
+}
+
+.status-progress {
+    flex: 1;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.status-fill {
+    height: 100%;
+    transition: width 0.5s ease;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.status-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.2) 50%, 
+        transparent 100%);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.health-fill {
+    background: linear-gradient(90deg, #ef5350, #e53935);
+}
+
+.armor-fill {
+    background: linear-gradient(90deg, #42a5f5, #1e88e5);
+}
+
+.hunger-fill {
+    background: linear-gradient(90deg, #ff9800, #f57c00);
+}
+
+.thirst-fill {
+    background: linear-gradient(90deg, #29b6f6, #0288d1);
+}
+
+.stamina-fill {
+    background: linear-gradient(90deg, #4caf50, #388e3c);
+}
+
+.status-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    min-width: 35px;
+    text-align: right;
+}
+
+/* ========================================
+   Vehicle Speedometer
+   ======================================== */
+
+#speedometer {
+    position: absolute;
+    bottom: 200px;
+    right: 20px;
+    z-index: 100;
+}
+
+.speedo-container {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(30, 30, 30, 0.9));
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid rgba(76, 175, 80, 0.5);
+    box-shadow: 0 4px 20px rgba(76, 175, 80, 0.3);
+    backdrop-filter: blur(10px);
+    min-width: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.speedo-container::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #4caf50, #8bc34a, #4caf50);
+    border-radius: 15px;
+    z-index: -1;
+    opacity: 0.3;
+    animation: glow 3s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+.speed-display {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.speed-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: #4caf50;
+    text-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+    line-height: 1;
+}
+
+.speed-unit {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #ffffff;
+    opacity: 0.8;
+    letter-spacing: 2px;
+}
+
+.vehicle-type {
+    text-align: center;
+    margin: 15px 0;
+    font-size: 32px;
+}
+
+.vehicle-info {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.info-icon {
+    font-size: 20px;
+}
+
+.info-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #4caf50;
+}
+
+.info-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ========================================
+   Location & Time Info
+   ======================================== */
+
+#location-info {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+}
+
+.location-container {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px 20px;
+    border-radius: 10px;
+    border-left: 3px solid rgba(76, 175, 80, 0.8);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    min-width: 250px;
+}
+
+.time-display {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #4caf50;
+    text-shadow: 0 2px 10px rgba(76, 175, 80, 0.5);
+    margin-bottom: 8px;
+}
+
+.street-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+.zone-name {
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ========================================
+   GreenZone420 Theme Customizations
+   ======================================== */
+
+.greenzone-theme {
+    /* Additional theme customizations */
+}
+
+/* Cannabis leaf decoration (optional) */
+.cannabis-leaf {
+    position: absolute;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+/* ========================================
+   Responsive & Animations
+   ======================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Low health warning */
+.health-critical .health-fill {
+    animation: pulse-red 1s infinite;
+}
+
+@keyframes pulse-red {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(239, 83, 80, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 20px 5px rgba(239, 83, 80, 0.3);
+    }
+}
+
+/* Speed warning (high speed) */
+.speed-high {
+    animation: pulse-green 1s infinite;
+}
+
+@keyframes pulse-green {
+    0%, 100% {
+        text-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+    }
+    50% {
+        text-shadow: 0 0 40px rgba(76, 175, 80, 1);
+    }
+}
