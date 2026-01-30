@@ -1,5 +1,25 @@
 # 🌿 GreenZone420 HUD - Deutsche Anleitung
 
+## ⚠️ FEHLER BEHEBEN - LIES ZUERST ⚠️
+
+<div align="center" style="background: #ff0000; color: white; padding: 20px;">
+
+### 🚨 BEKOMMST DU WARNUNGEN? 🚨
+
+**FEHLER:** `[HUD] is a category, but has a resource manifest`
+
+**PROBLEM:** Dein Ordnername ist `[HUD]` mit Klammern!
+
+**LÖSUNG:** 
+1. Ordner umbenennen zu `greenzone420_hud` (KEINE Klammern!)
+2. In server.cfg nutzen: `ensure greenzone420_hud`
+
+**👉 Lies: [LIES_MICH_ZUERST.txt](LIES_MICH_ZUERST.txt)**
+
+</div>
+
+---
+
 ## Übersicht
 
 Hallo! Ich habe ein **professionelles HUD-System** für deinen GreenZone420 FiveM Server erstellt. Das System wurde mit größter Sorgfalt entwickelt - wie eine Abschlussarbeit, genau wie du es gewünscht hast.

@@ -14,6 +14,26 @@ Created by **MTJ2025** for GreenZone420
 
 ---
 
+## ⚠️ WICHTIG - FEHLER BEHEBEN / IMPORTANT - FIX ERRORS ⚠️
+
+<div align="center" style="background: #ff0000; color: white; padding: 20px; border-radius: 10px;">
+
+### 🚨 GETTING WARNINGS? 🚨
+
+**ERROR:** `[HUD] is a category, but has a resource manifest`
+
+**PROBLEM:** Your folder name is `[HUD]` with brackets!
+
+**SOLUTION:** 
+1. Rename folder to `greenzone420_hud` (NO brackets!)
+2. In server.cfg use: `ensure greenzone420_hud`
+
+**👉 Read: [LIES_MICH_ZUERST.txt](LIES_MICH_ZUERST.txt) or [READ_ME_FIRST.txt](READ_ME_FIRST.txt)**
+
+</div>
+
+---
+
 ## 📋 Features
 
 ### ✨ Core Features
