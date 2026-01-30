@@ -4,6 +4,42 @@
 -- Professional FiveM HUD for ESX Legacy
 -- ========================================
 
+-- Check for incorrect installation (folder name with brackets)
+Citizen.CreateThread(function()
+    local resourceName = GetCurrentResourceName()
+    
+    -- Check if resource name contains brackets
+    if string.match(resourceName, "%[") or string.match(resourceName, "%]") then
+        -- Show error notification
+        Citizen.Wait(5000) -- Wait for game to load
+        
+        -- Show repeated warnings
+        for i = 1, 3 do
+            TriggerEvent('chat:addMessage', {
+                color = {255, 0, 0},
+                multiline = true,
+                args = {"[HUD FEHLER]", "FALSCHER ORDNERNAME! Ordner ist [" .. resourceName .. "] - Umbenennen zu: greenzone420_hud"}
+            })
+            
+            -- Also show as notification
+            SetNotificationTextEntry('STRING')
+            AddTextComponentString('~r~HUD INSTALLATION FEHLER~n~~w~Ordner umbenennen!~n~Von: ~r~' .. resourceName .. '~n~~w~Zu: ~g~greenzone420_hud')
+            DrawNotification(false, true)
+            
+            Citizen.Wait(10000)
+        end
+        
+        print("^1===============================================^0")
+        print("^1[HUD] KRITISCHER FEHLER - FALSCHE INSTALLATION^0")
+        print("^1===============================================^0")
+        print("^3Ordnername: ^1" .. resourceName .. "^0")
+        print("^3Richtig: ^2greenzone420_hud^0")
+        print("^1===============================================^0")
+        print("^3Siehe: LIES_MICH_ZUERST.txt für Hilfe^0")
+        print("^1===============================================^0")
+    end
+end)
+
 ESX = nil
 local isHudVisible = true
 local cinematicMode = false
