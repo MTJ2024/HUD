@@ -20,6 +20,22 @@
 
 ---
 
+## 🚁 Verwandte Projekte / Related Projects
+
+Dieses HUD ist Teil des GreenZone420 Ökosystems. Für das komplette Lufttaxi-Verwaltungssystem, siehe:
+
+**🔗 [Lufttaxi Management System](https://github.com/MTJ2024/Lufttaxi/tree/neues-ui-haupt-und-garage-rohfassung)**
+
+Enthält:
+- 🎮 Business Management Dashboard
+- 🚁 Hubschrauber Garagen-Interface
+- 📢 Benachrichtigungssystem
+- 💼 Mitarbeiter- & Flottenverwaltung
+
+**📄 Siehe: [VERWANDTE_PROJEKTE.md](VERWANDTE_PROJEKTE.md) | [RELATED_PROJECTS.md](RELATED_PROJECTS.md)**
+
+---
+
 ## Übersicht
 
 Hallo! Ich habe ein **professionelles HUD-System** für deinen GreenZone420 FiveM Server erstellt. Das System wurde mit größter Sorgfalt entwickelt - wie eine Abschlussarbeit, genau wie du es gewünscht hast.

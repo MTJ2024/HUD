@@ -34,6 +34,22 @@ Created by **MTJ2025** for GreenZone420
 
 ---
 
+## 🚁 Related Projects / Verwandte Projekte
+
+This HUD is part of the GreenZone420 ecosystem. For the complete helicopter taxi management system, see:
+
+**🔗 [Lufttaxi Management System](https://github.com/MTJ2024/Lufttaxi/tree/neues-ui-haupt-und-garage-rohfassung)**
+
+Includes:
+- 🎮 Business Management Dashboard
+- 🚁 Helicopter Garage Interface  
+- 📢 Notification System
+- 💼 Employee & Fleet Management
+
+**📄 See: [RELATED_PROJECTS.md](RELATED_PROJECTS.md) | [VERWANDTE_PROJEKTE.md](VERWANDTE_PROJEKTE.md)**
+
+---
+
 ## 📋 Features
 
 ### ✨ Core Features
