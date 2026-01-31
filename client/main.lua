@@ -9,18 +9,53 @@ local isHudVisible = true
 local cinematicMode = false
 local playerLoaded = false
 
--- Initialize ESX
+-- Initialize ESX (supports both old and new ESX Legacy methods)
 Citizen.CreateThread(function()
-    while ESX == nil do
-        TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-        Citizen.Wait(0)
+    -- Try new export method first (ESX Legacy 1.9.0+)
+    if exports and exports['es_extended'] then
+        ESX = exports['es_extended']:getSharedObject()
     end
     
-    while ESX.GetPlayerData().job == nil do
+    -- Fallback to old method if export doesn't exist
+    if not ESX then
+        while ESX == nil do
+            TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+            Citizen.Wait(0)
+        end
+    end
+    
+    -- Wait for player data to load
+    while not ESX.GetPlayerData or not ESX.GetPlayerData().job do
         Citizen.Wait(10)
     end
     
     playerLoaded = true
+end)
+
+-- ESX Legacy Event Listeners for Real-Time Updates
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+    ESX.PlayerData = xPlayer
+    playerLoaded = true
+end)
+
+RegisterNetEvent('esx:setJob')
+AddEventHandler('esx:setJob', function(job)
+    if ESX.PlayerData then
+        ESX.PlayerData.job = job
+    end
+end)
+
+RegisterNetEvent('esx:setAccountMoney')
+AddEventHandler('esx:setAccountMoney', function(account)
+    if ESX.PlayerData and ESX.PlayerData.accounts then
+        for i = 1, #ESX.PlayerData.accounts do
+            if ESX.PlayerData.accounts[i].name == account.name then
+                ESX.PlayerData.accounts[i] = account
+                break
+            end
+        end
+    end
 end)
 
 -- Main HUD Update Loop
