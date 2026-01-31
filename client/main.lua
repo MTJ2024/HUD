@@ -25,6 +25,10 @@ end)
 
 -- Main HUD Update Loop
 Citizen.CreateThread(function()
+    -- Send initial show message
+    Citizen.Wait(1000)
+    SendNUIMessage({ action = "showHUD" })
+    
     while true do
         Citizen.Wait(Config.UpdateInterval)
         

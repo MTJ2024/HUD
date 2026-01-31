@@ -4,24 +4,6 @@
 // Professional FiveM HUD JavaScript
 // ========================================
 
-let config = {
-    serverName: "GreenZone420",
-    showHealth: true,
-    showArmor: true,
-    showHunger: true,
-    showThirst: true,
-    showStamina: true,
-    showFuel: true,
-    showEngineHealth: true,
-    showStreetName: true,
-    showZoneName: true,
-    showLogo: true,
-    useGreenZoneTheme: true,
-    themeColor: { r: 76, g: 175, b: 80 }
-};
-
-let themeStylesApplied = false;
-
 // Initialize HUD
 document.addEventListener('DOMContentLoaded', function() {
     console.log("GreenZone420 HUD Loaded - Created by MTJ2024");
@@ -32,45 +14,33 @@ window.addEventListener('message', function(event) {
     const data = event.data;
     
     switch(data.action) {
-        case 'initHUD':
-            initializeHUD(data.config);
-            break;
         case 'updateHUD':
-            updateHUD(data.data);
-            break;
-        case 'updateStatus':
-            updateStatus(data.status, data.value);
+            updateHUD(data);
             break;
         case 'hideHUD':
             hideHUD();
             break;
+        case 'showHUD':
+            showHUD();
+            break;
     }
 });
 
-// Initialize HUD with config
-function initializeHUD(cfg) {
-    config = { ...config, ...cfg };
-    
-    // Show/hide elements based on config
-    if (config.showLogo) {
-        removeClass(getId('server-logo'), 'hidden');
-        getId('server-logo').querySelector('.logo-text').textContent = config.serverName.toUpperCase();
-    }
-    
-    // Status bars visibility
-    if (!config.showHealth) getId('health-bar').style.display = 'none';
-    if (!config.showArmor) getId('armor-bar').style.display = 'none';
-    if (!config.showHunger) getId('hunger-bar').style.display = 'none';
-    if (!config.showThirst) getId('thirst-bar').style.display = 'none';
-    if (!config.showStamina) getId('stamina-bar').style.display = 'none';
-    
-    console.log("HUD Initialized:", config);
+// Show HUD
+function showHUD() {
+    removeClass(getId('status-container'), 'hidden');
+    removeClass(getId('location-info'), 'hidden');
 }
 
 // Update HUD data
 function updateHUD(data) {
+    // Show containers
+    removeClass(getId('status-container'), 'hidden');
+    removeClass(getId('location-info'), 'hidden');
+    
     // Update status bars
-    if (config.showHealth) {
+    if (data.showHealth) {
+        getId('health-bar').style.display = 'flex';
         updateStatusBar('health', data.health);
         
         // Critical health warning
@@ -79,35 +49,57 @@ function updateHUD(data) {
         } else {
             removeClass(getId('health-bar'), 'health-critical');
         }
+    } else {
+        getId('health-bar').style.display = 'none';
     }
     
-    if (config.showArmor) {
+    if (data.showArmor) {
+        getId('armor-bar').style.display = 'flex';
         updateStatusBar('armor', data.armor);
+    } else {
+        getId('armor-bar').style.display = 'none';
     }
     
-    if (config.showStamina) {
+    if (data.showHunger) {
+        getId('hunger-bar').style.display = 'flex';
+        updateStatusBar('hunger', data.hunger);
+    } else {
+        getId('hunger-bar').style.display = 'none';
+    }
+    
+    if (data.showThirst) {
+        getId('thirst-bar').style.display = 'flex';
+        updateStatusBar('thirst', data.thirst);
+    } else {
+        getId('thirst-bar').style.display = 'none';
+    }
+    
+    if (data.showStamina) {
+        getId('stamina-bar').style.display = 'flex';
         updateStatusBar('stamina', data.stamina);
+    } else {
+        getId('stamina-bar').style.display = 'none';
     }
     
     // Update vehicle speedometer
-    if (data.isInVehicle && data.vehicleType !== 'none') {
+    if (data.isInVehicle && data.showSpeedometer) {
         removeClass(getId('speedometer'), 'hidden');
         getId('speed-value').textContent = data.speed;
-        getId('speed-unit').textContent = data.speedUnit;
+        getId('speed-unit').textContent = data.speedUnit.toUpperCase();
         
-        // Update vehicle label (no icon in GTA V style)
+        // Update vehicle label
         const label = getVehicleLabel(data.vehicleType);
         if (getId('vehicle-label')) {
             getId('vehicle-label').textContent = label;
         }
         
         // Update fuel
-        if (config.showFuel) {
+        if (data.showFuel && getId('fuel-value')) {
             getId('fuel-value').textContent = data.fuel;
         }
         
         // Update engine health
-        if (config.showEngineHealth) {
+        if (data.showEngineHealth && getId('engine-value')) {
             getId('engine-value').textContent = data.engineHealth;
         }
     } else {
@@ -115,31 +107,26 @@ function updateHUD(data) {
     }
     
     // Update location and time
-    removeClass(getId('location-info'), 'hidden');
-    getId('time-display').textContent = data.time;
-    
-    if (config.showStreetName) {
-        getId('street-name').textContent = data.streetName;
-        getId('street-name').style.display = 'block';
-    } else {
-        getId('street-name').style.display = 'none';
+    if (data.showTime && getId('time-display')) {
+        getId('time-display').textContent = data.time;
     }
     
-    if (config.showZoneName) {
-        getId('zone-name').textContent = data.zoneName;
-        getId('zone-name').style.display = 'block';
+    if (data.showLocation) {
+        if (getId('street-name')) {
+            getId('street-name').textContent = data.streetName;
+            getId('street-name').style.display = 'block';
+        }
+        if (getId('zone-name')) {
+            getId('zone-name').textContent = data.zoneName;
+            getId('zone-name').style.display = 'block';
+        }
     } else {
-        getId('zone-name').style.display = 'none';
+        if (getId('street-name')) getId('street-name').style.display = 'none';
+        if (getId('zone-name')) getId('zone-name').style.display = 'none';
     }
-    
-    // Show status container
-    removeClass(getId('status-container'), 'hidden');
 }
 
-// Update individual status
-function updateStatus(statusType, value) {
-    updateStatusBar(statusType, value);
-}
+
 
 // Update status bar
 function updateStatusBar(type, value) {
