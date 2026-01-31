@@ -11,9 +11,12 @@
 }
 
 body {
-    font-family: 'Impact', 'Arial Black', 'Helvetica Condensed', sans-serif;
+    font-family: 'Roboto Condensed', 'Arial Narrow', 'Helvetica Condensed', Arial, sans-serif;
     overflow: hidden;
     background: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 .hidden {
@@ -38,9 +41,9 @@ body {
 }
 
 .logo-text {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 20px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
     color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -72,13 +75,13 @@ body {
 }
 
 .status-icon {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 12px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
     text-align: left;
     color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     min-width: 55px;
 }
 
@@ -119,9 +122,9 @@ body {
 }
 
 .status-value {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 13px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
     color: #ffffff;
     min-width: 35px;
     text-align: right;
@@ -157,20 +160,20 @@ body {
 }
 
 .speed-value {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 64px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 68px;
+    font-weight: 700;
     color: #ffffff;
     line-height: 1;
-    letter-spacing: -1px;
+    letter-spacing: -2px;
 }
 
 .speed-unit {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 14px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
     color: #ffffff;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
     align-self: flex-end;
     padding-bottom: 14px;
@@ -180,12 +183,12 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 13px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
     color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     flex: 0 0 auto;
 }
 
@@ -209,26 +212,26 @@ body {
 }
 
 .info-icon {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 11px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
     color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .info-value {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 20px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
     color: #ffffff;
 }
 
 .info-label {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 12px;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 13px;
     color: #ffffff;
-    font-weight: 900;
+    font-weight: 600;
 }
 
 /* ========================================
@@ -250,27 +253,27 @@ body {
 }
 
 .time-display {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 26px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
     color: #ffffff;
     margin-bottom: 6px;
-    letter-spacing: 1px;
+    letter-spacing: 0px;
 }
 
 .street-name {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 16px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 17px;
+    font-weight: 600;
     color: #ffffff;
     margin-bottom: 3px;
     text-transform: uppercase;
 }
 
 .zone-name {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 13px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
     color: rgba(255, 255, 255, 0.8);
     text-transform: uppercase;
 }
@@ -334,11 +337,11 @@ body {
 }
 
 .money-value {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 20px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
     color: #4CAF50;
-    letter-spacing: 1px;
+    letter-spacing: 0px;
 }
 
 .bank-item .money-value {
@@ -365,18 +368,18 @@ body {
 }
 
 .job-name {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 16px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 17px;
+    font-weight: 600;
     color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .job-grade {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 12px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
     color: rgba(255, 255, 255, 0.7);
     text-transform: uppercase;
     margin-top: 2px;
@@ -403,12 +406,12 @@ body {
 }
 
 .weapon-name {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 18px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 19px;
+    font-weight: 600;
     color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .ammo-display {
@@ -418,9 +421,9 @@ body {
 }
 
 .ammo-value {
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    font-size: 22px;
-    font-weight: 900;
+    font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 700;
     color: #FFC107;
-    letter-spacing: 1px;
+    letter-spacing: 0px;
 }
