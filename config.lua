@@ -57,3 +57,8 @@ Config.CinematicModeKey = 'F9'              -- Key to toggle cinematic mode
 Config.ShowStreetName = true                -- Show current street name
 Config.ShowZoneName = true                  -- Show current zone/area name
 Config.Show24HourClock = false              -- Use 24-hour format (false = 12-hour with AM/PM)
+Config.ShowLocation = true                  -- Show location info
+Config.ShowTime = true                      -- Show time
+Config.ShowSpeedometer = true               -- Show speedometer
+Config.ShowMinimap = true                   -- Show minimap
+Config.ShowServerLogo = true                -- Show server logo

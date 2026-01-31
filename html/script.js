@@ -30,6 +30,8 @@ window.addEventListener('message', function(event) {
 function showHUD() {
     removeClass(getId('status-container'), 'hidden');
     removeClass(getId('location-info'), 'hidden');
+    removeClass(getId('money-container'), 'hidden');
+    removeClass(getId('job-container'), 'hidden');
 }
 
 // Update HUD data
@@ -124,6 +126,76 @@ function updateHUD(data) {
         if (getId('street-name')) getId('street-name').style.display = 'none';
         if (getId('zone-name')) getId('zone-name').style.display = 'none';
     }
+    
+    // Update money and bank
+    if (data.money !== undefined) {
+        updateMoney(data.money, data.bank);
+    }
+    
+    // Update job
+    if (data.job) {
+        updateJob(data.job, data.jobGrade);
+    }
+    
+    // Update weapon
+    if (data.weapon) {
+        updateWeapon(data.weapon, data.ammo, data.ammoMax);
+    }
+}
+
+// Update money display
+function updateMoney(cash, bank) {
+    removeClass(getId('money-container'), 'hidden');
+    
+    if (getId('cash-value')) {
+        getId('cash-value').textContent = '€' + formatNumber(cash);
+    }
+    
+    if (getId('bank-value')) {
+        getId('bank-value').textContent = '€' + formatNumber(bank);
+    }
+}
+
+// Update job display
+function updateJob(jobName, jobGrade) {
+    removeClass(getId('job-container'), 'hidden');
+    
+    if (getId('job-name')) {
+        getId('job-name').textContent = jobName || 'ARBEITSLOS';
+    }
+    
+    if (getId('job-grade') && jobGrade) {
+        getId('job-grade').textContent = jobGrade;
+    }
+}
+
+// Update weapon display
+function updateWeapon(weaponName, ammo, ammoMax) {
+    if (weaponName && weaponName !== 'WEAPON_UNARMED') {
+        removeClass(getId('weapon-container'), 'hidden');
+        
+        if (getId('weapon-name')) {
+            getId('weapon-name').textContent = formatWeaponName(weaponName);
+        }
+        
+        if (getId('ammo-value')) {
+            getId('ammo-value').textContent = ammo + ' / ' + ammoMax;
+        }
+    } else {
+        addClass(getId('weapon-container'), 'hidden');
+    }
+}
+
+// Format weapon name (remove WEAPON_ prefix)
+function formatWeaponName(weaponName) {
+    if (!weaponName) return 'WAFFENLOS';
+    return weaponName.replace('WEAPON_', '').replace(/_/g, ' ');
+}
+
+// Format number with thousands separator
+function formatNumber(num) {
+    if (num === undefined || num === null) return '0';
+    return Math.floor(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 
@@ -163,6 +235,9 @@ function hideHUD() {
     addClass(getId('status-container'), 'hidden');
     addClass(getId('speedometer'), 'hidden');
     addClass(getId('location-info'), 'hidden');
+    addClass(getId('money-container'), 'hidden');
+    addClass(getId('job-container'), 'hidden');
+    addClass(getId('weapon-container'), 'hidden');
 }
 
 // Helper functions

@@ -97,6 +97,61 @@ Citizen.CreateThread(function()
         -- Get stamina
         local stamina = 100 - GetPlayerSprintStaminaRemaining(playerId)
         
+        -- Get ESX player data
+        local money = 0
+        local bank = 0
+        local job = "Arbeitslos"
+        local jobGrade = ""
+        
+        if ESX and ESX.GetPlayerData then
+            local playerData = ESX.GetPlayerData()
+            
+            -- Get money
+            if playerData.accounts then
+                for _, account in pairs(playerData.accounts) do
+                    if account.name == 'money' then
+                        money = account.money
+                    elseif account.name == 'bank' then
+                        bank = account.money
+                    end
+                end
+            end
+            
+            -- Get job
+            if playerData.job then
+                job = playerData.job.label or playerData.job.name
+                jobGrade = playerData.job.grade_label or ""
+            end
+        end
+        
+        -- Get weapon
+        local weaponHash = GetSelectedPedWeapon(playerPed)
+        local weaponName = nil
+        local ammo = 0
+        local ammoMax = 0
+        
+        if weaponHash and weaponHash ~= GetHashKey("WEAPON_UNARMED") then
+            -- Get weapon name from hash
+            local _, weaponNamePtr = GetWeapontypeModel(weaponHash)
+            weaponName = tostring(weaponNamePtr)
+            
+            -- Try to get weapon name from hash key
+            for name, hash in pairs(Config.Weapons or {}) do
+                if hash == weaponHash then
+                    weaponName = name
+                    break
+                end
+            end
+            
+            -- If still not found, use a simple lookup
+            if not weaponName or weaponName == "" then
+                weaponName = "WEAPON_" .. tostring(weaponHash)
+            end
+            
+            ammo = GetAmmoInPedWeapon(playerPed, weaponHash)
+            _, ammoMax = GetMaxAmmo(playerPed, weaponHash)
+        end
+        
         -- Get location
         local coords = GetEntityCoords(playerPed)
         local streetHash, crossingHash = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
@@ -123,6 +178,13 @@ Citizen.CreateThread(function()
             hunger = math.floor(hunger),
             thirst = math.floor(thirst),
             stamina = math.floor(stamina),
+            money = money,
+            bank = bank,
+            job = job,
+            jobGrade = jobGrade,
+            weapon = weaponName,
+            ammo = ammo,
+            ammoMax = ammoMax,
             isInVehicle = isInVehicle,
             vehicleClass = vehicleClass,
             vehicleType = vehicleType,
