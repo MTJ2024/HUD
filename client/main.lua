@@ -48,6 +48,7 @@ Citizen.CreateThread(function()
         local vehicle = GetVehiclePedIsIn(playerPed, false)
         local isInVehicle = vehicle ~= 0
         local vehicleClass = nil
+        local vehicleType = 'none'
         local speed = 0
         local fuel = 0
         local engineHealth = 0
@@ -55,6 +56,15 @@ Citizen.CreateThread(function()
         if isInVehicle then
             vehicleClass = GetVehicleClass(vehicle)
             speed = GetEntitySpeed(vehicle)
+            
+            -- Determine vehicle type
+            if vehicleClass == 14 then
+                vehicleType = 'boat'
+            elseif vehicleClass == 15 or vehicleClass == 16 then
+                vehicleType = 'aircraft'
+            else
+                vehicleType = 'car'
+            end
             
             if Config.SpeedUnit == "kmh" then
                 speed = speed * 3.6
@@ -111,6 +121,7 @@ Citizen.CreateThread(function()
             stamina = math.floor(stamina),
             isInVehicle = isInVehicle,
             vehicleClass = vehicleClass,
+            vehicleType = vehicleType,
             speed = math.floor(speed),
             speedUnit = Config.SpeedUnit,
             fuel = math.floor(fuel),

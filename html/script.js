@@ -101,9 +101,13 @@ function updateHUD(data) {
         getId('speed-value').textContent = data.speed;
         getId('speed-unit').textContent = data.speedUnit;
         
-        // Update vehicle icon
+        // Update vehicle icon and label
         const icon = getVehicleIcon(data.vehicleType);
+        const label = getVehicleLabel(data.vehicleType);
         getId('vehicle-icon').textContent = icon;
+        if (getId('vehicle-label')) {
+            getId('vehicle-label').textContent = label;
+        }
         
         // High speed effect
         if (data.speed > 120) {
@@ -193,6 +197,20 @@ function getVehicleIcon(vehicleType) {
             return '✈️';
         default:
             return '🚗';
+    }
+}
+
+// Get vehicle label
+function getVehicleLabel(vehicleType) {
+    switch(vehicleType) {
+        case 'car':
+            return 'FAHRZEUG';
+        case 'boat':
+            return 'BOOT';
+        case 'aircraft':
+            return 'FLUGZEUG';
+        default:
+            return 'FAHRZEUG';
     }
 }
 
