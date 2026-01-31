@@ -105,10 +105,12 @@ Citizen.CreateThread(function()
                 vehicleType = 'car'
             end
             
+            -- Convert speed from m/s to configured unit
+            -- GetEntitySpeed returns meters per second
             if Config.SpeedUnit == "kmh" then
-                speed = speed * 3.6
+                speed = speed * 3.6  -- m/s to km/h (exact: 3.6)
             elseif Config.SpeedUnit == "mph" then
-                speed = speed * 2.23694
+                speed = speed * 2.236936  -- m/s to mph (exact: 2.236936)
             end
             
             fuel = GetVehicleFuelLevel(vehicle)
