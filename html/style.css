@@ -1,7 +1,7 @@
 /* ========================================
    GreenZone420 HUD Stylesheet
    Created by MTJ2024
-   Professional Design with Marijuana Theme
+   GTA V Online Style Design
    ======================================== */
 
 * {
@@ -11,7 +11,7 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Impact', 'Arial Black', 'Helvetica Condensed', sans-serif;
     overflow: hidden;
     background: transparent;
 }
@@ -32,25 +32,22 @@ body {
 }
 
 .logo-container {
-    background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(56, 142, 60, 0.9));
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: 2px solid rgba(76, 175, 80, 0.5);
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.6);
+    padding: 8px 18px;
+    border: none;
 }
 
 .logo-text {
-    font-family: 'Courier New', 'Consolas', monospace;
-    font-size: 18px;
-    font-weight: 700;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
     color: #ffffff;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    letter-spacing: 1px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 /* ========================================
-   Player Status Bars (Above Minimap)
+   Player Status Bars (Above Minimap) - GTA V Style
    ======================================== */
 
 #status-container {
@@ -59,107 +56,78 @@ body {
     left: 20px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
     z-index: 100;
 }
 
 .status-bar {
     display: flex;
     align-items: center;
-    gap: 8px;
-    background: linear-gradient(90deg, rgba(20, 20, 25, 0.95), rgba(30, 30, 35, 0.9));
-    padding: 6px 10px;
-    border-radius: 4px;
-    border-left: 2px solid rgba(100, 180, 255, 0.6);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
-    min-width: 180px;
-    transition: all 0.2s ease;
-}
-
-.status-bar:hover {
-    border-left-color: rgba(100, 180, 255, 0.9);
-    box-shadow: 0 3px 12px rgba(100, 180, 255, 0.3);
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 4px 12px;
+    border: none;
+    min-width: 200px;
 }
 
 .status-icon {
-    font-size: 14px;
-    font-weight: 600;
-    width: auto;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: 12px;
+    font-weight: 900;
     text-align: left;
-    color: rgba(200, 200, 210, 0.8);
+    color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    min-width: 45px;
+    letter-spacing: 1px;
+    min-width: 55px;
 }
 
 .status-progress {
     flex: 1;
-    height: 12px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
+    height: 14px;
+    background: rgba(0, 0, 0, 0.5);
     overflow: hidden;
     position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .status-fill {
     height: 100%;
-    transition: width 0.5s ease;
-    border-radius: 6px;
+    transition: width 0.3s ease;
     position: relative;
-    overflow: hidden;
 }
 
-.status-fill::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(255, 255, 255, 0.2) 50%, 
-        transparent 100%);
-    animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
+/* GTA V color scheme - solid colors, no gradients */
 .health-fill {
-    background: linear-gradient(90deg, #ef5350, #e53935);
+    background: #76a94d;  /* GTA V green */
 }
 
 .armor-fill {
-    background: linear-gradient(90deg, #42a5f5, #1e88e5);
+    background: #4a90e2;  /* GTA V blue */
 }
 
 .hunger-fill {
-    background: linear-gradient(90deg, #ff9800, #f57c00);
+    background: #ff8c00;  /* Orange */
 }
 
 .thirst-fill {
-    background: linear-gradient(90deg, #29b6f6, #0288d1);
+    background: #00bfff;  /* Light blue */
 }
 
 .stamina-fill {
-    background: linear-gradient(90deg, #4caf50, #388e3c);
+    background: #ffd700;  /* Yellow/gold */
 }
 
 .status-value {
-    font-family: 'Courier New', 'Consolas', monospace;
-    font-size: 14px;
-    font-weight: 600;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: 13px;
+    font-weight: 900;
     color: #ffffff;
     min-width: 35px;
     text-align: right;
 }
 
 /* ========================================
-   Vehicle Speedometer (Centered Bottom)
+   Vehicle Speedometer (Centered Bottom) - GTA V Style
    ======================================== */
 
 #speedometer {
@@ -171,130 +139,99 @@ body {
 }
 
 .speedo-container {
-    background: linear-gradient(135deg, rgba(15, 15, 20, 0.98), rgba(25, 25, 30, 0.95));
-    padding: 12px 30px;
-    border-radius: 6px;
-    border: 1px solid rgba(80, 140, 200, 0.4);
-    box-shadow: 
-        0 4px 24px rgba(0, 0, 0, 0.8),
-        inset 0 1px 1px rgba(255, 255, 255, 0.05),
-        inset 0 -1px 1px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(12px);
-    min-width: 400px;
-    position: relative;
-    overflow: hidden;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 35px;
+    border: none;
+    min-width: 450px;
     display: flex;
     align-items: center;
-    gap: 25px;
-}
-
-.speedo-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(100, 180, 255, 0.3), transparent);
-}
-
-.speedo-container::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(100, 180, 255, 0.2), transparent);
+    gap: 30px;
 }
 
 .speed-display {
     display: flex;
     align-items: baseline;
-    gap: 8px;
+    gap: 10px;
     flex: 0 0 auto;
 }
 
 .speed-value {
-    font-family: 'Orbitron', 'DS-Digital', 'Courier New', monospace;
-    font-size: 56px;
-    font-weight: 700;
-    color: #64b4ff;
-    text-shadow: 
-        0 0 10px rgba(100, 180, 255, 0.6),
-        0 0 20px rgba(100, 180, 255, 0.3),
-        0 2px 4px rgba(0, 0, 0, 0.8);
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: #ffffff;
     line-height: 1;
-    letter-spacing: -2px;
+    letter-spacing: -1px;
 }
 
 .speed-unit {
-    font-family: 'Courier New', 'Consolas', monospace;
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(180, 200, 220, 0.7);
-    opacity: 1;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: 14px;
+    font-weight: 900;
+    color: #ffffff;
     letter-spacing: 1px;
     text-transform: uppercase;
     align-self: flex-end;
-    padding-bottom: 10px;
+    padding-bottom: 14px;
 }
 
 .vehicle-type {
     display: flex;
     align-items: center;
     gap: 8px;
+    font-family: 'Impact', 'Arial Black', sans-serif;
     font-size: 13px;
-    font-weight: 600;
-    color: rgba(180, 200, 220, 0.7);
+    font-weight: 900;
+    color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     flex: 0 0 auto;
 }
 
 .vehicle-type #vehicle-icon {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .vehicle-info {
     display: flex;
-    gap: 20px;
+    gap: 25px;
     flex: 1;
     justify-content: flex-end;
-    padding-left: 20px;
-    border-left: 1px solid rgba(80, 140, 200, 0.2);
+    padding-left: 25px;
+    border-left: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .info-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
 .info-icon {
-    font-size: 12px;
-    font-weight: 600;
-    color: rgba(180, 200, 220, 0.6);
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: 11px;
+    font-weight: 900;
+    color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
 .info-value {
-    font-family: 'Courier New', 'Consolas', monospace;
-    font-size: 18px;
-    font-weight: 700;
-    color: #64b4ff;
-    text-shadow: 0 0 8px rgba(100, 180, 255, 0.4);
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: #ffffff;
 }
 
 .info-label {
-    font-size: 11px;
-    color: rgba(180, 200, 220, 0.5);
-    font-weight: 500;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: 12px;
+    color: #ffffff;
+    font-weight: 900;
 }
 
 /* ========================================
-   Location & Time Info
+   Location & Time Info - GTA V Style
    ======================================== */
 
 #location-info {
@@ -305,90 +242,65 @@ body {
 }
 
 .location-container {
-    background: rgba(0, 0, 0, 0.7);
-    padding: 15px 20px;
-    border-radius: 10px;
-    border-left: 3px solid rgba(76, 175, 80, 0.8);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    min-width: 250px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 12px 18px;
+    border: none;
+    min-width: 280px;
 }
 
 .time-display {
-    font-family: 'Courier New', 'Consolas', monospace;
-    font-size: 24px;
-    font-weight: 700;
-    color: #4caf50;
-    text-shadow: 0 2px 10px rgba(76, 175, 80, 0.5);
-    margin-bottom: 8px;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
 }
 
 .street-name {
-    font-size: 18px;
-    font-weight: 600;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: 16px;
+    font-weight: 900;
     color: #ffffff;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
+    text-transform: uppercase;
 }
 
 .zone-name {
-    font-size: 14px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: 13px;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
 }
 
 /* ========================================
-   GreenZone420 Theme Customizations
+   Animations - GTA V Style (Minimal)
    ======================================== */
-
-/* Responsive & Animations */
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
     }
 }
 
 .fade-in {
-    animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.2s ease-in-out;
 }
 
-/* Low health warning */
+/* Low health warning - GTA V style flash */
 .health-critical .health-fill {
-    animation: pulse-red 1s infinite;
+    animation: flash-red 0.5s infinite;
 }
 
-@keyframes pulse-red {
+@keyframes flash-red {
     0%, 100% {
-        box-shadow: 0 0 0 0 rgba(239, 83, 80, 0.7);
+        background: #76a94d;
     }
     50% {
-        box-shadow: 0 0 20px 5px rgba(239, 83, 80, 0.3);
-    }
-}
-
-/* Speed warning (high speed) */
-.speed-high {
-    animation: pulse-blue 0.8s infinite;
-}
-
-@keyframes pulse-blue {
-    0%, 100% {
-        color: #64b4ff;
-        text-shadow: 
-            0 0 10px rgba(100, 180, 255, 0.6),
-            0 0 20px rgba(100, 180, 255, 0.3),
-            0 2px 4px rgba(0, 0, 0, 0.8);
-    }
-    50% {
-        color: #88d0ff;
-        text-shadow: 
-            0 0 20px rgba(100, 180, 255, 0.9),
-            0 0 40px rgba(100, 180, 255, 0.5),
-            0 2px 4px rgba(0, 0, 0, 0.8);
+        background: #d32f2f;
     }
 }

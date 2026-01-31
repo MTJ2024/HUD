@@ -54,7 +54,7 @@ function initializeHUD(cfg) {
     // Show/hide elements based on config
     if (config.showLogo) {
         removeClass(getId('server-logo'), 'hidden');
-        getId('server-logo').querySelector('.logo-text').textContent = `🌿 ${config.serverName}`;
+        getId('server-logo').querySelector('.logo-text').textContent = config.serverName.toUpperCase();
     }
     
     // Status bars visibility
@@ -63,12 +63,6 @@ function initializeHUD(cfg) {
     if (!config.showHunger) getId('hunger-bar').style.display = 'none';
     if (!config.showThirst) getId('thirst-bar').style.display = 'none';
     if (!config.showStamina) getId('stamina-bar').style.display = 'none';
-    
-    // Apply theme
-    if (config.useGreenZoneTheme && !themeStylesApplied) {
-        applyGreenZoneTheme();
-        themeStylesApplied = true;
-    }
     
     console.log("HUD Initialized:", config);
 }
@@ -101,43 +95,20 @@ function updateHUD(data) {
         getId('speed-value').textContent = data.speed;
         getId('speed-unit').textContent = data.speedUnit;
         
-        // Update vehicle icon and label
-        const icon = getVehicleIcon(data.vehicleType);
+        // Update vehicle label (no icon in GTA V style)
         const label = getVehicleLabel(data.vehicleType);
-        getId('vehicle-icon').textContent = icon;
         if (getId('vehicle-label')) {
             getId('vehicle-label').textContent = label;
-        }
-        
-        // High speed effect
-        if (data.speed > 120) {
-            addClass(getId('speed-value'), 'speed-high');
-        } else {
-            removeClass(getId('speed-value'), 'speed-high');
         }
         
         // Update fuel
         if (config.showFuel) {
             getId('fuel-value').textContent = data.fuel;
-            
-            // Low fuel warning
-            if (data.fuel < 20) {
-                addClass(getId('fuel-info'), 'warning');
-            } else {
-                removeClass(getId('fuel-info'), 'warning');
-            }
         }
         
         // Update engine health
         if (config.showEngineHealth) {
             getId('engine-value').textContent = data.engineHealth;
-            
-            // Engine damage warning
-            if (data.engineHealth < 50) {
-                addClass(getId('engine-info'), 'warning');
-            } else {
-                removeClass(getId('engine-info'), 'warning');
-            }
         }
     } else {
         addClass(getId('speedometer'), 'hidden');
@@ -186,20 +157,6 @@ function updateStatusBar(type, value) {
     }
 }
 
-// Get vehicle icon
-function getVehicleIcon(vehicleType) {
-    switch(vehicleType) {
-        case 'car':
-            return '🚗';
-        case 'boat':
-            return '🚤';
-        case 'aircraft':
-            return '✈️';
-        default:
-            return '🚗';
-    }
-}
-
 // Get vehicle label
 function getVehicleLabel(vehicleType) {
     switch(vehicleType) {
@@ -212,39 +169,6 @@ function getVehicleLabel(vehicleType) {
         default:
             return 'FAHRZEUG';
     }
-}
-
-// Apply GreenZone420 theme
-function applyGreenZoneTheme() {
-    addClass(document.body, 'greenzone-theme');
-    
-    // Apply dynamic theme color
-    const themeColor = `rgb(${config.themeColor.r}, ${config.themeColor.g}, ${config.themeColor.b})`;
-    
-    const style = document.createElement('style');
-    style.type = 'text/css';
-    style.id = 'greenzone-theme-styles';
-    style.innerHTML = `
-        .status-bar {
-            border-left-color: ${themeColor} !important;
-        }
-        .speedo-container {
-            border-color: ${themeColor} !important;
-        }
-        .location-container {
-            border-left-color: ${themeColor} !important;
-        }
-        .speed-value {
-            color: ${themeColor} !important;
-        }
-        .info-value {
-            color: ${themeColor} !important;
-        }
-        .time-display {
-            color: ${themeColor} !important;
-        }
-    `;
-    document.head.appendChild(style);
 }
 
 // Hide HUD
