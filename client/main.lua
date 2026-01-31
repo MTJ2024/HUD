@@ -205,9 +205,15 @@ Citizen.CreateThread(function()
         local minute = GetClockMinutes()
         local timeString = string.format("%02d:%02d", hour, minute)
         
+        -- Get player info
+        local serverId = GetPlayerServerId(playerId)
+        local playerName = GetPlayerName(playerId)
+        
         -- Send data to NUI
         SendNUIMessage({
             action = "updateHUD",
+            playerId = serverId,
+            playerName = playerName,
             health = math.floor(health),
             armor = math.floor(armor),
             hunger = math.floor(hunger),

@@ -30,6 +30,7 @@ window.addEventListener('message', function(event) {
 function showHUD() {
     removeClass(getId('status-container'), 'hidden');
     removeClass(getId('location-info'), 'hidden');
+    removeClass(getId('player-info'), 'hidden');
     removeClass(getId('money-container'), 'hidden');
     removeClass(getId('job-container'), 'hidden');
 }
@@ -39,6 +40,12 @@ function updateHUD(data) {
     // Show containers
     removeClass(getId('status-container'), 'hidden');
     removeClass(getId('location-info'), 'hidden');
+    removeClass(getId('player-info'), 'hidden');
+    
+    // Update player info
+    if (data.playerId && data.playerName) {
+        updatePlayerInfo(data.playerId, data.playerName);
+    }
     
     // Update status bars
     if (data.showHealth) {
@@ -190,6 +197,17 @@ function updateWeapon(weaponName, ammo, ammoMax) {
 function formatWeaponName(weaponName) {
     if (!weaponName) return 'WAFFENLOS';
     return weaponName.replace('WEAPON_', '').replace(/_/g, ' ');
+}
+
+// Update player info (ID and name)
+function updatePlayerInfo(playerId, playerName) {
+    if (getId('player-id')) {
+        getId('player-id').textContent = '#' + playerId;
+    }
+    
+    if (getId('player-name')) {
+        getId('player-name').textContent = playerName;
+    }
 }
 
 // Format number with thousands separator
