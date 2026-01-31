@@ -257,19 +257,21 @@ Citizen.CreateThread(function()
 end)
 
 -- Toggle HUD visibility
-RegisterCommand(Config.ToggleHUDCommand, function()
-    isHudVisible = not isHudVisible
-    
-    if isHudVisible then
-        SendNUIMessage({ action = "showHUD" })
-    else
-        SendNUIMessage({ action = "hideHUD" })
-    end
-    
-    if Config.ShowNotifications then
-        ESX.ShowNotification(isHudVisible and "HUD aktiviert" or "HUD deaktiviert")
-    end
-end, false)
+if Config.ToggleHUDCommand and Config.ToggleHUDCommand ~= "" then
+    RegisterCommand(Config.ToggleHUDCommand, function()
+        isHudVisible = not isHudVisible
+        
+        if isHudVisible then
+            SendNUIMessage({ action = "showHUD" })
+        else
+            SendNUIMessage({ action = "hideHUD" })
+        end
+        
+        if Config.ShowNotifications then
+            ESX.ShowNotification(isHudVisible and "HUD aktiviert" or "HUD deaktiviert")
+        end
+    end, false)
+end
 
 -- Cinematic mode toggle
 RegisterCommand(Config.CinematicModeCommand, function()

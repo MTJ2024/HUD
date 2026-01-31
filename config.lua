@@ -62,3 +62,6 @@ Config.ShowTime = true                      -- Show time
 Config.ShowSpeedometer = true               -- Show speedometer
 Config.ShowMinimap = true                   -- Show minimap
 Config.ShowServerLogo = true                -- Show server logo
+
+-- Commands
+Config.ToggleHUDCommand = "togglehud"       -- Command to toggle HUD visibility (/togglehud)
