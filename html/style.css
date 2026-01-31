@@ -52,11 +52,11 @@ body {
 
 #status-container {
     position: absolute;
-    bottom: 50px;
+    bottom: 180px;
     left: 20px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
     z-index: 100;
 }
 
@@ -64,10 +64,10 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 4px 12px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 6px 14px;
     border: none;
-    min-width: 200px;
+    min-width: 220px;
 }
 
 .status-icon {
@@ -83,11 +83,11 @@ body {
 
 .status-progress {
     flex: 1;
-    height: 14px;
+    height: 16px;
     background: rgba(0, 0, 0, 0.5);
     overflow: hidden;
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .status-fill {
