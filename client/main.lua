@@ -1,44 +1,8 @@
 -- ========================================
 -- GreenZone420 HUD Client Script
--- Created by MTJ2024
+-- Copyright (c) 2024 MTJ2024
 -- Professional FiveM HUD for ESX Legacy
 -- ========================================
-
--- Check for incorrect installation (folder name with brackets)
-Citizen.CreateThread(function()
-    local resourceName = GetCurrentResourceName()
-    
-    -- Check if resource name contains brackets
-    if string.match(resourceName, "%[") or string.match(resourceName, "%]") then
-        -- Show error notification
-        Citizen.Wait(5000) -- Wait for game to load
-        
-        -- Show repeated warnings
-        for i = 1, 3 do
-            TriggerEvent('chat:addMessage', {
-                color = {255, 0, 0},
-                multiline = true,
-                args = {"[HUD FEHLER]", "FALSCHER ORDNERNAME! Ordner ist [" .. resourceName .. "] - Umbenennen zu: greenzone420_hud"}
-            })
-            
-            -- Also show as notification
-            SetNotificationTextEntry('STRING')
-            AddTextComponentString('~r~HUD INSTALLATION FEHLER~n~~w~Ordner umbenennen!~n~Von: ~r~' .. resourceName .. '~n~~w~Zu: ~g~greenzone420_hud')
-            DrawNotification(false, true)
-            
-            Citizen.Wait(10000)
-        end
-        
-        print("^1===============================================^0")
-        print("^1[HUD] KRITISCHER FEHLER - FALSCHE INSTALLATION^0")
-        print("^1===============================================^0")
-        print("^3Ordnername: ^1" .. resourceName .. "^0")
-        print("^3Richtig: ^2greenzone420_hud^0")
-        print("^1===============================================^0")
-        print("^3Siehe: LIES_MICH_ZUERST.txt für Hilfe^0")
-        print("^1===============================================^0")
-    end
-end)
 
 ESX = nil
 local isHudVisible = true
@@ -90,207 +54,136 @@ Citizen.CreateThread(function()
         
         if isInVehicle then
             vehicleClass = GetVehicleClass(vehicle)
-            local speedVector = GetEntitySpeed(vehicle)
+            speed = GetEntitySpeed(vehicle)
             
-            if Config.SpeedUnit == "MPH" then
-                speed = math.floor(speedVector * 2.236936)
-            else
-                speed = math.floor(speedVector * 3.6)
+            if Config.SpeedUnit == "kmh" then
+                speed = speed * 3.6
+            elseif Config.SpeedUnit == "mph" then
+                speed = speed * 2.23694
             end
             
-            if Config.ShowFuel then
-                fuel = GetVehicleFuelLevel(vehicle)
-            end
-            
-            if Config.ShowEngineHealth then
-                engineHealth = GetVehicleEngineHealth(vehicle) / 10
-            end
+            fuel = GetVehicleFuelLevel(vehicle)
+            engineHealth = GetVehicleEngineHealth(vehicle) / 10
         end
         
-        -- Determine vehicle type for speedometer
-        local vehicleType = "none"
-        if isInVehicle then
-            if vehicleClass == 15 or vehicleClass == 16 then
-                -- Helicopter or Plane
-                if Config.EnableAircraftSpeedometer then
-                    vehicleType = "aircraft"
-                end
-            elseif vehicleClass == 14 then
-                -- Boat
-                if Config.EnableBoatSpeedometer then
-                    vehicleType = "boat"
-                end
-            else
-                -- Car/Motorcycle
-                if Config.EnableCarSpeedometer then
-                    vehicleType = "car"
-                end
-            end
-        end
+        -- Get ESX status (hunger, thirst)
+        local hunger = 0
+        local thirst = 0
         
-        -- Get location info
-        local pos = GetEntityCoords(playerPed)
-        local streetHash, crossingHash = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-        local streetName = GetStreetNameFromHashKey(streetHash)
-        local zoneName = GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z))
-        
-        -- Get time
-        local hour = GetClockHours()
-        local minute = GetClockMinutes()
-        local timeString = ""
-        
-        if Config.Show24HourClock then
-            timeString = string.format("%02d:%02d", hour, minute)
-        else
-            local period = "AM"
-            local displayHour = hour
-            if hour >= 12 then
-                period = "PM"
-                if hour > 12 then
-                    displayHour = hour - 12
-                end
-            end
-            if displayHour == 0 then
-                displayHour = 12
-            end
-            timeString = string.format("%02d:%02d %s", displayHour, minute, period)
+        if ESX and ESX.GetPlayerData then
+            TriggerEvent('esx_status:getStatus', 'hunger', function(status)
+                if status then hunger = status.getPercent() end
+            end)
+            
+            TriggerEvent('esx_status:getStatus', 'thirst', function(status)
+                if status then thirst = status.getPercent() end
+            end)
         end
         
         -- Get stamina
         local stamina = 100 - GetPlayerSprintStaminaRemaining(playerId)
         
-            -- Send data to NUI
-            SendNUIMessage({
-                action = "updateHUD",
-                data = {
-                    health = math.floor(health),
-                    armor = armor,
-                    stamina = math.floor(stamina),
-                    isInVehicle = isInVehicle,
-                    vehicleType = vehicleType,
-                    speed = speed,
-                    fuel = math.floor(fuel),
-                    engineHealth = math.floor(engineHealth),
-                    streetName = streetName,
-                    zoneName = zoneName,
-                    time = timeString,
-                    speedUnit = Config.SpeedUnit
-                }
-            })
-        end
-    end
-end)
-
--- ESX Status (Hunger/Thirst)
-if Config.ShowHunger or Config.ShowThirst then
-    Citizen.CreateThread(function()
-        while true do
-            Citizen.Wait(1000)
-            
-            if playerLoaded then
-                TriggerEvent('esx_status:getStatus', 'hunger', function(status)
-                    if status then
-                        local hunger = status.getPercent()
-                        SendNUIMessage({
-                            action = "updateStatus",
-                            status = "hunger",
-                            value = math.floor(hunger)
-                        })
-                    end
-                end)
-                
-                TriggerEvent('esx_status:getStatus', 'thirst', function(status)
-                    if status then
-                        local thirst = status.getPercent()
-                        SendNUIMessage({
-                            action = "updateStatus",
-                            status = "thirst",
-                            value = math.floor(thirst)
-                        })
-                    end
-                end)
-            end
-        end
-    end)
-end
-
--- Minimap customization
-if Config.EnableCustomMinimap then
-    Citizen.CreateThread(function()
-        local minimap = RequestScaleformMovie("minimap")
+        -- Get location
+        local coords = GetEntityCoords(playerPed)
+        local streetHash, crossingHash = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
+        local streetName = GetStreetNameFromHashKey(streetHash)
+        local crossingName = GetStreetNameFromHashKey(crossingHash)
+        local zone = GetNameOfZone(coords.x, coords.y, coords.z)
+        local zoneName = GetLabelText(zone)
         
-        while not HasScaleformMovieLoaded(minimap) do
-            Wait(0)
+        local location = streetName
+        if crossingName ~= "" then
+            location = location .. " & " .. crossingName
         end
         
-        SetMinimapComponentPosition("minimap", "L", "B", 0.0, -0.047, 0.1638, 0.183)
-        SetMinimapComponentPosition("minimap_mask", "L", "B", 0.0, 0.0, 0.128, 0.20)
-        SetMinimapComponentPosition("minimap_blur", "L", "B", -0.01, 0.025, 0.262, 0.300)
+        -- Get time
+        local hour = GetClockHours()
+        local minute = GetClockMinutes()
+        local timeString = string.format("%02d:%02d", hour, minute)
         
-        SetRadarBigmapEnabled(false, false)
-        SetRadarZoom(1100)
-        
-        -- Hide default health/armor bars
-        Citizen.InvokeNative(0x0772DF77852C2E30, true)
-    end)
-end
-
--- Cinematic Mode Toggle
-if Config.EnableCinematicMode then
-    RegisterCommand('cinematicmode', function()
-        cinematicMode = not cinematicMode
-        if cinematicMode then
-            ESX.ShowNotification('Cinematic Mode: ~g~ON')
-        else
-            ESX.ShowNotification('Cinematic Mode: ~r~OFF')
-        end
-    end, false)
-    
-    RegisterKeyMapping('cinematicmode', 'Toggle Cinematic Mode', 'keyboard', Config.CinematicModeKey)
-end
-
--- Initialize HUD
-Citizen.CreateThread(function()
-    Wait(1000)
-    SendNUIMessage({
-        action = "initHUD",
-        config = {
-            serverName = Config.ServerName,
+        -- Send data to NUI
+        SendNUIMessage({
+            action = "updateHUD",
+            health = math.floor(health),
+            armor = math.floor(armor),
+            hunger = math.floor(hunger),
+            thirst = math.floor(thirst),
+            stamina = math.floor(stamina),
+            isInVehicle = isInVehicle,
+            vehicleClass = vehicleClass,
+            speed = math.floor(speed),
+            speedUnit = Config.SpeedUnit,
+            fuel = math.floor(fuel),
+            engineHealth = math.floor(engineHealth),
+            streetName = location,
+            zoneName = zoneName,
+            time = timeString,
             showHealth = Config.ShowHealth,
             showArmor = Config.ShowArmor,
             showHunger = Config.ShowHunger,
             showThirst = Config.ShowThirst,
             showStamina = Config.ShowStamina,
+            showSpeedometer = Config.ShowSpeedometer,
             showFuel = Config.ShowFuel,
             showEngineHealth = Config.ShowEngineHealth,
-            showStreetName = Config.ShowStreetName,
-            showZoneName = Config.ShowZoneName,
-            showLogo = Config.ShowLogo,
-            useGreenZoneTheme = Config.UseGreenZoneTheme,
-            themeColor = Config.ThemeColor
-        }
-    })
+            showLocation = Config.ShowLocation,
+            showTime = Config.ShowTime,
+            showMinimap = Config.ShowMinimap,
+            serverName = Config.ServerName,
+            showServerLogo = Config.ShowServerLogo
+        })
+        end
+    end
 end)
 
--- Disable default HUD components
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
+-- Toggle HUD visibility
+RegisterCommand(Config.ToggleHUDCommand, function()
+    isHudVisible = not isHudVisible
+    
+    if isHudVisible then
+        SendNUIMessage({ action = "showHUD" })
+    else
+        SendNUIMessage({ action = "hideHUD" })
+    end
+    
+    if Config.ShowNotifications then
+        ESX.ShowNotification(isHudVisible and "HUD aktiviert" or "HUD deaktiviert")
+    end
+end, false)
+
+-- Cinematic mode toggle
+RegisterCommand(Config.CinematicModeCommand, function()
+    cinematicMode = not cinematicMode
+    
+    if Config.ShowNotifications then
+        ESX.ShowNotification(cinematicMode and "Kinomodus aktiviert" or "Kinomodus deaktiviert")
+    end
+end, false)
+
+-- Minimap customization
+if Config.ShowMinimap and Config.CustomMinimap then
+    Citizen.CreateThread(function()
+        SetRadarBigmapEnabled(false, false)
+        SetRadarZoom(1100)
         
-        -- Hide default components
-        HideHudComponentThisFrame(1)  -- Wanted Stars
-        HideHudComponentThisFrame(2)  -- Weapon Icon
-        HideHudComponentThisFrame(3)  -- Cash
-        HideHudComponentThisFrame(4)  -- MP Cash
-        HideHudComponentThisFrame(6)  -- Vehicle Name
-        HideHudComponentThisFrame(7)  -- Area Name
-        HideHudComponentThisFrame(8)  -- Vehicle Class
-        HideHudComponentThisFrame(9)  -- Street Name
-        HideHudComponentThisFrame(13) -- Cash Change
-        HideHudComponentThisFrame(17) -- Save Game
-        HideHudComponentThisFrame(20) -- Weapon Stats
+        RequestStreamedTextureDict("squaremap", false)
+        if not HasStreamedTextureDictLoaded("squaremap") then
+            Wait(150)
+        end
         
-        -- Only show radar when in vehicle or on foot (customize as needed)
+        SetMinimapClipType(Config.MinimapShape)
+        SetMinimapComponentPosition('minimap', 'L', 'B', -0.0045, -0.025, 0.150, 0.188)
+        SetMinimapComponentPosition('minimap_mask', 'L', 'B', 0.020, 0.032, 0.111, 0.159)
+        SetMinimapComponentPosition('minimap_blur', 'L', 'B', -0.03, -0.002, 0.266, 0.237)
+        
+        SetBlipAlpha(GetNorthRadarBlip(), 0)
+    end)
+end
+
+-- Cleanup
+AddEventHandler('onResourceStop', function(resource)
+    if resource == GetCurrentResourceName() then
+        SendNUIMessage({ action = "hideHUD" })
         DisplayRadar(true)
     end
 end)
