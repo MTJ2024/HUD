@@ -145,7 +145,7 @@ function updateHUD(data) {
     }
 
     // Update server name
-    if (data.serverName) {
+    if (data.serverName !== undefined) {
         updateServerName(data.serverName);
     }
 
@@ -227,8 +227,8 @@ function updatePlayerInfo(playerId, playerName) {
 function updateServerName(serverName) {
     const serverNameElement = getId('server-name');
     
-    if (serverNameElement && serverName) {
-        serverNameElement.textContent = serverName;
+    if (serverNameElement) {
+        serverNameElement.textContent = serverName || '';
     }
 }
 
