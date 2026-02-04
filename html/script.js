@@ -222,15 +222,11 @@ function formatNumber(num) {
 function updateStatusBar(type, value) {
     const clampedValue = Math.max(0, Math.min(100, value));
     
-    const fillElement = getId(`${type}-bar`).querySelector('.status-fill');
-    const valueElement = getId(`${type}-bar`).querySelector('.status-value');
-    
-    if (fillElement) {
-        fillElement.style.width = clampedValue + '%';
-    }
+    // Update icon value (no fill bar anymore)
+    const valueElement = getId(`${type}-value`);
     
     if (valueElement) {
-        valueElement.textContent = Math.floor(clampedValue);
+        valueElement.textContent = Math.floor(clampedValue) + '%';
     }
 }
 

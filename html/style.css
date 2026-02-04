@@ -50,53 +50,64 @@ body {
 }
 
 /* ========================================
-   Player Status Bars (Left Side - Vertical Stack) - GTA V Style
+   Player Status Icons (Above Minimap) - Icon-Based Design
    ======================================== */
 
 #status-container {
     position: absolute;
     left: 20px;
-    bottom: 240px;
+    bottom: 235px;
     display: flex;
-    flex-direction: column;
-    gap: 3px;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 250px;
     z-index: 100;
 }
 
-.status-bar {
+.status-icon-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 6px 14px;
-    border: none;
-    min-width: 220px;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.75);
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.status-icon {
+.icon-symbol {
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+.health-icon {
+    filter: drop-shadow(0 0 3px #4ade80);
+}
+
+.armor-icon {
+    filter: drop-shadow(0 0 3px #3b82f6);
+}
+
+.hunger-icon {
+    filter: drop-shadow(0 0 3px #f59e0b);
+}
+
+.thirst-icon {
+    filter: drop-shadow(0 0 3px #06b6d4);
+}
+
+.stamina-icon {
+    filter: drop-shadow(0 0 3px #a855f7);
+}
+
+.icon-value {
     font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    text-align: left;
+    font-size: 14px;
+    font-weight: 700;
     color: #ffffff;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    min-width: 55px;
-}
-
-.status-progress {
-    flex: 1;
-    height: 16px;
-    background: rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-    position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.status-fill {
-    height: 100%;
-    transition: width 0.3s ease;
-    position: relative;
+    letter-spacing: 0.3px;
+    min-width: 40px;
 }
 
 /* GTA V / GreenZone420 vibrant color scheme */
@@ -297,7 +308,7 @@ body {
 
 .street-name {
     font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
-    font-size: 17px;
+    font-size: 14px;
     font-weight: 600;
     color: #ffffff;
     margin-bottom: 3px;
