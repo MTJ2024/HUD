@@ -143,6 +143,17 @@ function updateHUD(data) {
     if (data.job) {
         updateJob(data.job, data.jobGrade);
     }
+
+    // Update server name
+    if (data.serverName) {
+        updateServerName(data.serverName);
+    }
+
+    if (data.showServerLogo === false) {
+        addClass(getId('server-logo'), 'hidden');
+    } else {
+        removeClass(getId('server-logo'), 'hidden');
+    }
     
     // Update weapon
     if (data.weapon) {
@@ -210,6 +221,15 @@ function updatePlayerInfo(playerId, playerName) {
     }
 }
 
+// Update server name display
+function updateServerName(serverName) {
+    const serverNameElement = getId('server-name');
+    
+    if (serverNameElement && serverName) {
+        serverNameElement.textContent = serverName;
+    }
+}
+
 // Format number with thousands separator
 function formatNumber(num) {
     if (num === undefined || num === null) return '0';
@@ -252,6 +272,7 @@ function hideHUD() {
     addClass(getId('money-container'), 'hidden');
     addClass(getId('job-container'), 'hidden');
     addClass(getId('weapon-container'), 'hidden');
+    addClass(getId('server-logo'), 'hidden');
 }
 
 // Helper functions
@@ -270,4 +291,3 @@ function removeClass(element, className) {
         element.classList.remove(className);
     }
 }
-
