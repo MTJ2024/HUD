@@ -149,10 +149,12 @@ function updateHUD(data) {
         updateServerName(data.serverName);
     }
 
-    if (data.showServerLogo === false) {
-        addClass(getId('server-logo'), 'hidden');
-    } else {
-        removeClass(getId('server-logo'), 'hidden');
+    if (data.showServerLogo !== undefined) {
+        if (data.showServerLogo) {
+            removeClass(getId('server-logo'), 'hidden');
+        } else {
+            addClass(getId('server-logo'), 'hidden');
+        }
     }
     
     // Update weapon
