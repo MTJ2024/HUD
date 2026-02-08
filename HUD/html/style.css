@@ -42,13 +42,13 @@ body {
 }
 
 /* ========================================
-   SERVER LOGO & NAME (Top Left)
+   SERVER LOGO & NAME (Top Right)
 ======================================== */
 #server-container {
     position: absolute;
     top: 2.5vh;
-    left: 2vh;
-    animation: slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    right: 2vh;
+    animation: slideInRight 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .server-card {
@@ -303,7 +303,7 @@ body {
 ======================================== */
 #money-container {
     position: absolute;
-    top: 2.5vh;
+    top: 8.5vh;
     right: 2vh;
     display: flex;
     flex-direction: column;
@@ -668,13 +668,13 @@ body {
 }
 
 /* ========================================
-   JOB DISPLAY (Above Minimap)
+   JOB DISPLAY (Bottom Right, above ESX Status)
 ======================================== */
 #job-container {
     position: absolute;
-    bottom: 28vh;
-    left: 1.5vh;
-    animation: slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    bottom: 38vh;
+    right: 2vh;
+    animation: slideInRight 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .job-card {
@@ -738,7 +738,7 @@ body {
 ======================================== */
 #weapon-container {
     position: absolute;
-    bottom: 34vh;
+    bottom: 28vh;
     left: 1.5vh;
     animation: slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -800,11 +800,11 @@ body {
 }
 
 /* ========================================
-   VOICE CHAT (Bottom Left, above Job & Minimap)
+   VOICE CHAT (Bottom Left, above Minimap)
 ======================================== */
 #voice-container {
     position: absolute;
-    bottom: 40vh;  /* Höher, damit Job, Location und Minimap frei bleiben */
+    bottom: 34vh;  /* Über Weapon und Location */
     left: 2vh;
     animation: slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }

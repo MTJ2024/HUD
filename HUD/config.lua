@@ -4,12 +4,13 @@ Config = {}
 -- HUD LAYOUT POSITIONEN
 -- ============================================
 -- Status Bars: RECHTS UNTEN (wegen Minimap links)
--- Geld: RECHTS OBEN
+-- Geld: RECHTS OBEN (unter Servername)
+-- Server Logo: RECHTS OBEN
+-- Job: RECHTS (über ESX Status Bars)
 -- Fahrzeug/Tacho: ZENTRAL UNTEN
 -- Navigation/Kompass: ÜBER MINIMAP (links unten)
+-- Waffe: ÜBER MINIMAP (links, nur wenn ausgerüstet)
 -- Voice Chat: LINKS UNTEN (über Location)
--- Server Logo: OBEN LINKS
--- Job/Waffe: ÜBER MINIMAP
 -- ============================================
 
 -- Server Einstellungen
