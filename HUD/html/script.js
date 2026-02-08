@@ -73,6 +73,16 @@ function updatePlayerData(data) {
     // Money
     document.getElementById('cash-value').textContent = formatMoney(data.money);
     document.getElementById('bank-value').textContent = formatMoney(data.bank);
+    
+    // Job
+    if (data.job) {
+        const jobName = document.getElementById('job-name');
+        if (data.grade && data.grade !== '') {
+            jobName.textContent = data.job + ' - ' + data.grade;
+        } else {
+            jobName.textContent = data.job;
+        }
+    }
 }
 
 // Update Vehicle Data
@@ -182,6 +192,19 @@ function updateVoiceChat(range) {
     }
 }
 
+// Update Weapon Display
+function updateWeapon(data) {
+    const weaponContainer = document.getElementById('weapon-container');
+    
+    if (data.hasWeapon) {
+        weaponContainer.classList.remove('hidden');
+        const ammoDisplay = document.getElementById('weapon-ammo');
+        ammoDisplay.textContent = data.clipAmmo + ' / ' + data.ammo;
+    } else {
+        weaponContainer.classList.add('hidden');
+    }
+}
+
 // Toggle Cinematic Mode
 function toggleCinematic(state) {
     cinematicMode = state;
@@ -243,6 +266,17 @@ function setConfig(newConfig) {
     if (!config.ShowVoiceChat) {
         document.getElementById('voice-container').classList.add('hidden');
     }
+    if (!config.ShowJob) {
+        document.getElementById('job-container').classList.add('hidden');
+    }
+    if (!config.ShowWeapon) {
+        document.getElementById('weapon-container').classList.add('hidden');
+    }
+    
+    // Update server name if provided
+    if (config.ServerName) {
+        document.querySelector('.server-name').textContent = config.ServerName;
+    }
     
     // Update speed unit
     if (config.SpeedUnit === 'mph') {
@@ -278,6 +312,10 @@ window.addEventListener('message', function(event) {
             
         case 'updateVoice':
             updateVoiceChat(data.range);
+            break;
+            
+        case 'updateWeapon':
+            updateWeapon(data);
             break;
             
         case 'toggleCinematic':

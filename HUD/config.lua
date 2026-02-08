@@ -6,9 +6,14 @@ Config = {}
 -- Status Bars: RECHTS UNTEN (wegen Minimap links)
 -- Geld: RECHTS OBEN
 -- Fahrzeug/Tacho: ZENTRAL UNTEN
--- Navigation/Kompass: ZENTRAL OBEN
--- Voice Chat: LINKS UNTEN (über Minimap)
+-- Navigation/Kompass: ÜBER MINIMAP (links unten)
+-- Voice Chat: LINKS UNTEN (über Location)
+-- Server Logo: OBEN LINKS
+-- Job/Waffe: ÜBER MINIMAP
 -- ============================================
+
+-- Server Einstellungen
+Config.ServerName = 'Greenzone 420' -- Servername
 
 -- HUD Einstellungen
 Config.RefreshRate = 200 -- Update-Rate in Millisekunden
@@ -16,6 +21,8 @@ Config.ShowCompass = true -- Kompass anzeigen
 Config.ShowStreetName = true -- Straßennamen anzeigen
 Config.ShowVoiceChat = true -- Voice Chat Indikator
 Config.ShowMinimap = true -- Minimap anzeigen
+Config.ShowJob = true -- Job anzeigen
+Config.ShowWeapon = true -- Waffe anzeigen wenn ausgerüstet
 
 -- Status Bar Einstellungen
 Config.ShowHealth = true

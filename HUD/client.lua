@@ -136,6 +136,30 @@ CreateThread(function()
                     zone = zoneName
                 })
             end
+            
+            -- Waffen Erkennung
+            if Config.ShowWeapon then
+                local weaponHash = GetSelectedPedWeapon(playerPed)
+                local unarmedHash = GetHashKey('WEAPON_UNARMED')
+                
+                if weaponHash ~= unarmedHash then
+                    -- Munition
+                    local ammoCount = GetAmmoInPedWeapon(playerPed, weaponHash)
+                    local _, clipAmmo = GetAmmoInClip(playerPed, weaponHash)
+                    
+                    SendNUIMessage({
+                        action = 'updateWeapon',
+                        hasWeapon = true,
+                        ammo = ammoCount,
+                        clipAmmo = clipAmmo or 0
+                    })
+                else
+                    SendNUIMessage({
+                        action = 'updateWeapon',
+                        hasWeapon = false
+                    })
+                end
+            end
         end
     end
 end)

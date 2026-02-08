@@ -18,6 +18,19 @@
 
     <!-- Main HUD Container -->
     <div id="hud-container">
+        <!-- Server Logo & Name (Top Left) -->
+        <div id="server-container">
+            <div class="server-card">
+                <div class="server-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 6v6l4 2"></path>
+                    </svg>
+                </div>
+                <div class="server-name">Greenzone 420</div>
+            </div>
+        </div>
+
         <!-- Status Bars (Bottom Left) -->
         <div id="status-container">
             <!-- Health -->
@@ -231,6 +244,39 @@
                 <div class="location-info">
                     <div class="street-name" id="street-name">Loading...</div>
                     <div class="zone-name" id="zone-name">Los Santos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Display (Above Minimap) -->
+        <div id="job-container">
+            <div class="job-card">
+                <div class="job-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 7V5a4 4 0 0 0-8 0v2"></path>
+                    </svg>
+                </div>
+                <div class="job-info">
+                    <div class="job-label">JOB</div>
+                    <div class="job-name" id="job-name">Zivilist</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weapon Display (Above Minimap, hidden by default) -->
+        <div id="weapon-container" class="hidden">
+            <div class="weapon-card">
+                <div class="weapon-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2l6 6-8 8-6-6 8-8z"></path>
+                        <path d="M8 14l-4 4"></path>
+                        <path d="M2 22l2-2"></path>
+                    </svg>
+                </div>
+                <div class="weapon-info">
+                    <div class="weapon-label">WEAPON</div>
+                    <div class="weapon-ammo" id="weapon-ammo">0 / 0</div>
                 </div>
             </div>
         </div>
