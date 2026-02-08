@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern HUD</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Cinematic Mode Black Bars -->
+    <div id="cinematic-bars" class="hidden">
+        <div class="bar bar-top"></div>
+        <div class="bar bar-bottom"></div>
+    </div>
+
+    <!-- Main HUD Container -->
+    <div id="hud-container">
+        <!-- Status Bars (Bottom Left) -->
+        <div id="status-container">
+            <!-- Health -->
+            <div class="status-bar" id="health-bar">
+                <div class="status-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                </div>
+                <div class="status-content">
+                    <div class="status-label">HEALTH</div>
+                    <div class="status-fill-container">
+                        <div class="status-fill" id="health-fill"></div>
+                        <div class="status-glow"></div>
+                    </div>
+                    <div class="status-value" id="health-value">100</div>
+                </div>
+            </div>
+
+            <!-- Armor -->
+            <div class="status-bar" id="armor-bar">
+                <div class="status-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                </div>
+                <div class="status-content">
+                    <div class="status-label">ARMOR</div>
+                    <div class="status-fill-container">
+                        <div class="status-fill" id="armor-fill"></div>
+                        <div class="status-glow"></div>
+                    </div>
+                    <div class="status-value" id="armor-value">0</div>
+                </div>
+            </div>
+
+            <!-- Hunger -->
+            <div class="status-bar" id="hunger-bar">
+                <div class="status-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                        <line x1="6" y1="1" x2="6" y2="4"></line>
+                        <line x1="10" y1="1" x2="10" y2="4"></line>
+                        <line x1="14" y1="1" x2="14" y2="4"></line>
+                    </svg>
+                </div>
+                <div class="status-content">
+                    <div class="status-label">HUNGER</div>
+                    <div class="status-fill-container">
+                        <div class="status-fill" id="hunger-fill"></div>
+                        <div class="status-glow"></div>
+                    </div>
+                    <div class="status-value" id="hunger-value">100</div>
+                </div>
+            </div>
+
+            <!-- Thirst -->
+            <div class="status-bar" id="thirst-bar">
+                <div class="status-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                    </svg>
+                </div>
+                <div class="status-content">
+                    <div class="status-label">THIRST</div>
+                    <div class="status-fill-container">
+                        <div class="status-fill" id="thirst-fill"></div>
+                        <div class="status-glow"></div>
+                    </div>
+                    <div class="status-value" id="thirst-value">100</div>
+                </div>
+            </div>
+
+            <!-- Stamina -->
+            <div class="status-bar" id="stamina-bar">
+                <div class="status-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                </div>
+                <div class="status-content">
+                    <div class="status-label">STAMINA</div>
+                    <div class="status-fill-container">
+                        <div class="status-fill" id="stamina-fill"></div>
+                        <div class="status-glow"></div>
+                    </div>
+                    <div class="status-value" id="stamina-value">100</div>
+                </div>
+            </div>
+
+            <!-- Oxygen (versteckt bis unter Wasser) -->
+            <div class="status-bar hidden" id="oxygen-bar">
+                <div class="status-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </div>
+                <div class="status-content">
+                    <div class="status-label">OXYGEN</div>
+                    <div class="status-fill-container">
+                        <div class="status-fill" id="oxygen-fill"></div>
+                        <div class="status-glow"></div>
+                    </div>
+                    <div class="status-value" id="oxygen-value">100</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Money Display (Top Right) -->
+        <div id="money-container">
+            <div class="money-card">
+                <div class="money-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <div class="money-content">
+                    <div class="money-label">CASH</div>
+                    <div class="money-value" id="cash-value">$0</div>
+                </div>
+            </div>
+            <div class="money-card">
+                <div class="money-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                    </svg>
+                </div>
+                <div class="money-content">
+                    <div class="money-label">BANK</div>
+                    <div class="money-value" id="bank-value">$0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vehicle HUD (Bottom Center) -->
+        <div id="vehicle-container" class="hidden">
+            <div class="vehicle-main">
+                <div class="speedometer">
+                    <div class="speed-circle">
+                        <svg class="speed-ring" viewBox="0 0 100 100">
+                            <circle class="speed-ring-bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="speed-ring-fill" cx="50" cy="50" r="45" id="speed-ring"></circle>
+                        </svg>
+                        <div class="speed-content">
+                            <div class="speed-value" id="speed-value">0</div>
+                            <div class="speed-unit">KM/H</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vehicle-stats">
+                    <div class="vehicle-stat">
+                        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"></path>
+                        </svg>
+                        <div class="stat-content">
+                            <div class="stat-label">RPM</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="rpm-fill"></div>
+                            </div>
+                            <div class="stat-value" id="rpm-value">0</div>
+                        </div>
+                    </div>
+
+                    <div class="vehicle-stat">
+                        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 8L15 8M15 8C15 9.657 16.343 11 18 11C19.657 11 21 9.657 21 8C21 6.343 19.657 5 18 5C16.343 5 15 6.343 15 8ZM9 16L21 16M9 16C9 17.657 7.657 19 6 19C4.343 19 3 17.657 3 16C3 14.343 4.343 13 6 13C7.657 13 9 14.343 9 16Z"></path>
+                        </svg>
+                        <div class="stat-content">
+                            <div class="stat-label">FUEL</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="fuel-fill"></div>
+                            </div>
+                            <div class="stat-value" id="fuel-value">0%</div>
+                        </div>
+                    </div>
+
+                    <div class="vehicle-stat">
+                        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <div class="stat-content">
+                            <div class="stat-label">GEAR</div>
+                            <div class="stat-value gear-display" id="gear-value">N</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Location & Compass (Top Center) -->
+        <div id="location-container">
+            <div class="location-card">
+                <div class="compass-container">
+                    <div class="compass-directions" id="compass">
+                        <span class="compass-dir">N</span>
+                        <span class="compass-dir">NE</span>
+                        <span class="compass-dir">E</span>
+                        <span class="compass-dir">SE</span>
+                        <span class="compass-dir">S</span>
+                        <span class="compass-dir">SW</span>
+                        <span class="compass-dir">W</span>
+                        <span class="compass-dir">NW</span>
+                    </div>
+                    <div class="compass-marker"></div>
+                </div>
+                <div class="location-info">
+                    <div class="street-name" id="street-name">Loading...</div>
+                    <div class="zone-name" id="zone-name">Los Santos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Voice Chat Indicator (Bottom Right) -->
+        <div id="voice-container">
+            <div class="voice-indicator">
+                <div class="voice-icon" id="voice-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                        <line x1="12" y1="19" x2="12" y2="23"></line>
+                        <line x1="8" y1="23" x2="16" y2="23"></line>
+                    </svg>
+                </div>
+                <div class="voice-bars">
+                    <div class="voice-bar"></div>
+                    <div class="voice-bar"></div>
+                    <div class="voice-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

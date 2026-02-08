@@ -1,0 +1,759 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Feuerwehr Farben - Rot, Silber, Weiß */
+    --color-health: rgb(220, 20, 60);        /* Crimson Rot */
+    --color-armor: rgb(192, 192, 192);       /* Silber */
+    --color-hunger: rgb(255, 69, 0);         /* Orange-Rot */
+    --color-thirst: rgb(176, 196, 222);      /* Hell-Silber-Blau */
+    --color-stamina: rgb(255, 255, 255);     /* Weiß */
+    --color-oxygen: rgb(169, 169, 169);      /* Dunkel-Grau */
+    --color-speed: rgb(220, 20, 60);         /* Crimson Rot */
+    --color-fuel: rgb(255, 0, 0);            /* Feuerwehr-Rot */
+    --color-accent: rgb(220, 20, 60);        /* Haupt-Rot */
+    --color-silver: rgb(192, 192, 192);      /* Silber */
+    
+    /* Theme Colors */
+    --bg-primary: rgba(10, 10, 15, 0.85);
+    --bg-secondary: rgba(20, 20, 30, 0.75);
+    --bg-glass: rgba(255, 255, 255, 0.05);
+    --border-glass: rgba(192, 192, 192, 0.2);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --glow-intensity: 8px;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    overflow: hidden;
+    background: transparent;
+    color: var(--text-primary);
+}
+
+#hud-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    pointer-events: none;
+}
+
+/* ========================================
+   CINEMATIC MODE
+======================================== */
+#cinematic-bars {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+#cinematic-bars.hidden {
+    display: none;
+}
+
+.bar {
+    width: 100%;
+    height: 15vh;
+    background: #000;
+    position: absolute;
+    animation: barSlide 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.bar-top {
+    top: 0;
+}
+
+.bar-bottom {
+    bottom: 0;
+}
+
+@keyframes barSlide {
+    from {
+        transform: scaleY(0);
+    }
+    to {
+        transform: scaleY(1);
+    }
+}
+
+/* ========================================
+   STATUS BARS (Bottom Right)
+======================================== */
+#status-container {
+    position: absolute;
+    bottom: 3.5vh;  /* Etwas höher für besseren Abstand */
+    right: 2vh;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8vh;
+    animation: slideInRight 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    align-items: flex-end;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    gap: 1.2vh;
+    padding: 1vh 1.5vh;
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--border-glass);
+    border-radius: 1.2vh;
+    min-width: 28vh;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.status-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.status-bar:hover::before {
+    opacity: 1;
+}
+
+.status-icon {
+    width: 3vh;
+    height: 3vh;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 var(--glow-intensity) currentColor);
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+    0%, 100% {
+        opacity: 0.9;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+#health-bar .status-icon { color: var(--color-health); }
+#armor-bar .status-icon { color: var(--color-armor); }
+#hunger-bar .status-icon { color: var(--color-hunger); }
+#thirst-bar .status-icon { color: var(--color-thirst); }
+#stamina-bar .status-icon { color: var(--color-stamina); }
+#oxygen-bar .status-icon { color: var(--color-oxygen); }
+
+.status-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vh;
+}
+
+.status-label {
+    font-size: 1.2vh;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    text-transform: uppercase;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.status-fill-container {
+    height: 0.8vh;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0.4vh;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 0.5vh rgba(0, 0, 0, 0.5);
+}
+
+.status-fill {
+    height: 100%;
+    width: 100%;
+    border-radius: 0.4vh;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.status-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.3) 50%, 
+        rgba(255,255,255,0) 100%
+    );
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.status-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#health-fill { background: linear-gradient(90deg, var(--color-health) 0%, rgba(255, 71, 87, 0.6) 100%); box-shadow: 0 0 1.5vh var(--color-health); }
+#armor-fill { background: linear-gradient(90deg, var(--color-armor) 0%, rgba(0, 168, 255, 0.6) 100%); box-shadow: 0 0 1.5vh var(--color-armor); }
+#hunger-fill { background: linear-gradient(90deg, var(--color-hunger) 0%, rgba(255, 168, 0, 0.6) 100%); box-shadow: 0 0 1.5vh var(--color-hunger); }
+#thirst-fill { background: linear-gradient(90deg, var(--color-thirst) 0%, rgba(0, 212, 255, 0.6) 100%); box-shadow: 0 0 1.5vh var(--color-thirst); }
+#stamina-fill { background: linear-gradient(90deg, var(--color-stamina) 0%, rgba(124, 252, 0, 0.6) 100%); box-shadow: 0 0 1.5vh var(--color-stamina); }
+#oxygen-fill { background: linear-gradient(90deg, var(--color-oxygen) 0%, rgba(94, 201, 255, 0.6) 100%); box-shadow: 0 0 1.5vh var(--color-oxygen); }
+
+.status-value {
+    position: absolute;
+    right: 1.5vh;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.8vh;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 1vh currentColor;
+}
+
+/* ========================================
+   MONEY DISPLAY (Top Right)
+======================================== */
+#money-container {
+    position: absolute;
+    top: 2.5vh;
+    right: 2vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    animation: slideInRight 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.money-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5vh;
+    padding: 1.5vh 2vh;
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--border-glass);
+    border-radius: 1.2vh;
+    min-width: 22vh;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.money-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(220, 20, 60, 0.15) 0%, rgba(192, 192, 192, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.money-card:hover::before {
+    opacity: 1;
+}
+
+.money-icon {
+    width: 3.5vh;
+    height: 3.5vh;
+    color: rgb(220, 20, 60);
+    filter: drop-shadow(0 0 1vh rgb(220, 20, 60));
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
+.money-content {
+    flex: 1;
+}
+
+.money-label {
+    font-size: 1.2vh;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    opacity: 0.7;
+    text-transform: uppercase;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.money-value {
+    font-size: 2.2vh;
+    font-weight: 800;
+    font-family: 'Orbitron', sans-serif;
+    color: rgb(192, 192, 192);
+    text-shadow: 0 0 1vh rgb(192, 192, 192);
+    letter-spacing: 0.05em;
+}
+
+/* ========================================
+   VEHICLE HUD (Bottom Center - Wide & Flat)
+======================================== */
+#vehicle-container {
+    position: absolute;
+    bottom: 3vh;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: slideInBottom 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideInBottom {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.vehicle-main {
+    display: flex;
+    align-items: center;
+    gap: 2vh;
+    padding: 1.5vh 3vh;
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--border-glass);
+    border-radius: 1.5vh;
+    position: relative;
+    overflow: hidden;
+    min-width: 70vh; /* Breiter! */
+}
+
+.vehicle-main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(220, 20, 60, 0.15) 0%, rgba(192, 192, 192, 0.1) 100%);
+}
+
+.speedometer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5vh;
+}
+
+.speed-circle {
+    width: 8vh; /* Kleiner */
+    height: 8vh;
+    position: relative;
+}
+
+.speed-ring {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.speed-ring-bg {
+    fill: none;
+    stroke: rgba(192, 192, 192, 0.2);
+    stroke-width: 6;
+}
+
+.speed-ring-fill {
+    fill: none;
+    stroke: var(--color-speed);
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-dasharray: 283;
+    stroke-dashoffset: 283;
+    transition: stroke-dashoffset 0.3s ease;
+    filter: drop-shadow(0 0 1vh var(--color-speed));
+}
+
+.speed-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.speed-value {
+    font-size: 3vh; /* Kleiner */
+    font-weight: 900;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--color-speed);
+    text-shadow: 0 0 1.5vh var(--color-speed);
+    line-height: 1;
+}
+
+.speed-unit {
+    font-size: 1vh;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    opacity: 0.7;
+    margin-top: 0.3vh;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.vehicle-stats {
+    display: flex;
+    gap: 2.5vh;
+    flex: 1;
+}
+
+.vehicle-stat {
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+    flex: 1;
+}
+
+.stat-icon {
+    width: 2.5vh;
+    height: 2.5vh;
+    color: var(--color-silver);
+    filter: drop-shadow(0 0 0.5vh currentColor);
+    flex-shrink: 0;
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4vh;
+    flex: 1;
+}
+
+.stat-label {
+    font-size: 1.1vh;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.stat-bar {
+    height: 0.8vh;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0.4vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.stat-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 0.4vh;
+    transition: width 0.3s ease;
+}
+
+#rpm-fill {
+    background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.6) 100%);
+    box-shadow: 0 0 1vh rgb(255, 255, 255);
+}
+
+#fuel-fill {
+    background: linear-gradient(90deg, var(--color-fuel) 0%, rgba(255, 0, 0, 0.6) 100%);
+    box-shadow: 0 0 1vh var(--color-fuel);
+}
+
+.stat-value {
+    font-size: 1.2vh;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--color-silver);
+}
+
+.gear-display {
+    font-size: 3.5vh; /* Größer für bessere Sichtbarkeit */
+    color: var(--color-speed);
+    text-shadow: 0 0 1.5vh var(--color-speed);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    min-width: 4vh;
+    text-align: center;
+}
+
+/* ========================================
+   LOCATION & COMPASS (Top Center)
+======================================== */
+#location-container {
+    position: absolute;
+    top: 2.5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: slideInTop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideInTop {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.location-card {
+    display: flex;
+    align-items: center;
+    gap: 2vh;
+    padding: 1.5vh 2.5vh;
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--border-glass);
+    border-radius: 1.5vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.location-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(192, 192, 192, 0.15) 0%, rgba(220, 20, 60, 0.1) 100%);
+}
+
+.compass-container {
+    position: relative;
+    width: 6vh;
+    height: 3vh;
+    overflow: hidden;
+    border-radius: 0.5vh;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.compass-directions {
+    position: absolute;
+    display: flex;
+    white-space: nowrap;
+    transition: transform 0.3s ease;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.compass-dir {
+    font-size: 1.4vh;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    padding: 0 2vh;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.compass-dir:nth-child(1),
+.compass-dir:nth-child(5) {
+    color: rgb(220, 20, 60);
+    text-shadow: 0 0 1vh rgb(220, 20, 60);
+}
+
+.compass-marker {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0.3vh;
+    height: 100%;
+    background: rgb(220, 20, 60);
+    box-shadow: 0 0 1vh rgb(220, 20, 60);
+}
+
+.location-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3vh;
+}
+
+.street-name {
+    font-size: 1.6vh;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    color: rgb(192, 192, 192);
+    text-shadow: 0 0 1vh rgb(192, 192, 192);
+}
+
+.zone-name {
+    font-size: 1.2vh;
+    font-weight: 500;
+    opacity: 0.7;
+    letter-spacing: 0.1em;
+}
+
+/* ========================================
+   VOICE CHAT (Bottom Left, safely above Minimap)
+======================================== */
+#voice-container {
+    position: absolute;
+    bottom: 24vh;  /* Höher, damit Minimap frei bleibt */
+    left: 2vh;
+    animation: slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.voice-indicator {
+    display: flex;
+    align-items: center;
+    gap: 1.5vh;
+    padding: 1.5vh 2vh;
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--border-glass);
+    border-radius: 1.2vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.voice-indicator::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(192, 192, 192, 0.15) 0%, rgba(192, 192, 192, 0) 100%);
+}
+
+.voice-icon {
+    width: 3vh;
+    height: 3vh;
+    color: rgb(192, 192, 192);
+    filter: drop-shadow(0 0 1vh rgb(192, 192, 192));
+}
+
+.voice-icon.talking {
+    animation: voicePulse 0.3s ease-in-out infinite;
+}
+
+@keyframes voicePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.voice-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.4vh;
+    height: 2.5vh;
+}
+
+.voice-bar {
+    width: 0.5vh;
+    height: 30%;
+    background: rgb(192, 192, 192);
+    border-radius: 0.3vh;
+    box-shadow: 0 0 0.8vh rgb(192, 192, 192);
+    transition: height 0.1s ease;
+}
+
+.voice-indicator.range-whisper .voice-bar:nth-child(1) { height: 30%; }
+.voice-indicator.range-normal .voice-bar:nth-child(1),
+.voice-indicator.range-normal .voice-bar:nth-child(2) { height: 60%; }
+.voice-indicator.range-shout .voice-bar { height: 100%; }
+
+.voice-indicator.talking .voice-bar {
+    animation: voiceBarPulse 0.5s ease-in-out infinite;
+}
+
+@keyframes voiceBarPulse {
+    0%, 100% { height: 30%; }
+    50% { height: 90%; }
+}
+
+.voice-indicator.talking .voice-bar:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.voice-indicator.talking .voice-bar:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+/* ========================================
+   UTILITY CLASSES
+======================================== */
+.hidden {
+    display: none !important;
+}
+
+/* ========================================
+   RESPONSIVE ANPASSUNGEN
+======================================== */
+@media (max-width: 1920px) {
+    :root {
+        font-size: 0.9vw;
+    }
+}
+
+@media (max-width: 1366px) {
+    :root {
+        font-size: 0.85vw;
+    }
+}
+
+/* ========================================
+   PERFORMANCE OPTIMIERUNGEN
+======================================== */
+.status-fill,
+.stat-fill,
+.speed-ring-fill {
+    will-change: width, stroke-dashoffset;
+}
+
+#compass {
+    will-change: transform;
+}
