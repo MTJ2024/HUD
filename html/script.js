@@ -137,7 +137,8 @@ document.getElementById('save-btn').addEventListener('click', function() {
 
 // Helper function to get resource name
 function GetParentResourceName() {
-    let resourceName = 'HUD';
+    // Default to the resource folder name
+    let resourceName = 'hud';
     if (window.location.href.includes('://nui/')) {
         const match = window.location.href.match(/nui:\/\/([^\/]+)/);
         if (match) {
@@ -147,19 +148,4 @@ function GetParentResourceName() {
     return resourceName;
 }
 
-// Demo: Update HUD values (for testing)
-function updateHUDDemo() {
-    // This would normally be updated from the game
-    setInterval(() => {
-        const healthValue = document.querySelector('#health-bar .hud-value');
-        const healthBar = document.querySelector('#health-bar .hud-bar-fill');
-        
-        // Random values for demo
-        const health = Math.floor(Math.random() * 100);
-        if (healthValue) healthValue.textContent = health;
-        if (healthBar) healthBar.style.width = health + '%';
-    }, 5000);
-}
 
-// Uncomment for standalone testing
-// updateHUDDemo();

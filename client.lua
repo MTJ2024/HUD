@@ -49,6 +49,7 @@ RegisterKeyMapping('hudedit', 'Toggle HUD Edit Mode', 'keyboard', 'F9')
 
 -- Initialize HUD
 CreateThread(function()
+    -- Wait for NUI to be fully loaded before sending initial data
     Wait(1000)
     local savedPositions = loadPositions()
     SendNUIMessage({
