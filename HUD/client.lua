@@ -1,6 +1,7 @@
 local hudActive = true
 local cinematicMode = false
 local voiceRange = 'normal'
+local isPauseMenuOpen = false
 
 -- ESX initialisieren
 ESX = exports["es_extended"]:getSharedObject()
@@ -223,4 +224,34 @@ CreateThread(function()
         action = 'setConfig',
         config = Config
     })
+end)
+
+-- Pause Menu Detection Thread
+CreateThread(function()
+    while true do
+        Wait(200) -- Check every 200ms
+        
+        local pauseMenuActive = IsPauseMenuActive()
+        
+        -- Wenn sich der Pause Menu Status geändert hat
+        if pauseMenuActive ~= isPauseMenuOpen then
+            isPauseMenuOpen = pauseMenuActive
+            
+            -- HUD ausblenden wenn Pause Menu offen ist
+            if isPauseMenuOpen then
+                SendNUIMessage({
+                    action = 'toggleHud',
+                    state = false
+                })
+            else
+                -- HUD wieder einblenden wenn Pause Menu geschlossen wird (nur wenn HUD aktiv ist)
+                if hudActive then
+                    SendNUIMessage({
+                        action = 'toggleHud',
+                        state = true
+                    })
+                end
+            end
+        end
+    end
 end)
