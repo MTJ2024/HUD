@@ -229,8 +229,14 @@ body {
     transform: translateX(-50%);
 }
 
-#compass-display {
+#id-display {
     top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#compass-display {
+    top: 130px;
     left: 50%;
     transform: translateX(-50%);
 }

@@ -194,9 +194,9 @@ const elementToggles = {
     'toggle-cash': 'cash-display',
     'toggle-bank': 'bank-display',
     'toggle-server': 'server-display',
+    'toggle-id': 'id-display',
     'toggle-compass': 'compass-display',
     'toggle-street': 'street-display',
-    'toggle-info-column': 'info-column',
     'toggle-weapon': 'weapon-display',
     'toggle-speedometer': 'speedometer'
 };
@@ -209,12 +209,12 @@ const defaultElementSettings = {
     'toggle-oxygen': false,  // Hidden by default
     'toggle-stress': false,  // Hidden by default
     'toggle-sprint': false,  // Hidden by default
-    'toggle-cash': false,    // Hidden - use info column instead
-    'toggle-bank': false,    // Hidden - use info column instead
-    'toggle-server': false,  // Hidden - use info column instead
-    'toggle-compass': false, // Hidden - use info column instead
-    'toggle-street': false,  // Hidden - use info column instead
-    'toggle-info-column': true,  // Visible by default
+    'toggle-cash': true,     // Visible individually
+    'toggle-bank': true,     // Visible individually
+    'toggle-server': true,   // Visible individually
+    'toggle-id': true,       // Visible individually
+    'toggle-compass': true,  // Visible individually
+    'toggle-street': true,   // Visible individually
     'toggle-weapon': true,
     'toggle-speedometer': true
 };
@@ -433,56 +433,36 @@ function updateHUDData(data) {
     if (data.cash !== undefined) {
         const cashText = document.querySelector('#cash-display .hud-text');
         if (cashText) cashText.textContent = '$' + formatNumber(data.cash);
-        
-        // Update info column cash
-        const infoCash = document.getElementById('info-cash');
-        if (infoCash) infoCash.textContent = '$' + formatNumber(data.cash);
     }
     
     // Update bank
     if (data.bank !== undefined) {
         const bankText = document.querySelector('#bank-display .hud-text');
         if (bankText) bankText.textContent = '$' + formatNumber(data.bank);
-        
-        // Update info column bank
-        const infoBank = document.getElementById('info-bank');
-        if (infoBank) infoBank.textContent = '$' + formatNumber(data.bank);
     }
     
     // Update server name
     if (data.serverName !== undefined) {
         const serverText = document.querySelector('#server-display .hud-text');
         if (serverText) serverText.textContent = data.serverName;
-        
-        // Update info column server
-        const infoServer = document.getElementById('info-server');
-        if (infoServer) infoServer.textContent = data.serverName;
     }
     
     // Update player ID
     if (data.playerId !== undefined) {
-        const infoId = document.getElementById('info-id');
-        if (infoId) infoId.textContent = data.playerId;
+        const idText = document.querySelector('#id-display .hud-text');
+        if (idText) idText.textContent = 'ID: ' + data.playerId;
     }
     
     // Update compass
     if (data.compass !== undefined) {
         const compassText = document.querySelector('#compass-display .hud-text');
         if (compassText) compassText.textContent = data.compass;
-        
-        // Update info column compass
-        const infoCompass = document.getElementById('info-compass');
-        if (infoCompass) infoCompass.textContent = data.compass;
     }
     
     // Update street name
     if (data.street !== undefined) {
         const streetText = document.querySelector('#street-display .hud-text');
         if (streetText) streetText.textContent = data.street;
-        
-        // Update info column street
-        const infoStreet = document.getElementById('info-street');
-        if (infoStreet) infoStreet.textContent = data.street;
     }
     
     // Update weapon display
