@@ -1,15 +1,18 @@
 # HUD System
 
-Ein hochmodernes, anpassbares HUD-System für FiveM mit kreisförmigen Anzeigen, Drag-and-Drop-Positionierung und 4 Farbthemen.
+Ein hochmodernes, anpassbares HUD-System für FiveM mit kreisförmigen Anzeigen, Drag-and-Drop-Positionierung, Mausrad-Zoom und Info-Spalte.
 
 ## Features
 
 ✅ **Moderne Kreisförmige Anzeigen** - Runde, hochmoderne Icons statt traditioneller Balken
-✅ **13 Wählbare HUD-Elemente** - Jedes Element kann einzeln ein-/ausgeblendet werden
+✅ **Mausrad-Zoom** - Skaliere HUD-Elemente von 0.5x bis 2.0x
+✅ **Info-Spalte** - Kompakte Übersicht für Cash, Bank, Server, ID, Kompass, Straße
+✅ **14 Wählbare HUD-Elemente** - Jedes Element kann einzeln ein-/ausgeblendet werden
+✅ **Sinnvolle Defaults** - Cleanes Standard-Layout beim ersten Start
 ✅ **4 Farbthemen** - Blau, Rot, Grün, Lila
 ✅ **Toggle Edit-Modus** - Drücke **F10**, um den Edit-Modus ein-/auszuschalten
 ✅ **Drag-and-Drop** - Ziehe HUD-Elemente per Maus an die gewünschte Position
-✅ **Automatisches Speichern** - Positionen, Sichtbarkeit und Farbschema werden gespeichert
+✅ **Automatisches Speichern** - Positionen, Sichtbarkeit, Zoom und Farbschema werden gespeichert
 ✅ **Persistente Einstellungen** - Alle Einstellungen bleiben nach Neustart erhalten
 ✅ **Echtzeit-Updates** - Alle Werte werden live vom Spiel aktualisiert
 ✅ **Tacho für Fahrzeuge** - Clean, zentrierter Tacho für Auto, Flugzeug, Hubschrauber
@@ -19,26 +22,35 @@ Ein hochmodernes, anpassbares HUD-System für FiveM mit kreisförmigen Anzeigen,
 Das System enthält folgende wählbare HUD-Elemente:
 
 ### Kreisförmige Anzeigen
-- ❤️ **Gesundheit** (Health) - Lebensenergie in Prozent
-- 🛡️ **Rüstung** (Armor) - Rüstungswert in Prozent
-- ⚡ **Ausdauer** (Stamina) - Allgemeine Ausdauer
-- 🫁 **Sauerstoff** (Oxygen) - Atemluft unter Wasser
-- 😰 **Stress** - Stresslevel (kann mit Stress-System integriert werden)
-- 🏃 **Sprint-Energie** - Verbleibende Sprint-Ausdauer
+- ❤️ **Gesundheit** (Health) - Lebensenergie in Prozent *(Standard: Sichtbar)*
+- 🛡️ **Rüstung** (Armor) - Rüstungswert in Prozent *(Standard: Sichtbar)*
+- ⚡ **Ausdauer** (Stamina) - Allgemeine Ausdauer *(Standard: Sichtbar)*
+- 🫁 **Sauerstoff** (Oxygen) - Atemluft unter Wasser *(Standard: Versteckt)*
+- 😰 **Stress** - Stresslevel *(Standard: Versteckt)*
+- 🏃 **Sprint-Energie** - Verbleibende Sprint-Ausdauer *(Standard: Versteckt)*
 
-### Informations-Anzeigen
-- 💵 **Bargeld** (Cash) - Bargeld des Spielers
-- 🏦 **Bank** - Bank-Guthaben
-- 🖥️ **Server Name** - Name des Servers
-- 🧭 **Kompass** - Himmelsrichtung (N, NE, E, SE, S, SW, W, NW)
-- 📍 **Straßenname** - Aktuelle Straße und Kreuzung
+### Info-Spalte *(NEU!)*
+📊 **Info-Spalte** - Kompakte Übersicht in einer Spalte *(Standard: Sichtbar)*
+- 💵 Cash - Bargeld des Spielers (live)
+- 🏦 Bank - Bank-Guthaben (live)
+- 🖥️ Server - Name des Servers
+- 🆔 ID - Spieler-ID (automatisch)
+- 🧭 Kompass - Himmelsrichtung (live: N, NE, E, SE, S, SW, W, NW)
+- 📍 Straße - Aktueller Straßenname mit Kreuzung (live)
+
+### Einzelne Informations-Anzeigen
+- 💵 **Bargeld** (Cash) - Einzelanzeige *(Standard: Versteckt, nutze Info-Spalte)*
+- 🏦 **Bank** - Einzelanzeige *(Standard: Versteckt, nutze Info-Spalte)*
+- 🖥️ **Server Name** - Einzelanzeige *(Standard: Versteckt, nutze Info-Spalte)*
+- 🧭 **Kompass** - Einzelanzeige *(Standard: Versteckt, nutze Info-Spalte)*
+- 📍 **Straßenname** - Einzelanzeige *(Standard: Versteckt, nutze Info-Spalte)*
 
 ### Konditionale Anzeigen
-- 🔫 **Waffen-Display** - Erscheint nur wenn Waffe gezogen
+- 🔫 **Waffen-Display** - Erscheint nur wenn Waffe gezogen *(Standard: Aktiviert)*
   - Waffenname
   - Waffen-ID
   - Munition (im Magazin / Reserve)
-- 🚗 **Tacho** - Erscheint nur im Fahrzeug
+- 🚗 **Tacho** - Erscheint nur im Fahrzeug *(Standard: Aktiviert)*
   - Geschwindigkeit in km/h
   - Aktueller Gang
   - Farbwechsel bei hohen Geschwindigkeiten
@@ -55,23 +67,43 @@ Das System enthält folgende wählbare HUD-Elemente:
 ### Einstellungspanel öffnen
 1. Drücke **F10** (oder verwende den Befehl `/hudedit`)
 2. Das Einstellungspanel erscheint mit:
-   - Liste aller 13 HUD-Elemente zum Ein-/Ausschalten
+   - Liste aller 14 HUD-Elemente zum Ein-/Ausschalten
    - 4 Farbthemen zur Auswahl
-   - Anweisungen für Drag & Drop
+   - Anweisungen für Drag & Drop und Mausrad-Zoom
+
+### Mausrad-Zoom (NEU!)
+1. Im Edit-Modus (F10 gedrückt)
+2. **Mausrad nach oben** = Vergrößern (bis 2.0x)
+3. **Mausrad nach unten** = Verkleinern (bis 0.5x)
+4. Der Zoom gilt für ALLE HUD-Elemente gleichzeitig
+5. Wird automatisch gespeichert
 
 ### HUD-Elemente wählen
 1. Im Einstellungspanel siehst du alle verfügbaren Elemente
 2. Aktiviere/Deaktiviere Checkboxen um Elemente ein-/auszublenden
-3. Änderungen werden automatisch gespeichert
+3. **Tipp:** Die Info-Spalte fasst viele Infos kompakt zusammen
+4. Einzelne Anzeigen (Cash, Bank, etc.) können versteckt werden
+5. Änderungen werden automatisch gespeichert
 
 ### Farbthema wählen
 1. Wähle eines der 4 verfügbaren Themen:
-   - **Blau** - Klassisch, professionell
+   - **Blau** - Klassisch, professionell (Standard)
    - **Rot** - Aggressiv, sportlich
    - **Grün** - Natürlich, modern
    - **Lila** - Futuristisch, edel
 2. Das gewählte Thema wird sofort angewendet
 3. Die Auswahl wird automatisch gespeichert
+
+### Standard-Einstellungen
+Beim **ersten Start** sind folgende Elemente sichtbar:
+- ✅ Gesundheit, Rüstung, Ausdauer (Kreise links)
+- ✅ Info-Spalte (kompakt rechts oben)
+- ✅ Waffe (wenn gezogen)
+- ✅ Tacho (im Fahrzeug)
+
+**Versteckt** bis manuell aktiviert:
+- ❌ Sauerstoff, Stress, Sprint (optional)
+- ❌ Einzelne Cash/Bank/Server/Kompass-Anzeigen (Info-Spalte nutzen)
 
 ### HUD-Elemente positionieren
 1. Klicke auf ein HUD-Element und halte die Maustaste gedrückt
@@ -126,9 +158,12 @@ if (!theme) theme = 'blue'; // Ändere 'blue' zu 'red', 'green' oder 'purple'
   - `hud_positions` - Positionen der HUD-Elemente
   - `hud_element_settings` - Sichtbarkeit der Elemente
   - `hud_theme` - Gewähltes Farbthema
+  - `hud_scale` - Zoom-Level (0.5 - 2.0)
 - **Framework**: Standalone (keine ESX/QB-Core Abhängigkeiten erforderlich)
 - **Update-Frequenz**: 100ms (10x pro Sekunde)
 - **Performance**: Optimiert für minimale CPU-Last
+- **Zoom-Bereich**: 0.5x (50%) bis 2.0x (200%)
+- **Default-Settings**: Definiert in `html/script.js` als `defaultElementSettings`
 
 ## Farbthemen
 
