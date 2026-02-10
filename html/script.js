@@ -488,29 +488,18 @@ function updateHUDData(data) {
         const speedoIcon = speedometer.querySelector('.speedo-icon');
         const speedoSpeed = speedometer.querySelector('.speedo-speed');
         const speedoGear = speedometer.querySelector('.speedo-gear');
-        const speedoFill = speedometer.querySelector('.speedo-fill');
         
         if (speedoIcon) speedoIcon.textContent = data.vehicle.icon;
-        if (speedoSpeed) speedoSpeed.textContent = data.vehicle.speed;
-        if (speedoGear) speedoGear.textContent = data.vehicle.gear;
-        
-        // Update circular progress based on speed (max 240 km/h for visualization)
-        if (speedoFill) {
-            const maxSpeed = 240;
-            const percentage = Math.min(100, (data.vehicle.speed / maxSpeed) * 100);
-            const circumference = 377;
-            const offset = circumference - (circumference * percentage) / 100;
-            speedoFill.style.strokeDashoffset = offset;
-            
-            // Change color based on speed
-            if (data.vehicle.speed > 180) {
-                speedoFill.style.stroke = '#ff3366';
-            } else if (data.vehicle.speed > 120) {
-                speedoFill.style.stroke = '#ffcc00';
+        if (speedoSpeed) {
+            speedoSpeed.textContent = data.vehicle.speed;
+            // Add high-speed indicator
+            if (data.vehicle.speed > 160) {
+                speedoSpeed.classList.add('high-speed');
             } else {
-                speedoFill.style.stroke = '#00ccff';
+                speedoSpeed.classList.remove('high-speed');
             }
         }
+        if (speedoGear) speedoGear.textContent = data.vehicle.gear;
     } else if (speedometer) {
         speedometer.style.display = 'none';
     }

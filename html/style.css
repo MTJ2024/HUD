@@ -591,88 +591,86 @@ body.theme-purple .sprint-circle { stroke: #ba68c8 !important; }
 }
 
 /* Speedometer Styles */
+/* Speedometer - Professional Design */
 .hud-speedometer {
-    background: rgba(0, 0, 0, 0.85);
-    padding: 12px;
-    border-radius: 50%;
-    width: 164px;
-    height: 164px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 123, 255, 0.3);
-    border: 2px solid rgba(0, 123, 255, 0.3);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 30, 0.95) 100%);
+    padding: 16px 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
 }
 
 .speedo-container {
-    position: relative;
-    width: 140px;
-    height: 140px;
-}
-
-.speedo-circle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: rotate(-90deg);
-}
-
-.speedo-bg {
-    fill: none;
-    stroke: rgba(255, 255, 255, 0.1);
-    stroke-width: 8;
-}
-
-.speedo-fill {
-    fill: none;
-    stroke: url(#speedoGradient);
-    stroke: #00ccff;
-    stroke-width: 8;
-    stroke-linecap: round;
-    stroke-dasharray: 377;
-    transition: stroke-dashoffset 0.2s ease;
-}
-
-.speedo-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 140px;
-    height: 140px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    z-index: 1;
+    gap: 12px;
 }
 
 .speedo-icon {
-    font-size: 24px;
-    margin-bottom: 4px;
-    opacity: 0.8;
+    font-size: 28px;
+    opacity: 0.9;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.speedo-data {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.speedo-speed-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
 }
 
 .speedo-speed {
-    font-size: 36px;
-    font-weight: bold;
-    color: #00ccff;
+    font-size: 42px;
+    font-weight: 700;
+    color: #ffffff;
     line-height: 1;
-    text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    letter-spacing: -1px;
+    text-shadow: 0 2px 8px rgba(0, 204, 255, 0.4);
 }
 
 .speedo-unit {
-    font-size: 11px;
-    color: #888;
-    margin-top: 2px;
-    letter-spacing: 1px;
+    font-size: 14px;
+    color: #999;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    align-self: flex-end;
+    margin-bottom: 4px;
 }
 
 .speedo-gear {
-    position: absolute;
-    bottom: 20px;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 13px;
+    font-weight: 600;
     color: #ffcc00;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 2px 8px;
-    border-radius: 4px;
-    min-width: 24px;
+    background: rgba(255, 204, 0, 0.1);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 204, 0, 0.3);
+    min-width: 32px;
     text-align: center;
+    letter-spacing: 1px;
+}
+
+/* High speed indicator */
+.speedo-speed.high-speed {
+    color: #ff4444;
+    text-shadow: 0 2px 8px rgba(255, 68, 68, 0.6);
+}
+
+/* Circle elements removed - using modern bar design */
+.speedo-circle,
+.speedo-bg,
+.speedo-fill,
+.speedo-content {
+    display: none;
 }
