@@ -59,6 +59,15 @@ end, false)
 
 RegisterKeyMapping('hud', 'Toggle HUD', 'keyboard', 'F7')
 
+-- Settings Toggle
+RegisterCommand('hudsettings', function()
+    SendNUIMessage({
+        action = 'toggleSettings'
+    })
+end, false)
+
+RegisterKeyMapping('hudsettings', 'HUD Settings', 'keyboard', 'F8')
+
 -- Main HUD Update Thread
 CreateThread(function()
     while true do

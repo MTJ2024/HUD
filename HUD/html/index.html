@@ -16,16 +16,57 @@
         <div class="bar bar-bottom"></div>
     </div>
 
+    <!-- Settings Panel -->
+    <div id="settings-panel" class="hidden">
+        <div class="settings-header">
+            <h2>HUD Einstellungen</h2>
+            <button class="close-btn" onclick="closeSettings()">×</button>
+        </div>
+        <div class="settings-content">
+            <div class="settings-section">
+                <h3>📍 Position anpassen</h3>
+                <p>Ziehe die HUD-Elemente an die gewünschte Position</p>
+                <button class="btn-primary" onclick="toggleEditMode()">
+                    <span id="edit-mode-text">Bearbeitungsmodus aktivieren</span>
+                </button>
+            </div>
+            <div class="settings-section">
+                <h3>🎨 Stil</h3>
+                <label>
+                    <input type="checkbox" id="show-icons" checked onchange="toggleStyle()">
+                    Moderne Icons verwenden
+                </label>
+                <label>
+                    <input type="checkbox" id="show-glow" checked onchange="toggleGlow()">
+                    Glow-Effekte
+                </label>
+            </div>
+            <div class="settings-section">
+                <h3>🔄 Zurücksetzen</h3>
+                <button class="btn-secondary" onclick="resetPositions()">Positionen zurücksetzen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Button -->
+    <button id="settings-btn" onclick="openSettings()">⚙️</button>
+
     <!-- Main HUD Container -->
     <div id="hud-container">
         <!-- Status Bars (Bottom Left) -->
-        <div id="status-container">
+        <div id="status-container" class="draggable-container">
             <!-- Health -->
-            <div class="status-bar" id="health-bar">
-                <div class="status-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            <div class="status-bar modern-status" id="health-bar">
+                <div class="status-icon-wrapper">
+                    <svg class="circular-progress" viewBox="0 0 36 36">
+                        <circle class="progress-bg" cx="18" cy="18" r="16"></circle>
+                        <circle class="progress-fill health-progress" cx="18" cy="18" r="16" id="health-circle"></circle>
                     </svg>
+                    <div class="status-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                    </div>
                 </div>
                 <div class="status-content">
                     <div class="status-label">HEALTH</div>
@@ -38,11 +79,17 @@
             </div>
 
             <!-- Armor -->
-            <div class="status-bar" id="armor-bar">
-                <div class="status-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <div class="status-bar modern-status" id="armor-bar">
+                <div class="status-icon-wrapper">
+                    <svg class="circular-progress" viewBox="0 0 36 36">
+                        <circle class="progress-bg" cx="18" cy="18" r="16"></circle>
+                        <circle class="progress-fill armor-progress" cx="18" cy="18" r="16" id="armor-circle"></circle>
                     </svg>
+                    <div class="status-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
                 </div>
                 <div class="status-content">
                     <div class="status-label">ARMOR</div>
@@ -55,14 +102,20 @@
             </div>
 
             <!-- Hunger -->
-            <div class="status-bar" id="hunger-bar">
-                <div class="status-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
-                        <line x1="6" y1="1" x2="6" y2="4"></line>
-                        <line x1="10" y1="1" x2="10" y2="4"></line>
-                        <line x1="14" y1="1" x2="14" y2="4"></line>
+            <div class="status-bar modern-status" id="hunger-bar">
+                <div class="status-icon-wrapper">
+                    <svg class="circular-progress" viewBox="0 0 36 36">
+                        <circle class="progress-bg" cx="18" cy="18" r="16"></circle>
+                        <circle class="progress-fill hunger-progress" cx="18" cy="18" r="16" id="hunger-circle"></circle>
                     </svg>
+                    <div class="status-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                            <line x1="6" y1="1" x2="6" y2="4"></line>
+                            <line x1="10" y1="1" x2="10" y2="4"></line>
+                            <line x1="14" y1="1" x2="14" y2="4"></line>
+                        </svg>
+                    </div>
                 </div>
                 <div class="status-content">
                     <div class="status-label">HUNGER</div>
@@ -75,11 +128,17 @@
             </div>
 
             <!-- Thirst -->
-            <div class="status-bar" id="thirst-bar">
-                <div class="status-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+            <div class="status-bar modern-status" id="thirst-bar">
+                <div class="status-icon-wrapper">
+                    <svg class="circular-progress" viewBox="0 0 36 36">
+                        <circle class="progress-bg" cx="18" cy="18" r="16"></circle>
+                        <circle class="progress-fill thirst-progress" cx="18" cy="18" r="16" id="thirst-circle"></circle>
                     </svg>
+                    <div class="status-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                        </svg>
+                    </div>
                 </div>
                 <div class="status-content">
                     <div class="status-label">THIRST</div>
@@ -92,11 +151,17 @@
             </div>
 
             <!-- Stamina -->
-            <div class="status-bar" id="stamina-bar">
-                <div class="status-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            <div class="status-bar modern-status" id="stamina-bar">
+                <div class="status-icon-wrapper">
+                    <svg class="circular-progress" viewBox="0 0 36 36">
+                        <circle class="progress-bg" cx="18" cy="18" r="16"></circle>
+                        <circle class="progress-fill stamina-progress" cx="18" cy="18" r="16" id="stamina-circle"></circle>
                     </svg>
+                    <div class="status-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
                 </div>
                 <div class="status-content">
                     <div class="status-label">STAMINA</div>
@@ -109,12 +174,18 @@
             </div>
 
             <!-- Oxygen (versteckt bis unter Wasser) -->
-            <div class="status-bar hidden" id="oxygen-bar">
-                <div class="status-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
+            <div class="status-bar modern-status hidden" id="oxygen-bar">
+                <div class="status-icon-wrapper">
+                    <svg class="circular-progress" viewBox="0 0 36 36">
+                        <circle class="progress-bg" cx="18" cy="18" r="16"></circle>
+                        <circle class="progress-fill oxygen-progress" cx="18" cy="18" r="16" id="oxygen-circle"></circle>
                     </svg>
+                    <div class="status-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
                 </div>
                 <div class="status-content">
                     <div class="status-label">OXYGEN</div>
@@ -128,7 +199,7 @@
         </div>
 
         <!-- Money Display (Top Right) -->
-        <div id="money-container">
+        <div id="money-container" class="draggable-container">
             <div class="money-card">
                 <div class="money-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -156,7 +227,7 @@
         </div>
 
         <!-- Vehicle HUD (Bottom Center) -->
-        <div id="vehicle-container" class="hidden">
+        <div id="vehicle-container" class="hidden draggable-container">
             <div class="vehicle-main">
                 <div class="speedometer">
                     <div class="speed-circle">
@@ -213,7 +284,7 @@
         </div>
 
         <!-- Location & Compass (Top Center) -->
-        <div id="location-container">
+        <div id="location-container" class="draggable-container">
             <div class="location-card">
                 <div class="compass-container">
                     <div class="compass-directions" id="compass">
@@ -236,7 +307,7 @@
         </div>
 
         <!-- Voice Chat Indicator (Bottom Right) -->
-        <div id="voice-container">
+        <div id="voice-container" class="draggable-container">
             <div class="voice-indicator">
                 <div class="voice-icon" id="voice-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
