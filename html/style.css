@@ -71,6 +71,18 @@ body {
     background: linear-gradient(90deg, #ffcc00, #ffdd66);
 }
 
+.hud-bar-fill.oxygen {
+    background: linear-gradient(90deg, #00ccff, #66ddff);
+}
+
+.hud-bar-fill.stress {
+    background: linear-gradient(90deg, #ff6600, #ff9933);
+}
+
+.hud-bar-fill.sprint {
+    background: linear-gradient(90deg, #00ff66, #66ff99);
+}
+
 .hud-value {
     font-weight: bold;
     min-width: 30px;
@@ -98,14 +110,52 @@ body {
     left: 20px;
 }
 
-#money-display {
+#oxygen-bar {
+    bottom: 140px;
+    left: 20px;
+}
+
+#stress-bar {
+    bottom: 180px;
+    left: 20px;
+}
+
+#sprint-bar {
+    bottom: 220px;
+    left: 20px;
+}
+
+#cash-display {
     top: 20px;
     right: 20px;
 }
 
-#location-display {
+#bank-display {
+    top: 60px;
+    right: 20px;
+}
+
+#server-display {
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#compass-display {
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#street-display {
     bottom: 20px;
     right: 20px;
+}
+
+#weapon-display {
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
 }
 
 /* Settings Icon - Hidden by default, only shown in edit mode */
@@ -187,4 +237,38 @@ body {
 
 #save-btn:active {
     transform: scale(0.95);
+}
+
+/* Weapon Display Specific Styles */
+.hud-weapon {
+    flex-direction: row;
+    gap: 12px;
+}
+
+.weapon-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.weapon-name {
+    font-weight: bold;
+    font-size: 16px;
+    color: #ffcc00;
+}
+
+.weapon-details {
+    display: flex;
+    gap: 15px;
+    font-size: 12px;
+    color: #ccc;
+}
+
+.weapon-id {
+    color: #66b3ff;
+}
+
+.weapon-ammo {
+    color: #ff9933;
+    font-weight: bold;
 }

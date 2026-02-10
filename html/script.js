@@ -11,6 +11,8 @@ window.addEventListener('message', function(event) {
         loadPositions(data.positions);
     } else if (data.type === 'toggleEditMode') {
         toggleEditMode(data.enabled);
+    } else if (data.type === 'updateHUD') {
+        updateHUDData(data.data);
     }
 });
 
@@ -148,4 +150,104 @@ function GetParentResourceName() {
     return resourceName;
 }
 
+// Update HUD data from game
+function updateHUDData(data) {
+    // Update health
+    if (data.health !== undefined) {
+        const healthBar = document.querySelector('#health-bar .hud-bar-fill');
+        const healthValue = document.querySelector('#health-bar .hud-value');
+        if (healthBar) healthBar.style.width = data.health + '%';
+        if (healthValue) healthValue.textContent = data.health;
+    }
+    
+    // Update armor
+    if (data.armor !== undefined) {
+        const armorBar = document.querySelector('#armor-bar .hud-bar-fill');
+        const armorValue = document.querySelector('#armor-bar .hud-value');
+        if (armorBar) armorBar.style.width = data.armor + '%';
+        if (armorValue) armorValue.textContent = data.armor;
+    }
+    
+    // Update stamina
+    if (data.stamina !== undefined) {
+        const staminaBar = document.querySelector('#stamina-bar .hud-bar-fill');
+        const staminaValue = document.querySelector('#stamina-bar .hud-value');
+        if (staminaBar) staminaBar.style.width = data.stamina + '%';
+        if (staminaValue) staminaValue.textContent = data.stamina;
+    }
+    
+    // Update oxygen
+    if (data.oxygen !== undefined) {
+        const oxygenBar = document.querySelector('#oxygen-bar .hud-bar-fill');
+        const oxygenValue = document.querySelector('#oxygen-bar .hud-value');
+        if (oxygenBar) oxygenBar.style.width = data.oxygen + '%';
+        if (oxygenValue) oxygenValue.textContent = data.oxygen;
+    }
+    
+    // Update stress
+    if (data.stress !== undefined) {
+        const stressBar = document.querySelector('#stress-bar .hud-bar-fill');
+        const stressValue = document.querySelector('#stress-bar .hud-value');
+        if (stressBar) stressBar.style.width = data.stress + '%';
+        if (stressValue) stressValue.textContent = data.stress;
+    }
+    
+    // Update sprint energy
+    if (data.sprint !== undefined) {
+        const sprintBar = document.querySelector('#sprint-bar .hud-bar-fill');
+        const sprintValue = document.querySelector('#sprint-bar .hud-value');
+        if (sprintBar) sprintBar.style.width = data.sprint + '%';
+        if (sprintValue) sprintValue.textContent = data.sprint;
+    }
+    
+    // Update cash
+    if (data.cash !== undefined) {
+        const cashText = document.querySelector('#cash-display .hud-text');
+        if (cashText) cashText.textContent = '$' + formatNumber(data.cash);
+    }
+    
+    // Update bank
+    if (data.bank !== undefined) {
+        const bankText = document.querySelector('#bank-display .hud-text');
+        if (bankText) bankText.textContent = '$' + formatNumber(data.bank);
+    }
+    
+    // Update server name
+    if (data.serverName !== undefined) {
+        const serverText = document.querySelector('#server-display .hud-text');
+        if (serverText) serverText.textContent = data.serverName;
+    }
+    
+    // Update compass
+    if (data.compass !== undefined) {
+        const compassText = document.querySelector('#compass-display .hud-text');
+        if (compassText) compassText.textContent = data.compass;
+    }
+    
+    // Update street name
+    if (data.street !== undefined) {
+        const streetText = document.querySelector('#street-display .hud-text');
+        if (streetText) streetText.textContent = data.street;
+    }
+    
+    // Update weapon display
+    const weaponDisplay = document.getElementById('weapon-display');
+    if (data.weapon && weaponDisplay) {
+        weaponDisplay.style.display = 'flex';
+        const weaponName = weaponDisplay.querySelector('.weapon-name');
+        const weaponId = weaponDisplay.querySelector('.weapon-id');
+        const weaponAmmo = weaponDisplay.querySelector('.weapon-ammo');
+        
+        if (weaponName) weaponName.textContent = data.weapon.name;
+        if (weaponId) weaponId.textContent = 'ID: ' + data.weapon.id;
+        if (weaponAmmo) weaponAmmo.textContent = data.weapon.ammoInClip + '/' + data.weapon.ammoReserve;
+    } else if (weaponDisplay) {
+        weaponDisplay.style.display = 'none';
+    }
+}
+
+// Format numbers with commas
+function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 

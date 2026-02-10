@@ -71,3 +71,102 @@ RegisterNUICallback('closeEditMode', function(data, cb)
     end
     cb('ok')
 end)
+
+-- Update HUD data continuously
+CreateThread(function()
+    while true do
+        Wait(100) -- Update every 100ms
+        
+        local playerPed = PlayerPedId()
+        local playerId = PlayerId()
+        
+        -- Get player stats
+        local health = GetEntityHealth(playerPed) - 100 -- Remove base 100
+        local maxHealth = GetEntityMaxHealth(playerPed) - 100
+        local healthPercent = math.floor((health / maxHealth) * 100)
+        
+        local armor = GetPedArmour(playerPed)
+        
+        -- Stamina (special ability)
+        local stamina = 100 - GetPlayerSprintStaminaRemaining(playerId)
+        
+        -- Oxygen (underwater)
+        local oxygen = GetPlayerUnderwaterTimeRemaining(playerId) * 10
+        oxygen = math.min(100, math.max(0, oxygen))
+        
+        -- Stress (simulated - can be replaced with actual stress system)
+        local stress = 0 -- This should be integrated with your stress system
+        
+        -- Sprint energy (stamina remaining for sprint)
+        local sprintEnergy = GetPlayerSprintStaminaRemaining(playerId)
+        
+        -- Get location info
+        local coords = GetEntityCoords(playerPed)
+        local streetHash, crossingHash = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
+        local streetName = GetStreetNameFromHashKey(streetHash)
+        local crossingName = GetStreetNameFromHashKey(crossingHash)
+        local locationText = streetName
+        if crossingName ~= "" then
+            locationText = streetName .. " / " .. crossingName
+        end
+        
+        -- Get heading/compass direction
+        local heading = GetEntityHeading(playerPed)
+        local direction = "N"
+        if heading >= 337.5 or heading < 22.5 then
+            direction = "N"
+        elseif heading >= 22.5 and heading < 67.5 then
+            direction = "NE"
+        elseif heading >= 67.5 and heading < 112.5 then
+            direction = "E"
+        elseif heading >= 112.5 and heading < 157.5 then
+            direction = "SE"
+        elseif heading >= 157.5 and heading < 202.5 then
+            direction = "S"
+        elseif heading >= 202.5 and heading < 247.5 then
+            direction = "SW"
+        elseif heading >= 247.5 and heading < 292.5 then
+            direction = "W"
+        elseif heading >= 292.5 and heading < 337.5 then
+            direction = "NW"
+        end
+        
+        -- Get weapon info
+        local hasWeapon, currentWeapon = GetCurrentPedWeapon(playerPed, true)
+        local weaponData = nil
+        
+        if hasWeapon and currentWeapon ~= GetHashKey("WEAPON_UNARMED") then
+            local weaponName = GetWeapontypeGroup(currentWeapon)
+            local ammoInClip = GetAmmoInClip(playerPed, currentWeapon)
+            local ammoTotal = GetAmmoInPedWeapon(playerPed, currentWeapon)
+            local ammoReserve = ammoTotal - ammoInClip
+            
+            weaponData = {
+                name = GetLabelText(GetWeapontypeModel(currentWeapon)) or "Unknown",
+                id = currentWeapon,
+                ammoInClip = ammoInClip,
+                ammoReserve = ammoReserve,
+                ammoTotal = ammoTotal
+            }
+        end
+        
+        -- Send all data to NUI
+        SendNUIMessage({
+            type = 'updateHUD',
+            data = {
+                health = healthPercent,
+                armor = armor,
+                stamina = math.floor(stamina),
+                oxygen = math.floor(oxygen),
+                stress = stress,
+                sprint = math.floor(sprintEnergy),
+                cash = 0, -- Should be integrated with your economy system
+                bank = 0, -- Should be integrated with your economy system
+                serverName = GetConvar('sv_projectName', 'FiveM Server'),
+                compass = direction,
+                street = locationText,
+                weapon = weaponData
+            }
+        })
+    end
+end)

@@ -35,16 +35,73 @@
             <div class="hud-value">100</div>
         </div>
 
-        <!-- Money Display -->
-        <div class="hud-element" id="money-display" data-element="money">
-            <div class="hud-icon">💰</div>
+        <!-- Oxygen/Lung Bar -->
+        <div class="hud-element" id="oxygen-bar" data-element="oxygen">
+            <div class="hud-icon">🫁</div>
+            <div class="hud-bar">
+                <div class="hud-bar-fill oxygen" style="width: 100%;"></div>
+            </div>
+            <div class="hud-value">100</div>
+        </div>
+
+        <!-- Stress Bar -->
+        <div class="hud-element" id="stress-bar" data-element="stress">
+            <div class="hud-icon">😰</div>
+            <div class="hud-bar">
+                <div class="hud-bar-fill stress" style="width: 0%;"></div>
+            </div>
+            <div class="hud-value">0</div>
+        </div>
+
+        <!-- Sprint Energy Bar -->
+        <div class="hud-element" id="sprint-bar" data-element="sprint">
+            <div class="hud-icon">🏃</div>
+            <div class="hud-bar">
+                <div class="hud-bar-fill sprint" style="width: 100%;"></div>
+            </div>
+            <div class="hud-value">100</div>
+        </div>
+
+        <!-- Cash Display -->
+        <div class="hud-element" id="cash-display" data-element="cash">
+            <div class="hud-icon">💵</div>
             <div class="hud-text">$0</div>
         </div>
 
-        <!-- Location Display -->
-        <div class="hud-element" id="location-display" data-element="location">
+        <!-- Bank Money Display -->
+        <div class="hud-element" id="bank-display" data-element="bank">
+            <div class="hud-icon">🏦</div>
+            <div class="hud-text">$0</div>
+        </div>
+
+        <!-- Server Name Display -->
+        <div class="hud-element" id="server-display" data-element="server">
+            <div class="hud-icon">🖥️</div>
+            <div class="hud-text">Server Name</div>
+        </div>
+
+        <!-- Compass Display -->
+        <div class="hud-element" id="compass-display" data-element="compass">
+            <div class="hud-icon">🧭</div>
+            <div class="hud-text">N</div>
+        </div>
+
+        <!-- Street Name Display -->
+        <div class="hud-element" id="street-display" data-element="street">
             <div class="hud-icon">📍</div>
             <div class="hud-text">Los Santos</div>
+        </div>
+
+        <!-- Weapon Display (only visible when weapon is active) -->
+        <div class="hud-element hud-weapon" id="weapon-display" data-element="weapon" style="display: none;">
+            <div class="hud-icon">🔫</div>
+            <div class="weapon-info">
+                <div class="weapon-name">Pistol</div>
+                <div class="weapon-details">
+                    <span class="weapon-id">ID: 453432689</span>
+                    <span class="weapon-ammo">15/120</span>
+                </div>
+            </div>
         </div>
 
         <!-- Settings Icon - Only visible in edit mode -->
