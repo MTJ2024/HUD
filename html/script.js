@@ -2,22 +2,38 @@ let editMode = false;
 let draggedElement = null;
 let offsetX = 0;
 let offsetY = 0;
-let hudScale = 1.0;
+let elementScales = {}; // Individual scale for each element
 
-// Mouse wheel scaling
+// Mouse wheel scaling - PER ELEMENT
 document.addEventListener('wheel', function(e) {
     if (editMode) {
-        e.preventDefault();
+        // Find which element is being hovered
+        const hoveredElement = document.elementFromPoint(e.clientX, e.clientY);
+        const hudElement = hoveredElement?.closest('.hud-element');
         
-        // Adjust scale based on wheel delta
-        const delta = e.deltaY > 0 ? -0.05 : 0.05;
-        hudScale = Math.max(0.5, Math.min(2.0, hudScale + delta));
-        
-        // Apply scale to CSS variable
-        document.documentElement.style.setProperty('--hud-scale', hudScale);
-        
-        // Save scale
-        saveHudScale(hudScale);
+        if (hudElement && hudElement.id) {
+            e.preventDefault();
+            
+            // Get current scale for this element
+            let currentScale = elementScales[hudElement.id] || 1.0;
+            
+            // Adjust scale based on wheel delta
+            const delta = e.deltaY > 0 ? -0.05 : 0.05;
+            currentScale = Math.max(0.5, Math.min(2.0, currentScale + delta));
+            
+            // Store and apply scale
+            elementScales[hudElement.id] = currentScale;
+            hudElement.style.transform = `scale(${currentScale})`;
+            
+            // Add visual feedback
+            hudElement.style.boxShadow = '0 0 20px rgba(255, 204, 0, 0.8)';
+            setTimeout(() => {
+                hudElement.style.boxShadow = '';
+            }, 200);
+            
+            // Save scales
+            saveElementScales(elementScales);
+        }
     }
 }, { passive: false });
 
@@ -36,8 +52,8 @@ window.addEventListener('message', function(event) {
         if (data.theme) {
             loadTheme(data.theme);
         }
-        if (data.scale) {
-            loadHudScale(data.scale);
+        if (data.scales) {
+            loadElementScales(data.scales);
         }
     } else if (data.type === 'toggleEditMode') {
         toggleEditMode(data.enabled);
@@ -308,22 +324,30 @@ function loadDefaultSettings() {
     });
 }
 
-// Load HUD scale
-function loadHudScale(scale) {
-    if (scale) {
-        hudScale = parseFloat(scale);
-        document.documentElement.style.setProperty('--hud-scale', hudScale);
-    }
+// Load individual element scales
+function loadElementScales(scales) {
+    if (!scales || typeof scales !== 'object') return;
+    
+    elementScales = scales;
+    
+    // Apply scales to each element
+    Object.keys(scales).forEach(elementId => {
+        const element = document.getElementById(elementId);
+        if (element) {
+            const scale = parseFloat(scales[elementId]) || 1.0;
+            element.style.transform = `scale(${scale})`;
+        }
+    });
 }
 
-// Save HUD scale
-function saveHudScale(scale) {
-    fetch(`https://${GetParentResourceName()}/saveHudScale`, {
+// Save individual element scales
+function saveElementScales(scales) {
+    fetch(`https://${GetParentResourceName()}/saveElementScales`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ scale: scale })
+        body: JSON.stringify({ scales: scales })
     });
 }
 

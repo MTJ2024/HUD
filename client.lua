@@ -1,4 +1,50 @@
 local editMode = false
+local ESX = nil
+local PlayerData = {}
+
+-- Try to get ESX
+CreateThread(function()
+    while ESX == nil do
+        TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+        
+        -- Alternative method for newer ESX versions
+        if ESX == nil then
+            ESX = exports['es_extended']:getSharedObject()
+        end
+        
+        Wait(100)
+    end
+    
+    -- Get player data when ESX is ready
+    while not ESX.IsPlayerLoaded() do
+        Wait(100)
+    end
+    
+    PlayerData = ESX.GetPlayerData()
+end)
+
+-- Update player data on change
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+    PlayerData = xPlayer
+end)
+
+RegisterNetEvent('esx:setJob')
+AddEventHandler('esx:setJob', function(job)
+    PlayerData.job = job
+end)
+
+RegisterNetEvent('esx:setAccountMoney')
+AddEventHandler('esx:setAccountMoney', function(account)
+    if PlayerData.accounts then
+        for i=1, #PlayerData.accounts, 1 do
+            if PlayerData.accounts[i].name == account.name then
+                PlayerData.accounts[i] = account
+                break
+            end
+        end
+    end
+end)
 
 -- Load saved positions from KVP storage
 local function loadPositions()
@@ -52,6 +98,21 @@ local function saveHudScale(scale)
     SetResourceKvp('hud_scale', tostring(scale))
 end
 
+-- Load individual element scales
+local function loadElementScales()
+    local scales = {}
+    local data = GetResourceKvpString('hud_element_scales')
+    if data then
+        scales = json.decode(data)
+    end
+    return scales
+end
+
+-- Save individual element scales
+local function saveElementScales(scales)
+    SetResourceKvp('hud_element_scales', json.encode(scales))
+end
+
 -- Toggle edit mode
 local function toggleEditMode()
     editMode = not editMode
@@ -91,14 +152,14 @@ CreateThread(function()
     local savedPositions = loadPositions()
     local savedElementSettings = loadElementSettings()
     local savedTheme = loadTheme()
-    local savedScale = loadHudScale()
+    local savedScales = loadElementScales()
     
     SendNUIMessage({
         type = 'init',
         positions = savedPositions,
         elementSettings = savedElementSettings,
         theme = savedTheme,
-        scale = savedScale
+        scales = savedScales
     })
 end)
 
@@ -120,9 +181,9 @@ RegisterNUICallback('saveTheme', function(data, cb)
     cb('ok')
 end)
 
--- Save HUD scale from NUI
-RegisterNUICallback('saveHudScale', function(data, cb)
-    saveHudScale(data.scale)
+-- Save individual element scales from NUI
+RegisterNUICallback('saveElementScales', function(data, cb)
+    saveElementScales(data.scales)
     cb('ok')
 end)
 
@@ -254,6 +315,20 @@ CreateThread(function()
             }
         end
         
+        -- Get ESX account data
+        local cash = 0
+        local bank = 0
+        
+        if ESX and PlayerData.accounts then
+            for i=1, #PlayerData.accounts, 1 do
+                if PlayerData.accounts[i].name == 'money' then
+                    cash = PlayerData.accounts[i].money
+                elseif PlayerData.accounts[i].name == 'bank' then
+                    bank = PlayerData.accounts[i].money
+                end
+            end
+        end
+        
         -- Send all data to NUI
         SendNUIMessage({
             type = 'updateHUD',
@@ -264,8 +339,8 @@ CreateThread(function()
                 oxygen = math.floor(oxygen),
                 stress = stress,
                 sprint = math.floor(sprintEnergy),
-                cash = 0, -- Should be integrated with your economy system
-                bank = 0, -- Should be integrated with your economy system
+                cash = cash,
+                bank = bank,
                 serverName = GetConvar('sv_projectName', 'FiveM Server'),
                 playerId = GetPlayerServerId(playerId),
                 compass = direction,
