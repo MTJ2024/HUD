@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUD Preview</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .controls {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .controls button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #dc143c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .controls button:hover {
+            background: #ff1c4c;
+        }
+        iframe {
+            width: 100%;
+            height: 80vh;
+            border: 2px solid #444;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+        .info {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .info h3 {
+            margin-top: 0;
+            color: #dc143c;
+        }
+        .info ul {
+            list-style-position: inside;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Modern HUD Preview</h1>
+        
+        <div class="controls">
+            <h3>Test Controls</h3>
+            <button onclick="testHealth()">Test Health (50%)</button>
+            <button onclick="testMoney()">Test Money (+$1000)</button>
+            <button onclick="testVehicle()">Toggle Vehicle</button>
+            <button onclick="openSettings()">Open Settings</button>
+            <button onclick="resetDemo()">Reset Demo</button>
+        </div>
+
+        <iframe id="hudFrame" src="HUD/html/index.html"></iframe>
+
+        <div class="info">
+            <h3>Features Implemented</h3>
+            <ul>
+                <li>✅ Drag & Drop positioning for all HUD elements</li>
+                <li>✅ Modern circular progress indicators with icons</li>
+                <li>✅ Dynamic color changes based on values</li>
+                <li>✅ Smooth animations and transitions</li>
+                <li>✅ Animated money counters with flash effects</li>
+                <li>✅ Enhanced vehicle HUD with shine effects</li>
+                <li>✅ Settings panel with customization options</li>
+                <li>✅ LocalStorage for persistent positioning</li>
+                <li>✅ Glass-morphism design with blur effects</li>
+                <li>✅ Warning animations for low values</li>
+            </ul>
+            
+            <h3>How to Use</h3>
+            <ul>
+                <li>Click "Open Settings" to access the settings panel</li>
+                <li>Enable "Bearbeitungsmodus" (Edit Mode) to drag elements</li>
+                <li>Drag any HUD element to your preferred position</li>
+                <li>Your positions are automatically saved</li>
+                <li>Use "Reset Demo" to restore default values</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage(action, data = {}) {
+            const iframe = document.getElementById('hudFrame');
+            iframe.contentWindow.postMessage({ action, ...data }, '*');
+        }
+
+        function testHealth() {
+            sendMessage('updatePlayer', {
+                data: {
+                    health: 50,
+                    armor: 75,
+                    hunger: 80,
+                    thirst: 60,
+                    stamina: 90,
+                    oxygen: 100,
+                    money: 5000,
+                    bank: 50000
+                }
+            });
+        }
+
+        function testMoney() {
+            const currentMoney = Math.floor(Math.random() * 10000);
+            sendMessage('updatePlayer', {
+                data: {
+                    health: 100,
+                    armor: 100,
+                    hunger: 100,
+                    thirst: 100,
+                    stamina: 100,
+                    oxygen: 100,
+                    money: currentMoney + 1000,
+                    bank: 50000 + Math.floor(Math.random() * 5000)
+                }
+            });
+        }
+
+        let vehicleActive = false;
+        function testVehicle() {
+            vehicleActive = !vehicleActive;
+            
+            if (vehicleActive) {
+                sendMessage('updateVehicle', {
+                    data: {
+                        inVehicle: true,
+                        speed: 120,
+                        fuel: 45,
+                        engine: true,
+                        gear: 4,
+                        rpm: 60
+                    }
+                });
+                
+                // Animate speed changes
+                let speed = 120;
+                const speedInterval = setInterval(() => {
+                    if (!vehicleActive) {
+                        clearInterval(speedInterval);
+                        return;
+                    }
+                    speed = Math.max(0, speed + Math.floor(Math.random() * 20 - 10));
+                    sendMessage('updateVehicle', {
+                        data: {
+                            inVehicle: true,
+                            speed: speed,
+                            fuel: Math.max(0, 45 - (120 - speed) / 10),
+                            engine: true,
+                            gear: Math.max(1, Math.floor(speed / 30)),
+                            rpm: Math.min(100, Math.floor(speed / 2))
+                        }
+                    });
+                }, 1000);
+            } else {
+                sendMessage('updateVehicle', {
+                    data: {
+                        inVehicle: false
+                    }
+                });
+            }
+        }
+
+        function openSettings() {
+            sendMessage('toggleSettings');
+        }
+
+        function resetDemo() {
+            sendMessage('updatePlayer', {
+                data: {
+                    health: 100,
+                    armor: 100,
+                    hunger: 100,
+                    thirst: 100,
+                    stamina: 100,
+                    oxygen: 100,
+                    money: 2500,
+                    bank: 50000
+                }
+            });
+            
+            sendMessage('updateLocation', {
+                heading: 0,
+                street: 'Vinewood Blvd',
+                zone: 'Los Santos'
+            });
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                // Send initial data
+                resetDemo();
+                
+                // Update location
+                let heading = 0;
+                setInterval(() => {
+                    heading = (heading + 1) % 360;
+                    sendMessage('updateLocation', {
+                        heading: heading,
+                        street: 'Vinewood Blvd',
+                        crossing: 'Las Lagunas Blvd',
+                        zone: 'Los Santos'
+                    });
+                }, 100);
+            }, 500);
+        });
+    </script>
+</body>
+</html>
