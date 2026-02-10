@@ -7,7 +7,9 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
-    background: transparent;
+    background: transparent !important;
+    margin: 0;
+    padding: 0;
 }
 
 /* HUD Scale Variable */
@@ -20,6 +22,7 @@ body {
     width: 100vw;
     height: 100vh;
     pointer-events: none;
+    background: transparent !important;
 }
 
 .hud-element {
@@ -185,79 +188,80 @@ body {
     font-size: 16px;
 }
 
-/* Default positions */
+/* Default positions - Safe viewport bounds */
 #health-bar {
-    bottom: 20px;
-    left: 20px;
+    bottom: 30px;
+    left: 30px;
 }
 
 #armor-bar {
-    bottom: 60px;
-    left: 20px;
+    bottom: 120px;
+    left: 30px;
 }
 
 #stamina-bar {
-    bottom: 100px;
-    left: 20px;
+    bottom: 210px;
+    left: 30px;
 }
 
 #oxygen-bar {
-    bottom: 140px;
-    left: 20px;
+    bottom: 300px;
+    left: 30px;
 }
 
 #stress-bar {
-    bottom: 180px;
-    left: 20px;
+    bottom: 390px;
+    left: 30px;
 }
 
 #sprint-bar {
-    bottom: 220px;
-    left: 20px;
+    bottom: 480px;
+    left: 30px;
 }
 
 #cash-display {
-    top: 20px;
-    right: 20px;
+    top: 30px;
+    right: 30px;
 }
 
 #bank-display {
-    top: 60px;
-    right: 20px;
+    top: 80px;
+    right: 30px;
 }
 
 #server-display {
-    top: 20px;
+    top: 30px;
     left: 50%;
     transform: translateX(-50%);
 }
 
 #compass-display {
-    top: 60px;
+    top: 80px;
     left: 50%;
     transform: translateX(-50%);
 }
 
 #street-display {
-    bottom: 20px;
-    right: 20px;
+    bottom: 30px;
+    right: 30px;
 }
 
 #weapon-display {
     top: 50%;
-    right: 20px;
+    right: 30px;
     transform: translateY(-50%);
 }
 
 #speedometer {
-    bottom: 20px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%) scale(var(--hud-scale));
 }
 
 #info-column {
-    top: 20px;
-    right: 20px;
+    top: 30px;
+    right: 30px;
+}
 }
 
 /* Info Column Styles */
@@ -336,7 +340,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    background: transparent;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -350,14 +354,21 @@ body {
     display: none;
 }
 
+#edit-overlay:not(.hidden) {
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: all;
+}
+}
+
 .edit-instructions {
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.95);
     padding: 20px 30px;
     border-radius: 10px;
     text-align: center;
     color: white;
     pointer-events: all;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 204, 0, 0.5);
 }
 
 .edit-instructions h2 {
@@ -399,7 +410,7 @@ body {
     max-width: 500px;
     pointer-events: all;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.7);
-    border: 2px solid rgba(255, 204, 0, 0.3);
+    border: 2px solid rgba(255, 204, 0, 0.5);
 }
 
 .settings-panel h3 {
