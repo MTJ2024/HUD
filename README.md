@@ -1,23 +1,48 @@
 # HUD System
 
-Ein anpassbares HUD-System für FiveM mit Drag-and-Drop-Positionierung.
+Ein hochmodernes, anpassbares HUD-System für FiveM mit kreisförmigen Anzeigen, Drag-and-Drop-Positionierung und 4 Farbthemen.
 
 ## Features
 
-✅ **Kein dauerhaftes Einstellungs-Icon** - Das Einstellungs-Icon (⚙️) wird nur im Edit-Modus angezeigt
+✅ **Moderne Kreisförmige Anzeigen** - Runde, hochmoderne Icons statt traditioneller Balken
+✅ **13 Wählbare HUD-Elemente** - Jedes Element kann einzeln ein-/ausgeblendet werden
+✅ **4 Farbthemen** - Blau, Rot, Grün, Lila
 ✅ **Toggle Edit-Modus** - Drücke **F10**, um den Edit-Modus ein-/auszuschalten
 ✅ **Drag-and-Drop** - Ziehe HUD-Elemente per Maus an die gewünschte Position
-✅ **Automatisches Speichern** - Positionen werden automatisch gespeichert beim Verlassen des Edit-Modus
-✅ **Persistente Positionen** - Gespeicherte Positionen bleiben nach Neustart erhalten
+✅ **Automatisches Speichern** - Positionen, Sichtbarkeit und Farbschema werden gespeichert
+✅ **Persistente Einstellungen** - Alle Einstellungen bleiben nach Neustart erhalten
+✅ **Echtzeit-Updates** - Alle Werte werden live vom Spiel aktualisiert
+✅ **Tacho für Fahrzeuge** - Clean, zentrierter Tacho für Auto, Flugzeug, Hubschrauber
 
 ## HUD-Elemente
 
-Das System enthält folgende HUD-Elemente:
-- ❤️ **Health Bar** (Gesundheit)
-- 🛡️ **Armor Bar** (Rüstung)
-- ⚡ **Stamina Bar** (Ausdauer)
-- 💰 **Money Display** (Geld)
-- 📍 **Location Display** (Standort)
+Das System enthält folgende wählbare HUD-Elemente:
+
+### Kreisförmige Anzeigen
+- ❤️ **Gesundheit** (Health) - Lebensenergie in Prozent
+- 🛡️ **Rüstung** (Armor) - Rüstungswert in Prozent
+- ⚡ **Ausdauer** (Stamina) - Allgemeine Ausdauer
+- 🫁 **Sauerstoff** (Oxygen) - Atemluft unter Wasser
+- 😰 **Stress** - Stresslevel (kann mit Stress-System integriert werden)
+- 🏃 **Sprint-Energie** - Verbleibende Sprint-Ausdauer
+
+### Informations-Anzeigen
+- 💵 **Bargeld** (Cash) - Bargeld des Spielers
+- 🏦 **Bank** - Bank-Guthaben
+- 🖥️ **Server Name** - Name des Servers
+- 🧭 **Kompass** - Himmelsrichtung (N, NE, E, SE, S, SW, W, NW)
+- 📍 **Straßenname** - Aktuelle Straße und Kreuzung
+
+### Konditionale Anzeigen
+- 🔫 **Waffen-Display** - Erscheint nur wenn Waffe gezogen
+  - Waffenname
+  - Waffen-ID
+  - Munition (im Magazin / Reserve)
+- 🚗 **Tacho** - Erscheint nur im Fahrzeug
+  - Geschwindigkeit in km/h
+  - Aktueller Gang
+  - Farbwechsel bei hohen Geschwindigkeiten
+  - Unterstützt: Auto, Motorrad, Flugzeug, Hubschrauber, Boot
 
 ## Installation
 
@@ -27,11 +52,26 @@ Das System enthält folgende HUD-Elemente:
 
 ## Verwendung
 
-### Edit-Modus aktivieren
+### Einstellungspanel öffnen
 1. Drücke **F10** (oder verwende den Befehl `/hudedit`)
-2. Das Einstellungs-Icon (⚙️) erscheint oben links
-3. Ein Overlay mit Anweisungen wird angezeigt
-4. Alle HUD-Elemente bekommen einen gelben gestrichelten Rahmen
+2. Das Einstellungspanel erscheint mit:
+   - Liste aller 13 HUD-Elemente zum Ein-/Ausschalten
+   - 4 Farbthemen zur Auswahl
+   - Anweisungen für Drag & Drop
+
+### HUD-Elemente wählen
+1. Im Einstellungspanel siehst du alle verfügbaren Elemente
+2. Aktiviere/Deaktiviere Checkboxen um Elemente ein-/auszublenden
+3. Änderungen werden automatisch gespeichert
+
+### Farbthema wählen
+1. Wähle eines der 4 verfügbaren Themen:
+   - **Blau** - Klassisch, professionell
+   - **Rot** - Aggressiv, sportlich
+   - **Grün** - Natürlich, modern
+   - **Lila** - Futuristisch, edel
+2. Das gewählte Thema wird sofort angewendet
+3. Die Auswahl wird automatisch gespeichert
 
 ### HUD-Elemente positionieren
 1. Klicke auf ein HUD-Element und halte die Maustaste gedrückt
@@ -45,7 +85,7 @@ Das System enthält folgende HUD-Elemente:
 3. Das Einstellungs-Icon verschwindet
 4. Der normale Spielmodus wird fortgesetzt
 
-## Anpassung
+### Anpassung
 
 ### Keybind ändern
 Bearbeite `client.lua` und ändere die Zeile:
@@ -53,40 +93,101 @@ Bearbeite `client.lua` und ändere die Zeile:
 RegisterKeyMapping('hudedit', 'Toggle HUD Edit Mode', 'keyboard', 'F10')
 ```
 
-### HUD-Elemente hinzufügen
-1. Füge ein neues Element in `html/index.html` hinzu
-2. Style es in `html/style.css`
-3. Optional: Aktualisiere die Drag-Logik in `html/script.js`
+### Update-Frequenz ändern
+In `client.lua`, Zeile ~75:
+```lua
+Wait(100) -- Update every 100ms (kann angepasst werden)
+```
 
-### Standard-Positionen ändern
-Bearbeite die CSS-Regeln in `html/style.css`:
-```css
-#health-bar {
-    bottom: 20px;
-    left: 20px;
-}
+### Integration mit Economy-System
+Ersetze in `client.lua` die Platzhalter:
+```lua
+cash = 0, -- Ersetze mit: ESX.GetPlayerData().money or QBCore.Functions.GetPlayerData().money.cash
+bank = 0, -- Ersetze mit: ESX.GetPlayerData().accounts.bank or QBCore.Functions.GetPlayerData().money.bank
+```
+
+### Integration mit Stress-System
+Ersetze in `client.lua`:
+```lua
+stress = 0 -- Ersetze mit deinem Stress-System, z.B.: exports['hud']:GetStress()
+```
+
+### Standard-Farbthema ändern
+In `html/script.js`, Zeile ~265:
+```javascript
+if (!theme) theme = 'blue'; // Ändere 'blue' zu 'red', 'green' oder 'purple'
 ```
 
 ## Technische Details
 
-- **Client-seitiges Script**: `client.lua` - Verwaltet Keybinds und Kommunikation
+- **Client-seitiges Script**: `client.lua` - Verwaltet Keybinds, Datenerfassung und NUI-Kommunikation
 - **UI-Dateien**: `html/` - HTML/CSS/JS für das HUD-Interface
 - **Speicher**: Verwendet FiveM's KVP (Key-Value-Pair) System für persistente Datenspeicherung
+  - `hud_positions` - Positionen der HUD-Elemente
+  - `hud_element_settings` - Sichtbarkeit der Elemente
+  - `hud_theme` - Gewähltes Farbthema
 - **Framework**: Standalone (keine ESX/QB-Core Abhängigkeiten erforderlich)
+- **Update-Frequenz**: 100ms (10x pro Sekunde)
+- **Performance**: Optimiert für minimale CPU-Last
+
+## Farbthemen
+
+### Blau (Standard)
+- Primärfarbe: `#3399ff`
+- Sekundärfarbe: `#00ccff`
+- Akzentfarbe: `#66b3ff`
+
+### Rot
+- Primärfarbe: `#ff3366`
+- Sekundärfarbe: `#ff6600`
+- Akzentfarbe: `#ff9933`
+
+### Grün
+- Primärfarbe: `#00ff66`
+- Sekundärfarbe: `#00ccaa`
+- Akzentfarbe: `#66ff99`
+
+### Lila
+- Primärfarbe: `#9c27b0`
+- Sekundärfarbe: `#e040fb`
+- Akzentfarbe: `#ba68c8`
 
 ## Problembehandlung
 
 **HUD wird nicht angezeigt**
 - Stelle sicher, dass die Resource gestartet ist (`ensure HUD` in server.cfg)
 - Überprüfe die F8 Konsole auf Fehler
+- Teste mit `/hudedit` ob das Panel öffnet
 
 **Positionen werden nicht gespeichert**
-- Stelle sicher, dass du den Edit-Modus mit F10 beendest (nicht einfach die Seite neu lädt)
-- Überprüfe die Konsole auf Fehler bei der KVP-Speicherung
+- Stelle sicher, dass du den Edit-Modus mit F10 beendest
+- Überprüfe die Konsole auf KVP-Speicher-Fehler
+- Teste mit einem frischen Server-Start
+
+**Elemente werden nicht aktualisiert**
+- Überprüfe die F8 Konsole auf JavaScript-Fehler
+- Stelle sicher, dass die Resource korrekt geladen wurde
+- Prüfe ob andere Resources NUI blockieren
+
+**Tacho wird nicht angezeigt**
+- Stelle sicher, dass du im Fahrzeug sitzt
+- Überprüfe, ob das Tacho-Element aktiviert ist (F10 -> Checkboxen)
+- Du musst der Fahrer sein (nicht Beifahrer)
+
+**Waffe wird nicht angezeigt**
+- Stelle sicher, dass eine Waffe gezogen ist (nicht Fäuste)
+- Überprüfe, ob das Waffen-Element aktiviert ist
+- Teste mit verschiedenen Waffen
+
+**Farbthema ändert sich nicht**
+- Öffne F10 und wähle das gewünschte Thema erneut
+- Stelle sicher, dass die Auswahl gespeichert wird (keine Konsolenfehler)
+- Bei Problemen: Lösche KVP mit `/hudedit` und wähle Thema neu
 
 **Keybind funktioniert nicht**
 - Überprüfe ob eine andere Resource denselben Keybind verwendet
 - Ändere den Keybind in den FiveM Einstellungen oder in `client.lua`
+- Teste mit dem Befehl `/hudedit`
 
 ## Support
 
