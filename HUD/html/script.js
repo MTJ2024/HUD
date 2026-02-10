@@ -136,12 +136,22 @@ function resetPositions() {
 
 function openSettings() {
     document.getElementById('settings-panel').classList.remove('hidden');
+    // Keep settings button visible while panel is open
+    const settingsBtn = document.getElementById('settings-btn');
+    if (settingsBtn) {
+        settingsBtn.classList.add('visible');
+    }
 }
 
 function closeSettings() {
     document.getElementById('settings-panel').classList.add('hidden');
     if (editMode) {
         toggleEditMode();
+    }
+    // Hide settings button when panel closes
+    const settingsBtn = document.getElementById('settings-btn');
+    if (settingsBtn) {
+        settingsBtn.classList.remove('visible');
     }
 }
 
@@ -591,6 +601,28 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize compass
     updateCompass(0);
+    
+    // Settings button visibility handling
+    const settingsBtn = document.getElementById('settings-btn');
+    let settingsTimeout;
+    
+    // Show settings button temporarily when F8 is pressed or mouse moves to top-left
+    function showSettingsButton() {
+        if (settingsBtn) {
+            settingsBtn.classList.add('visible');
+            clearTimeout(settingsTimeout);
+            settingsTimeout = setTimeout(() => {
+                settingsBtn.classList.remove('visible');
+            }, 3000); // Hide after 3 seconds
+        }
+    }
+    
+    // Show on mouse movement near top-left corner
+    document.addEventListener('mousemove', (e) => {
+        if (e.clientX < 100 && e.clientY < 100) {
+            showSettingsButton();
+        }
+    });
     
     // Close settings with ESC key
     document.addEventListener('keydown', (e) => {

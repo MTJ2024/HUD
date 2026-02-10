@@ -1001,6 +1001,26 @@ body {
     justify-content: center;
     color: var(--color-accent);
     box-shadow: 0 0 1vh rgba(220, 20, 60, 0.3);
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+/* Show settings button on hover in top-left area */
+#settings-btn:hover,
+#settings-btn.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Hover trigger area - invisible zone to reveal settings button */
+#settings-btn::before {
+    content: '';
+    position: absolute;
+    top: -2vh;
+    left: -2vh;
+    right: -2vh;
+    bottom: -2vh;
+    cursor: pointer;
 }
 
 #settings-btn:hover {
