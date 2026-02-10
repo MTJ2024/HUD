@@ -2,6 +2,24 @@ let editMode = false;
 let draggedElement = null;
 let offsetX = 0;
 let offsetY = 0;
+let hudScale = 1.0;
+
+// Mouse wheel scaling
+document.addEventListener('wheel', function(e) {
+    if (editMode) {
+        e.preventDefault();
+        
+        // Adjust scale based on wheel delta
+        const delta = e.deltaY > 0 ? -0.05 : 0.05;
+        hudScale = Math.max(0.5, Math.min(2.0, hudScale + delta));
+        
+        // Apply scale to CSS variable
+        document.documentElement.style.setProperty('--hud-scale', hudScale);
+        
+        // Save scale
+        saveHudScale(hudScale);
+    }
+}, { passive: false });
 
 // Initialize
 window.addEventListener('message', function(event) {
@@ -11,9 +29,15 @@ window.addEventListener('message', function(event) {
         loadPositions(data.positions);
         if (data.elementSettings) {
             loadElementSettings(data.elementSettings);
+        } else {
+            // Load default settings if none exist
+            loadDefaultSettings();
         }
         if (data.theme) {
             loadTheme(data.theme);
+        }
+        if (data.scale) {
+            loadHudScale(data.scale);
         }
     } else if (data.type === 'toggleEditMode') {
         toggleEditMode(data.enabled);
@@ -156,8 +180,27 @@ const elementToggles = {
     'toggle-server': 'server-display',
     'toggle-compass': 'compass-display',
     'toggle-street': 'street-display',
+    'toggle-info-column': 'info-column',
     'toggle-weapon': 'weapon-display',
     'toggle-speedometer': 'speedometer'
+};
+
+// Default settings - what should be visible by default
+const defaultElementSettings = {
+    'toggle-health': true,
+    'toggle-armor': true,
+    'toggle-stamina': true,
+    'toggle-oxygen': false,  // Hidden by default
+    'toggle-stress': false,  // Hidden by default
+    'toggle-sprint': false,  // Hidden by default
+    'toggle-cash': false,    // Hidden - use info column instead
+    'toggle-bank': false,    // Hidden - use info column instead
+    'toggle-server': false,  // Hidden - use info column instead
+    'toggle-compass': false, // Hidden - use info column instead
+    'toggle-street': false,  // Hidden - use info column instead
+    'toggle-info-column': true,  // Visible by default
+    'toggle-weapon': true,
+    'toggle-speedometer': true
 };
 
 // Initialize element toggles
@@ -247,6 +290,43 @@ function loadElementSettings(settings) {
     });
 }
 
+// Load default settings
+function loadDefaultSettings() {
+    Object.keys(defaultElementSettings).forEach(toggleId => {
+        const checkbox = document.getElementById(toggleId);
+        const elementId = elementToggles[toggleId];
+        const element = document.getElementById(elementId);
+        
+        if (checkbox && element) {
+            checkbox.checked = defaultElementSettings[toggleId];
+            if (!defaultElementSettings[toggleId]) {
+                element.classList.add('hud-hidden');
+            } else {
+                element.classList.remove('hud-hidden');
+            }
+        }
+    });
+}
+
+// Load HUD scale
+function loadHudScale(scale) {
+    if (scale) {
+        hudScale = parseFloat(scale);
+        document.documentElement.style.setProperty('--hud-scale', hudScale);
+    }
+}
+
+// Save HUD scale
+function saveHudScale(scale) {
+    fetch(`https://${GetParentResourceName()}/saveHudScale`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ scale: scale })
+    });
+}
+
 // Load theme
 function loadTheme(theme) {
     if (!theme) theme = 'blue';
@@ -329,30 +409,56 @@ function updateHUDData(data) {
     if (data.cash !== undefined) {
         const cashText = document.querySelector('#cash-display .hud-text');
         if (cashText) cashText.textContent = '$' + formatNumber(data.cash);
+        
+        // Update info column cash
+        const infoCash = document.getElementById('info-cash');
+        if (infoCash) infoCash.textContent = '$' + formatNumber(data.cash);
     }
     
     // Update bank
     if (data.bank !== undefined) {
         const bankText = document.querySelector('#bank-display .hud-text');
         if (bankText) bankText.textContent = '$' + formatNumber(data.bank);
+        
+        // Update info column bank
+        const infoBank = document.getElementById('info-bank');
+        if (infoBank) infoBank.textContent = '$' + formatNumber(data.bank);
     }
     
     // Update server name
     if (data.serverName !== undefined) {
         const serverText = document.querySelector('#server-display .hud-text');
         if (serverText) serverText.textContent = data.serverName;
+        
+        // Update info column server
+        const infoServer = document.getElementById('info-server');
+        if (infoServer) infoServer.textContent = data.serverName;
+    }
+    
+    // Update player ID
+    if (data.playerId !== undefined) {
+        const infoId = document.getElementById('info-id');
+        if (infoId) infoId.textContent = data.playerId;
     }
     
     // Update compass
     if (data.compass !== undefined) {
         const compassText = document.querySelector('#compass-display .hud-text');
         if (compassText) compassText.textContent = data.compass;
+        
+        // Update info column compass
+        const infoCompass = document.getElementById('info-compass');
+        if (infoCompass) infoCompass.textContent = data.compass;
     }
     
     // Update street name
     if (data.street !== undefined) {
         const streetText = document.querySelector('#street-display .hud-text');
         if (streetText) streetText.textContent = data.street;
+        
+        // Update info column street
+        const infoStreet = document.getElementById('info-street');
+        if (infoStreet) infoStreet.textContent = data.street;
     }
     
     // Update weapon display

@@ -41,6 +41,17 @@ local function saveTheme(theme)
     SetResourceKvp('hud_theme', theme)
 end
 
+-- Load HUD scale
+local function loadHudScale()
+    local scale = GetResourceKvpString('hud_scale')
+    return scale or '1.0'
+end
+
+-- Save HUD scale
+local function saveHudScale(scale)
+    SetResourceKvp('hud_scale', tostring(scale))
+end
+
 -- Toggle edit mode
 local function toggleEditMode()
     editMode = not editMode
@@ -80,12 +91,14 @@ CreateThread(function()
     local savedPositions = loadPositions()
     local savedElementSettings = loadElementSettings()
     local savedTheme = loadTheme()
+    local savedScale = loadHudScale()
     
     SendNUIMessage({
         type = 'init',
         positions = savedPositions,
         elementSettings = savedElementSettings,
-        theme = savedTheme
+        theme = savedTheme,
+        scale = savedScale
     })
 end)
 
@@ -104,6 +117,12 @@ end)
 -- Save theme from NUI
 RegisterNUICallback('saveTheme', function(data, cb)
     saveTheme(data.theme)
+    cb('ok')
+end)
+
+-- Save HUD scale from NUI
+RegisterNUICallback('saveHudScale', function(data, cb)
+    saveHudScale(data.scale)
     cb('ok')
 end)
 
@@ -248,6 +267,7 @@ CreateThread(function()
                 cash = 0, -- Should be integrated with your economy system
                 bank = 0, -- Should be integrated with your economy system
                 serverName = GetConvar('sv_projectName', 'FiveM Server'),
+                playerId = GetPlayerServerId(playerId),
                 compass = direction,
                 street = locationText,
                 weapon = weaponData,

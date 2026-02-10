@@ -81,33 +81,67 @@
         </div>
 
         <!-- Cash Display -->
-        <div class="hud-element" id="cash-display" data-element="cash">
+        <div class="hud-element hud-hidden" id="cash-display" data-element="cash">
             <div class="hud-icon">💵</div>
             <div class="hud-text">$0</div>
         </div>
 
         <!-- Bank Money Display -->
-        <div class="hud-element" id="bank-display" data-element="bank">
+        <div class="hud-element hud-hidden" id="bank-display" data-element="bank">
             <div class="hud-icon">🏦</div>
             <div class="hud-text">$0</div>
         </div>
 
         <!-- Server Name Display -->
-        <div class="hud-element" id="server-display" data-element="server">
+        <div class="hud-element hud-hidden" id="server-display" data-element="server">
             <div class="hud-icon">🖥️</div>
             <div class="hud-text">Server Name</div>
         </div>
 
         <!-- Compass Display -->
-        <div class="hud-element" id="compass-display" data-element="compass">
+        <div class="hud-element hud-hidden" id="compass-display" data-element="compass">
             <div class="hud-icon">🧭</div>
             <div class="hud-text">N</div>
         </div>
 
         <!-- Street Name Display -->
-        <div class="hud-element" id="street-display" data-element="street">
+        <div class="hud-element hud-hidden" id="street-display" data-element="street">
             <div class="hud-icon">📍</div>
             <div class="hud-text">Los Santos</div>
+        </div>
+
+        <!-- Info Column - Combined Display -->
+        <div class="hud-element hud-info-column" id="info-column" data-element="info-column">
+            <div class="info-row">
+                <div class="info-icon">💵</div>
+                <div class="info-label">Cash:</div>
+                <div class="info-value" id="info-cash">$0</div>
+            </div>
+            <div class="info-row">
+                <div class="info-icon">🏦</div>
+                <div class="info-label">Bank:</div>
+                <div class="info-value" id="info-bank">$0</div>
+            </div>
+            <div class="info-row">
+                <div class="info-icon">🖥️</div>
+                <div class="info-label">Server:</div>
+                <div class="info-value" id="info-server">FiveM</div>
+            </div>
+            <div class="info-row">
+                <div class="info-icon">🆔</div>
+                <div class="info-label">ID:</div>
+                <div class="info-value" id="info-id">0</div>
+            </div>
+            <div class="info-row">
+                <div class="info-icon">🧭</div>
+                <div class="info-label">Richtung:</div>
+                <div class="info-value" id="info-compass">N</div>
+            </div>
+            <div class="info-row">
+                <div class="info-icon">📍</div>
+                <div class="info-label">Straße:</div>
+                <div class="info-value" id="info-street">Los Santos</div>
+            </div>
         </div>
 
         <!-- Weapon Display (only visible when weapon is active) -->
@@ -149,6 +183,7 @@
         <div class="edit-instructions">
             <h2>HUD Edit-Modus</h2>
             <p>Ziehe die HUD-Elemente an die gewünschte Position</p>
+            <p style="font-size: 12px; color: #ffcc00; margin-top: 5px;">🖱️ Mausrad zum Zoomen</p>
             <button id="save-btn">Speichern & Beenden (F10)</button>
         </div>
         
@@ -199,6 +234,10 @@
                 <label class="element-checkbox">
                     <input type="checkbox" id="toggle-street" checked>
                     <span>📍 Straße</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-info-column" checked>
+                    <span>📊 Info-Spalte</span>
                 </label>
                 <label class="element-checkbox">
                     <input type="checkbox" id="toggle-weapon" checked>
