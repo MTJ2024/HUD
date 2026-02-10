@@ -13,15 +13,34 @@ function initDraggable() {
     const draggables = document.querySelectorAll('.draggable-container');
     
     draggables.forEach(element => {
+        // Ensure element has absolute positioning
+        element.style.position = 'absolute';
+        
         // Load saved position from localStorage
         const savedPosition = localStorage.getItem(`hud-pos-${element.id}`);
         if (savedPosition) {
             const pos = JSON.parse(savedPosition);
             element.style.left = pos.left;
             element.style.top = pos.top;
-            element.style.right = 'auto';
-            element.style.bottom = 'auto';
-            element.style.transform = pos.transform || 'none';
+            // Clear any default right/bottom positioning
+            element.style.right = '';
+            element.style.bottom = '';
+            if (pos.transform && pos.transform !== 'none') {
+                element.style.transform = pos.transform;
+            }
+        } else {
+            // Store initial position
+            const rect = element.getBoundingClientRect();
+            const initialPosition = {
+                left: rect.left + 'px',
+                top: rect.top + 'px',
+                transform: element.style.transform || 'none'
+            };
+            // Convert to absolute positioning with current computed position
+            element.style.left = initialPosition.left;
+            element.style.top = initialPosition.top;
+            element.style.right = '';
+            element.style.bottom = '';
         }
         
         element.addEventListener('mousedown', startDrag);
@@ -30,6 +49,9 @@ function initDraggable() {
 
 function startDrag(e) {
     if (!editMode) return;
+    
+    // Prevent default to avoid text selection
+    e.preventDefault();
     
     draggedElement = e.currentTarget;
     draggedElement.classList.add('dragging');
@@ -45,13 +67,22 @@ function startDrag(e) {
 function drag(e) {
     if (!draggedElement) return;
     
+    e.preventDefault();
+    
     const x = e.clientX - dragOffset.x;
     const y = e.clientY - dragOffset.y;
     
-    draggedElement.style.left = x + 'px';
-    draggedElement.style.top = y + 'px';
-    draggedElement.style.right = 'auto';
-    draggedElement.style.bottom = 'auto';
+    // Constrain to viewport
+    const maxX = window.innerWidth - draggedElement.offsetWidth;
+    const maxY = window.innerHeight - draggedElement.offsetHeight;
+    
+    const constrainedX = Math.max(0, Math.min(x, maxX));
+    const constrainedY = Math.max(0, Math.min(y, maxY));
+    
+    draggedElement.style.left = constrainedX + 'px';
+    draggedElement.style.top = constrainedY + 'px';
+    draggedElement.style.right = '';
+    draggedElement.style.bottom = '';
     draggedElement.style.transform = 'none';
 }
 
