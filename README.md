@@ -5,7 +5,7 @@ Ein anpassbares HUD-System für FiveM mit Drag-and-Drop-Positionierung.
 ## Features
 
 ✅ **Kein dauerhaftes Einstellungs-Icon** - Das Einstellungs-Icon (⚙️) wird nur im Edit-Modus angezeigt
-✅ **Toggle Edit-Modus** - Drücke **F9**, um den Edit-Modus ein-/auszuschalten
+✅ **Toggle Edit-Modus** - Drücke **F10**, um den Edit-Modus ein-/auszuschalten
 ✅ **Drag-and-Drop** - Ziehe HUD-Elemente per Maus an die gewünschte Position
 ✅ **Automatisches Speichern** - Positionen werden automatisch gespeichert beim Verlassen des Edit-Modus
 ✅ **Persistente Positionen** - Gespeicherte Positionen bleiben nach Neustart erhalten
@@ -28,7 +28,7 @@ Das System enthält folgende HUD-Elemente:
 ## Verwendung
 
 ### Edit-Modus aktivieren
-1. Drücke **F9** (oder verwende den Befehl `/hudedit`)
+1. Drücke **F10** (oder verwende den Befehl `/hudedit`)
 2. Das Einstellungs-Icon (⚙️) erscheint oben links
 3. Ein Overlay mit Anweisungen wird angezeigt
 4. Alle HUD-Elemente bekommen einen gelben gestrichelten Rahmen
@@ -40,7 +40,7 @@ Das System enthält folgende HUD-Elemente:
 4. Wiederhole dies für alle gewünschten Elemente
 
 ### Edit-Modus beenden & Speichern
-1. Drücke erneut **F9** oder klicke auf "Speichern & Beenden"
+1. Drücke erneut **F10** oder klicke auf "Speichern & Beenden"
 2. Die Positionen werden automatisch gespeichert
 3. Das Einstellungs-Icon verschwindet
 4. Der normale Spielmodus wird fortgesetzt
@@ -50,7 +50,7 @@ Das System enthält folgende HUD-Elemente:
 ### Keybind ändern
 Bearbeite `client.lua` und ändere die Zeile:
 ```lua
-RegisterKeyMapping('hudedit', 'Toggle HUD Edit Mode', 'keyboard', 'F9')
+RegisterKeyMapping('hudedit', 'Toggle HUD Edit Mode', 'keyboard', 'F10')
 ```
 
 ### HUD-Elemente hinzufügen
@@ -81,7 +81,7 @@ Bearbeite die CSS-Regeln in `html/style.css`:
 - Überprüfe die F8 Konsole auf Fehler
 
 **Positionen werden nicht gespeichert**
-- Stelle sicher, dass du den Edit-Modus mit F9 beendest (nicht einfach die Seite neu lädt)
+- Stelle sicher, dass du den Edit-Modus mit F10 beendest (nicht einfach die Seite neu lädt)
 - Überprüfe die Konsole auf Fehler bei der KVP-Speicherung
 
 **Keybind funktioniert nicht**

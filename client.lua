@@ -40,12 +40,12 @@ local function toggleEditMode()
     end
 end
 
--- Register keybind for toggle edit mode (F9 key)
+-- Register keybind for toggle edit mode (F10 key)
 RegisterCommand('hudedit', function()
     toggleEditMode()
 end, false)
 
-RegisterKeyMapping('hudedit', 'Toggle HUD Edit Mode', 'keyboard', 'F9')
+RegisterKeyMapping('hudedit', 'Toggle HUD Edit Mode', 'keyboard', 'F10')
 
 -- Initialize HUD
 CreateThread(function()
