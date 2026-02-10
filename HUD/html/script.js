@@ -151,6 +151,33 @@ function formatMoney(amount) {
     return '$' + amount.toLocaleString('en-US');
 }
 
+// Animate number change
+function animateValue(element, start, end, duration = 500) {
+    if (!element) return;
+    
+    const range = end - start;
+    const increment = range / (duration / 16); // 60fps
+    let current = start;
+    
+    // Add animation class based on increase/decrease
+    if (end > start) {
+        element.classList.add('increase');
+        setTimeout(() => element.classList.remove('increase'), 500);
+    } else if (end < start) {
+        element.classList.add('decrease');
+        setTimeout(() => element.classList.remove('decrease'), 500);
+    }
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+            current = end;
+            clearInterval(timer);
+        }
+        element.textContent = formatMoney(Math.floor(current));
+    }, 16);
+}
+
 // Update Status Bar
 function updateStatusBar(id, value) {
     const fillElement = document.getElementById(id + '-fill');
@@ -219,9 +246,20 @@ function updatePlayerData(data) {
         updateStatusBar('oxygen', data.oxygen);
     }
     
-    // Money
-    document.getElementById('cash-value').textContent = formatMoney(data.money);
-    document.getElementById('bank-value').textContent = formatMoney(data.bank);
+    // Money - with animation
+    const cashElement = document.getElementById('cash-value');
+    const bankElement = document.getElementById('bank-value');
+    
+    const oldCash = parseInt(cashElement.textContent.replace(/[$,]/g, '')) || 0;
+    const oldBank = parseInt(bankElement.textContent.replace(/[$,]/g, '')) || 0;
+    
+    if (Math.abs(oldCash - data.money) > 0) {
+        animateValue(cashElement, oldCash, data.money, 300);
+    }
+    
+    if (Math.abs(oldBank - data.bank) > 0) {
+        animateValue(bankElement, oldBank, data.bank, 300);
+    }
 }
 
 // Update Vehicle Data
@@ -234,23 +272,53 @@ function updateVehicleData(data) {
             isInVehicle = true;
         }
         
-        // Speed
+        // Speed with smooth animation
         const speedValue = document.getElementById('speed-value');
+        const oldSpeed = parseInt(speedValue.textContent) || 0;
+        
+        // Animate speed change
+        if (Math.abs(oldSpeed - data.speed) > 5) {
+            speedValue.style.transform = 'scale(1.1)';
+            setTimeout(() => speedValue.style.transform = 'scale(1)', 100);
+        }
+        
         speedValue.textContent = data.speed;
+        speedValue.setAttribute('data-speed', data.speed);
         
         // Update speed ring
         const maxSpeed = 300; // Max display speed
-        const speedPercent = (data.speed / maxSpeed) * 100;
+        const speedPercent = Math.min((data.speed / maxSpeed) * 100, 100);
         const speedRing = document.getElementById('speed-ring');
         const circumference = 2 * Math.PI * 45; // radius = 45
         const offset = circumference - (speedPercent / 100) * circumference;
         speedRing.style.strokeDashoffset = offset;
+        
+        // Change color based on speed
+        if (data.speed > 200) {
+            speedRing.style.stroke = 'rgb(255, 0, 0)';
+            speedValue.style.color = 'rgb(255, 0, 0)';
+        } else if (data.speed > 120) {
+            speedRing.style.stroke = 'rgb(255, 165, 0)';
+            speedValue.style.color = 'rgb(255, 165, 0)';
+        } else {
+            speedRing.style.stroke = 'var(--color-speed)';
+            speedValue.style.color = 'var(--color-speed)';
+        }
         
         // RPM
         const rpmFill = document.getElementById('rpm-fill');
         const rpmValue = document.getElementById('rpm-value');
         rpmFill.style.width = data.rpm + '%';
         rpmValue.textContent = data.rpm + '%';
+        
+        // Change RPM color at high RPM
+        if (data.rpm > 85) {
+            rpmFill.style.background = 'linear-gradient(90deg, rgb(255, 0, 0) 0%, rgba(255, 0, 0, 0.6) 100%)';
+            rpmFill.style.boxShadow = '0 0 1vh rgb(255, 0, 0)';
+        } else {
+            rpmFill.style.background = 'linear-gradient(90deg, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.6) 100%)';
+            rpmFill.style.boxShadow = '0 0 1vh rgb(255, 255, 255)';
+        }
         
         // Fuel
         const fuelFill = document.getElementById('fuel-fill');
@@ -262,20 +330,32 @@ function updateVehicleData(data) {
         if (data.fuel < 20) {
             fuelFill.style.background = 'linear-gradient(90deg, rgb(220, 20, 60) 0%, rgba(220, 20, 60, 0.6) 100%)';
             fuelFill.style.boxShadow = '0 0 1vh rgb(220, 20, 60)';
+            fuelValue.style.color = 'rgb(220, 20, 60)';
         } else {
             fuelFill.style.background = 'linear-gradient(90deg, rgb(255, 0, 0) 0%, rgba(255, 0, 0, 0.6) 100%)';
             fuelFill.style.boxShadow = '0 0 1vh rgb(255, 0, 0)';
+            fuelValue.style.color = 'var(--color-silver)';
         }
         
-        // Gear
+        // Gear with animation
         const gearValue = document.getElementById('gear-value');
+        const oldGear = gearValue.textContent;
+        let newGear;
+        
         if (data.gear === 0) {
-            gearValue.textContent = 'R';
+            newGear = 'R';
         } else if (data.gear === 1 && data.speed < 1) {
-            gearValue.textContent = 'N';
+            newGear = 'N';
         } else {
-            gearValue.textContent = data.gear;
+            newGear = data.gear.toString();
         }
+        
+        if (oldGear !== newGear) {
+            gearValue.style.transform = 'scale(1.3) rotate(5deg)';
+            setTimeout(() => gearValue.style.transform = 'scale(1) rotate(0deg)', 150);
+        }
+        
+        gearValue.textContent = newGear;
         
     } else {
         if (isInVehicle) {
