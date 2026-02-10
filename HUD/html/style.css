@@ -122,19 +122,11 @@ body {
 }
 
 .status-bar.warning {
-    animation: warningPulse 1s ease-in-out infinite;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 1vh rgba(220, 20, 60, 0.3);
 }
 
-@keyframes warningPulse {
-    0%, 100% {
-        border-color: var(--border-glass);
-        box-shadow: 0 0 0 rgba(220, 20, 60, 0);
-    }
-    50% {
-        border-color: var(--color-accent);
-        box-shadow: 0 0 2vh rgba(220, 20, 60, 0.5);
-    }
-}
+/* warningPulse animation removed - static warning instead */
 
 .status-bar::before {
     content: '';
@@ -157,19 +149,9 @@ body {
     height: 3vh;
     flex-shrink: 0;
     filter: drop-shadow(0 0 var(--glow-intensity) currentColor);
-    animation: iconPulse 2s ease-in-out infinite;
 }
 
-@keyframes iconPulse {
-    0%, 100% {
-        opacity: 0.9;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.05);
-    }
-}
+/* iconPulse animation removed - no more constant blinking */
 
 .status-icon-wrapper {
     position: relative;
@@ -217,7 +199,6 @@ body {
     transform: translate(-50%, -50%);
     width: 1.6vh;
     height: 1.6vh;
-    animation: iconPulse 2s ease-in-out infinite;
 }
 
 #health-bar .status-icon { color: var(--color-health); }
@@ -270,16 +251,12 @@ body {
     bottom: 0;
     background: linear-gradient(90deg, 
         rgba(255,255,255,0) 0%, 
-        rgba(255,255,255,0.3) 50%, 
+        rgba(255,255,255,0.2) 50%, 
         rgba(255,255,255,0) 100%
     );
-    animation: shimmer 2s infinite;
 }
 
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
+/* shimmer animation removed - static gradient instead */
 
 .status-glow {
     position: absolute;
@@ -368,7 +345,6 @@ body {
     height: 2.2vh;
     color: rgb(220, 20, 60);
     filter: drop-shadow(0 0 0.5vh rgb(220, 20, 60));
-    animation: iconPulse 2s ease-in-out infinite;
 }
 
 .money-content {
@@ -484,20 +460,12 @@ body {
     background: linear-gradient(
         45deg,
         transparent,
-        rgba(220, 20, 60, 0.05),
+        rgba(220, 20, 60, 0.03),
         transparent
     );
-    animation: vehicleShine 3s linear infinite;
 }
 
-@keyframes vehicleShine {
-    0% {
-        transform: translateX(-100%) translateY(-100%) rotate(45deg);
-    }
-    100% {
-        transform: translateX(100%) translateY(100%) rotate(45deg);
-    }
-}
+/* vehicleShine animation removed - static subtle gradient instead */
 
 .speedometer {
     position: relative;
@@ -816,13 +784,10 @@ body {
 }
 
 .voice-icon.talking {
-    animation: voicePulse 0.3s ease-in-out infinite;
+    transform: scale(1.1);
 }
 
-@keyframes voicePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-}
+/* voicePulse animation removed - static scale when talking */
 
 .voice-bars {
     display: flex;
@@ -846,20 +811,17 @@ body {
 .voice-indicator.range-shout .voice-bar { height: 100%; }
 
 .voice-indicator.talking .voice-bar {
-    animation: voiceBarPulse 0.5s ease-in-out infinite;
+    height: 70%;
 }
 
-@keyframes voiceBarPulse {
-    0%, 100% { height: 30%; }
-    50% { height: 90%; }
-}
+/* voiceBarPulse animation removed - static height when talking */
 
 .voice-indicator.talking .voice-bar:nth-child(2) {
-    animation-delay: 0.1s;
+    height: 85%;
 }
 
 .voice-indicator.talking .voice-bar:nth-child(3) {
-    animation-delay: 0.2s;
+    height: 100%;
 }
 
 /* ========================================
@@ -1061,18 +1023,11 @@ body {
     pointer-events: all !important;
     outline: 2px dashed var(--color-accent) !important;
     outline-offset: 2px;
-    animation: editModePulse 2s ease-in-out infinite;
+    box-shadow: 0 0 1.5vh rgba(220, 20, 60, 0.4);
     user-select: none;
 }
 
-@keyframes editModePulse {
-    0%, 100% {
-        box-shadow: 0 0 1vh rgba(220, 20, 60, 0.3);
-    }
-    50% {
-        box-shadow: 0 0 2vh rgba(220, 20, 60, 0.6);
-    }
-}
+/* editModePulse animation removed - static glow instead */
 
 .draggable-container.edit-mode::after {
     content: '⋮⋮';

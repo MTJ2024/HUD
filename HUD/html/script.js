@@ -603,31 +603,14 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Modern HUD loaded successfully! 🎮');
 });
 
-// Add warning animation for low health
+// Add static warning style for low health - no shaking animation
 setInterval(() => {
     const healthBar = document.getElementById('health-bar');
     const healthValue = parseInt(document.getElementById('health-value').textContent);
     
     if (healthValue < 25 && healthValue > 0) {
-        healthBar.style.animation = 'healthWarning 1s ease-in-out infinite';
+        healthBar.style.opacity = '1';
     } else {
-        healthBar.style.animation = 'none';
+        healthBar.style.opacity = '';
     }
 }, 1000);
-
-// Add health warning animation to CSS dynamically
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes healthWarning {
-        0%, 100% {
-            transform: translateX(0);
-        }
-        25% {
-            transform: translateX(-2px);
-        }
-        75% {
-            transform: translateX(2px);
-        }
-    }
-`;
-document.head.appendChild(style);
