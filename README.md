@@ -1,18 +1,19 @@
 # HUD System
 
-Ein hochmodernes, anpassbares HUD-System für FiveM mit kreisförmigen Anzeigen, Drag-and-Drop-Positionierung, Mausrad-Zoom und Info-Spalte.
+Ein hochmodernes, anpassbares HUD-System für FiveM mit kreisförmigen Anzeigen, **individueller Element-Skalierung**, Drag-and-Drop-Positionierung und **ESX-Integration**.
 
 ## Features
 
 ✅ **Moderne Kreisförmige Anzeigen** - Runde, hochmoderne Icons statt traditioneller Balken
-✅ **Mausrad-Zoom** - Skaliere HUD-Elemente von 0.5x bis 2.0x
+✅ **Individual Element Scaling** - Jedes Element EINZELN mit Mausrad skalierbar (0.5x - 2.0x)
+✅ **ESX-Integration** - Echte Daten von ESX (Cash, Bank, Spieler-ID)
 ✅ **Info-Spalte** - Kompakte Übersicht für Cash, Bank, Server, ID, Kompass, Straße
 ✅ **14 Wählbare HUD-Elemente** - Jedes Element kann einzeln ein-/ausgeblendet werden
 ✅ **Sinnvolle Defaults** - Cleanes Standard-Layout beim ersten Start
 ✅ **4 Farbthemen** - Blau, Rot, Grün, Lila
 ✅ **Toggle Edit-Modus** - Drücke **F10**, um den Edit-Modus ein-/auszuschalten
 ✅ **Drag-and-Drop** - Ziehe HUD-Elemente per Maus an die gewünschte Position
-✅ **Automatisches Speichern** - Positionen, Sichtbarkeit, Zoom und Farbschema werden gespeichert
+✅ **Automatisches Speichern** - Positionen, Sichtbarkeit, individuelle Größen und Farbschema
 ✅ **Persistente Einstellungen** - Alle Einstellungen bleiben nach Neustart erhalten
 ✅ **Echtzeit-Updates** - Alle Werte werden live vom Spiel aktualisiert
 ✅ **Tacho für Fahrzeuge** - Clean, zentrierter Tacho für Auto, Flugzeug, Hubschrauber
@@ -29,12 +30,12 @@ Das System enthält folgende wählbare HUD-Elemente:
 - 😰 **Stress** - Stresslevel *(Standard: Versteckt)*
 - 🏃 **Sprint-Energie** - Verbleibende Sprint-Ausdauer *(Standard: Versteckt)*
 
-### Info-Spalte *(NEU!)*
+### Info-Spalte *(MIT ESX-DATEN!)*
 📊 **Info-Spalte** - Kompakte Übersicht in einer Spalte *(Standard: Sichtbar)*
-- 💵 Cash - Bargeld des Spielers (live)
-- 🏦 Bank - Bank-Guthaben (live)
+- 💵 Cash - **Echtes Bargeld aus ESX Account** (live)
+- 🏦 Bank - **Echtes Bank-Guthaben aus ESX Account** (live)
 - 🖥️ Server - Name des Servers
-- 🆔 ID - Spieler-ID (automatisch)
+- 🆔 ID - **Echte Spieler-ID vom Server** (automatisch)
 - 🧭 Kompass - Himmelsrichtung (live: N, NE, E, SE, S, SW, W, NW)
 - 📍 Straße - Aktueller Straßenname mit Kreuzung (live)
 
@@ -71,12 +72,14 @@ Das System enthält folgende wählbare HUD-Elemente:
    - 4 Farbthemen zur Auswahl
    - Anweisungen für Drag & Drop und Mausrad-Zoom
 
-### Mausrad-Zoom (NEU!)
+### Individual Element Scaling (NEU!)
 1. Im Edit-Modus (F10 gedrückt)
-2. **Mausrad nach oben** = Vergrößern (bis 2.0x)
-3. **Mausrad nach unten** = Verkleinern (bis 0.5x)
-4. Der Zoom gilt für ALLE HUD-Elemente gleichzeitig
-5. Wird automatisch gespeichert
+2. **Maus über gewünschtes Element** bewegen
+3. **Mausrad nach oben** = Element größer (bis 2.0x / 200%)
+4. **Mausrad nach unten** = Element kleiner (bis 0.5x / 50%)
+5. **Gelber Glow** = Visuelles Feedback beim Skalieren
+6. **Jedes Element einzeln** einstellbar!
+7. Wird automatisch gespeichert
 
 ### HUD-Elemente wählen
 1. Im Einstellungspanel siehst du alle verfügbaren Elemente
@@ -134,9 +137,34 @@ Wait(100) -- Update every 100ms (kann angepasst werden)
 ### Integration mit Economy-System
 Ersetze in `client.lua` die Platzhalter:
 ```lua
-cash = 0, -- Ersetze mit: ESX.GetPlayerData().money or QBCore.Functions.GetPlayerData().money.cash
-bank = 0, -- Ersetze mit: ESX.GetPlayerData().accounts.bank or QBCore.Functions.GetPlayerData().money.bank
+-- ESX ist bereits integriert!
+-- Cash und Bank werden automatisch aus ESX-Accounts geladen
+-- Funktioniert mit ESX 1.2 und ESX Legacy
+
+-- Falls anderes Framework:
+cash = YourFramework.GetMoney() 
+bank = YourFramework.GetBankMoney()
 ```
+
+## ESX-Integration
+
+Das HUD ist vollständig mit ESX integriert und zeigt **echte Spielerdaten**:
+
+### Automatische ESX-Erkennung
+```lua
+-- Unterstützt beide ESX-Versionen
+TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)  -- Alt
+ESX = exports['es_extended']:getSharedObject()                     -- Neu
+```
+
+### Live-Daten
+- ✅ **Cash** - Aus ESX Account 'money'
+- ✅ **Bank** - Aus ESX Account 'bank'
+- ✅ **Spieler-ID** - Server ID
+- ✅ **Auto-Updates** - Bei Kontoänderungen (esx:setAccountMoney)
+
+### Keine Konfiguration nötig!
+Das HUD erkennt ESX automatisch und lädt die Daten. Falls ESX nicht gefunden wird, werden Standard-Werte (0) angezeigt.
 
 ### Integration mit Stress-System
 Ersetze in `client.lua`:
@@ -152,17 +180,17 @@ if (!theme) theme = 'blue'; // Ändere 'blue' zu 'red', 'green' oder 'purple'
 
 ## Technische Details
 
-- **Client-seitiges Script**: `client.lua` - Verwaltet Keybinds, Datenerfassung und NUI-Kommunikation
+- **Client-seitiges Script**: `client.lua` - Verwaltet Keybinds, Datenerfassung, ESX-Integration und NUI-Kommunikation
 - **UI-Dateien**: `html/` - HTML/CSS/JS für das HUD-Interface
 - **Speicher**: Verwendet FiveM's KVP (Key-Value-Pair) System für persistente Datenspeicherung
   - `hud_positions` - Positionen der HUD-Elemente
   - `hud_element_settings` - Sichtbarkeit der Elemente
   - `hud_theme` - Gewähltes Farbthema
-  - `hud_scale` - Zoom-Level (0.5 - 2.0)
-- **Framework**: Standalone (keine ESX/QB-Core Abhängigkeiten erforderlich)
+  - `hud_element_scales` - **Individuelle Größe jedes Elements** (NEU!)
+- **Framework**: ESX-kompatibel (automatische Erkennung von ESX 1.2 und Legacy)
 - **Update-Frequenz**: 100ms (10x pro Sekunde)
 - **Performance**: Optimiert für minimale CPU-Last
-- **Zoom-Bereich**: 0.5x (50%) bis 2.0x (200%)
+- **Individual Scaling**: 0.5x (50%) bis 2.0x (200%) pro Element
 - **Default-Settings**: Definiert in `html/script.js` als `defaultElementSettings`
 
 ## Farbthemen
