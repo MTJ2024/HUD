@@ -258,59 +258,6 @@ body {
     transform: translateX(-50%);
 }
 
-#info-column {
-    top: 30px;
-    right: 30px;
-}
-}
-
-/* Info Column Styles */
-.hud-info-column {
-    background: rgba(0, 0, 0, 0.85);
-    padding: 12px 16px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 280px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-}
-
-.info-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 6px;
-    transition: background 0.3s ease;
-}
-
-.info-row:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.info-icon {
-    font-size: 20px;
-    min-width: 28px;
-    text-align: center;
-}
-
-.info-label {
-    font-size: 13px;
-    color: #aaa;
-    min-width: 70px;
-    font-weight: 500;
-}
-
-.info-value {
-    font-size: 14px;
-    color: white;
-    font-weight: bold;
-    flex: 1;
-    text-align: right;
-}
 
 /* Settings Icon - Hidden by default, only shown in edit mode */
 .settings-icon {
