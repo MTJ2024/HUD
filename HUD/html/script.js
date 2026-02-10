@@ -253,11 +253,11 @@ function updatePlayerData(data) {
     const oldCash = parseInt(cashElement.textContent.replace(/[$,]/g, '')) || 0;
     const oldBank = parseInt(bankElement.textContent.replace(/[$,]/g, '')) || 0;
     
-    if (Math.abs(oldCash - data.money) > 0) {
+    if (oldCash !== data.money) {
         animateValue(cashElement, oldCash, data.money, 300);
     }
     
-    if (Math.abs(oldBank - data.bank) > 0) {
+    if (oldBank !== data.bank) {
         animateValue(bankElement, oldBank, data.bank, 300);
     }
 }

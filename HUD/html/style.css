@@ -555,6 +555,7 @@ body {
     z-index: 1;
 }
 
+/* Create a blurred duplicate of the speed value for enhanced glow effect */
 .speed-value::after {
     content: attr(data-speed);
     position: absolute;
