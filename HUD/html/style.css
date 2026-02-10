@@ -156,6 +156,55 @@ body {
     }
 }
 
+.status-icon-wrapper {
+    position: relative;
+    width: 4.5vh;
+    height: 4.5vh;
+    flex-shrink: 0;
+}
+
+.circular-progress {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.progress-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 2.5;
+}
+
+.progress-fill {
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 100.53;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 0 0.8vh currentColor);
+}
+
+.health-progress { stroke: var(--color-health); }
+.armor-progress { stroke: var(--color-armor); }
+.hunger-progress { stroke: var(--color-hunger); }
+.thirst-progress { stroke: var(--color-thirst); }
+.stamina-progress { stroke: var(--color-stamina); }
+.oxygen-progress { stroke: var(--color-oxygen); }
+
+.status-icon-wrapper .status-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2.5vh;
+    height: 2.5vh;
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
 #health-bar .status-icon { color: var(--color-health); }
 #armor-bar .status-icon { color: var(--color-armor); }
 #hunger-bar .status-icon { color: var(--color-hunger); }
@@ -728,6 +777,228 @@ body {
 ======================================== */
 .hidden {
     display: none !important;
+}
+
+/* ========================================
+   SETTINGS PANEL
+======================================== */
+#settings-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vh;
+    max-height: 80vh;
+    background: var(--bg-primary);
+    backdrop-filter: blur(30px);
+    border: 2px solid var(--color-accent);
+    border-radius: 2vh;
+    padding: 3vh;
+    z-index: 10000;
+    box-shadow: 0 0 3vh rgba(220, 20, 60, 0.5);
+    pointer-events: all;
+    overflow-y: auto;
+}
+
+#settings-panel:not(.hidden) {
+    animation: settingsFadeIn 0.3s ease;
+}
+
+@keyframes settingsFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2vh;
+    padding-bottom: 1.5vh;
+    border-bottom: 1px solid var(--border-glass);
+}
+
+.settings-header h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5vh;
+    color: var(--color-accent);
+    text-shadow: 0 0 1vh var(--color-accent);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 4vh;
+    cursor: pointer;
+    transition: all 0.3s;
+    pointer-events: all;
+    padding: 0;
+    width: 4vh;
+    height: 4vh;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: var(--color-accent);
+    transform: rotate(90deg);
+}
+
+.settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.settings-section {
+    background: var(--bg-glass);
+    padding: 2vh;
+    border-radius: 1vh;
+    border: 1px solid var(--border-glass);
+}
+
+.settings-section h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8vh;
+    margin-bottom: 1.5vh;
+    color: var(--color-silver);
+}
+
+.settings-section p {
+    font-size: 1.4vh;
+    color: var(--text-secondary);
+    margin-bottom: 1.5vh;
+}
+
+.settings-section label {
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+    font-size: 1.4vh;
+    margin-bottom: 1vh;
+    cursor: pointer;
+}
+
+.settings-section input[type="checkbox"] {
+    width: 2vh;
+    height: 2vh;
+    cursor: pointer;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 1.5vh 3vh;
+    border: none;
+    border-radius: 0.8vh;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4vh;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    pointer-events: all;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.btn-primary {
+    background: var(--color-accent);
+    color: white;
+    box-shadow: 0 0 1vh var(--color-accent);
+}
+
+.btn-primary:hover {
+    background: rgb(255, 40, 80);
+    box-shadow: 0 0 2vh var(--color-accent);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-glass);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-glass);
+    border-color: var(--color-silver);
+}
+
+#settings-btn {
+    position: fixed;
+    top: 2vh;
+    left: 2vh;
+    width: 5vh;
+    height: 5vh;
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-glass);
+    border-radius: 50%;
+    font-size: 2.5vh;
+    cursor: pointer;
+    transition: all 0.3s;
+    z-index: 9999;
+    pointer-events: all;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-accent);
+    box-shadow: 0 0 1vh rgba(220, 20, 60, 0.3);
+}
+
+#settings-btn:hover {
+    background: var(--color-accent);
+    color: white;
+    transform: rotate(45deg) scale(1.1);
+    box-shadow: 0 0 2vh var(--color-accent);
+}
+
+/* ========================================
+   DRAGGABLE CONTAINERS
+======================================== */
+.draggable-container {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.draggable-container.edit-mode {
+    cursor: move;
+    pointer-events: all;
+    border: 2px dashed var(--color-accent) !important;
+    background: rgba(220, 20, 60, 0.1) !important;
+    animation: editModePulse 2s ease-in-out infinite;
+}
+
+@keyframes editModePulse {
+    0%, 100% {
+        box-shadow: 0 0 1vh rgba(220, 20, 60, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 2vh rgba(220, 20, 60, 0.6);
+    }
+}
+
+.draggable-container.edit-mode::before {
+    content: '⋮⋮';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3vh;
+    color: var(--color-accent);
+    opacity: 0.5;
+    z-index: -1;
+}
+
+.draggable-container.dragging {
+    opacity: 0.8;
+    transform: scale(1.05);
+    box-shadow: 0 0 3vh var(--color-accent);
+    z-index: 9998;
 }
 
 /* ========================================

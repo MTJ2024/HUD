@@ -4,6 +4,147 @@ let cinematicMode = false;
 let hudVisible = true;
 let isInVehicle = false;
 let isTalking = false;
+let editMode = false;
+let draggedElement = null;
+let dragOffset = { x: 0, y: 0 };
+
+// Draggable System
+function initDraggable() {
+    const draggables = document.querySelectorAll('.draggable-container');
+    
+    draggables.forEach(element => {
+        // Load saved position from localStorage
+        const savedPosition = localStorage.getItem(`hud-pos-${element.id}`);
+        if (savedPosition) {
+            const pos = JSON.parse(savedPosition);
+            element.style.left = pos.left;
+            element.style.top = pos.top;
+            element.style.right = 'auto';
+            element.style.bottom = 'auto';
+            element.style.transform = pos.transform || 'none';
+        }
+        
+        element.addEventListener('mousedown', startDrag);
+    });
+}
+
+function startDrag(e) {
+    if (!editMode) return;
+    
+    draggedElement = e.currentTarget;
+    draggedElement.classList.add('dragging');
+    
+    const rect = draggedElement.getBoundingClientRect();
+    dragOffset.x = e.clientX - rect.left;
+    dragOffset.y = e.clientY - rect.top;
+    
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', stopDrag);
+}
+
+function drag(e) {
+    if (!draggedElement) return;
+    
+    const x = e.clientX - dragOffset.x;
+    const y = e.clientY - dragOffset.y;
+    
+    draggedElement.style.left = x + 'px';
+    draggedElement.style.top = y + 'px';
+    draggedElement.style.right = 'auto';
+    draggedElement.style.bottom = 'auto';
+    draggedElement.style.transform = 'none';
+}
+
+function stopDrag() {
+    if (!draggedElement) return;
+    
+    draggedElement.classList.remove('dragging');
+    
+    // Save position to localStorage
+    const position = {
+        left: draggedElement.style.left,
+        top: draggedElement.style.top,
+        transform: draggedElement.style.transform
+    };
+    localStorage.setItem(`hud-pos-${draggedElement.id}`, JSON.stringify(position));
+    
+    document.removeEventListener('mousemove', drag);
+    document.removeEventListener('mouseup', stopDrag);
+    draggedElement = null;
+}
+
+function toggleEditMode() {
+    editMode = !editMode;
+    const draggables = document.querySelectorAll('.draggable-container');
+    const editModeText = document.getElementById('edit-mode-text');
+    
+    if (editMode) {
+        draggables.forEach(el => el.classList.add('edit-mode'));
+        editModeText.textContent = 'Bearbeitungsmodus deaktivieren';
+        document.getElementById('hud-container').style.pointerEvents = 'all';
+    } else {
+        draggables.forEach(el => el.classList.remove('edit-mode'));
+        editModeText.textContent = 'Bearbeitungsmodus aktivieren';
+        document.getElementById('hud-container').style.pointerEvents = 'none';
+    }
+}
+
+function resetPositions() {
+    const draggables = document.querySelectorAll('.draggable-container');
+    draggables.forEach(element => {
+        localStorage.removeItem(`hud-pos-${element.id}`);
+        element.style.left = '';
+        element.style.top = '';
+        element.style.right = '';
+        element.style.bottom = '';
+        element.style.transform = '';
+    });
+    alert('Positionen wurden zurückgesetzt!');
+    location.reload();
+}
+
+function openSettings() {
+    document.getElementById('settings-panel').classList.remove('hidden');
+}
+
+function closeSettings() {
+    document.getElementById('settings-panel').classList.add('hidden');
+    if (editMode) {
+        toggleEditMode();
+    }
+}
+
+function toggleStyle() {
+    const showIcons = document.getElementById('show-icons').checked;
+    const statusBars = document.querySelectorAll('.status-icon');
+    statusBars.forEach(icon => {
+        icon.style.display = showIcons ? 'flex' : 'none';
+    });
+    localStorage.setItem('hud-show-icons', showIcons);
+}
+
+function toggleGlow() {
+    const showGlow = document.getElementById('show-glow').checked;
+    const root = document.documentElement;
+    root.style.setProperty('--glow-intensity', showGlow ? '8px' : '0px');
+    localStorage.setItem('hud-show-glow', showGlow);
+}
+
+// Load preferences
+function loadPreferences() {
+    const showIcons = localStorage.getItem('hud-show-icons');
+    const showGlow = localStorage.getItem('hud-show-glow');
+    
+    if (showIcons !== null) {
+        document.getElementById('show-icons').checked = showIcons === 'true';
+        toggleStyle();
+    }
+    
+    if (showGlow !== null) {
+        document.getElementById('show-glow').checked = showGlow === 'true';
+        toggleGlow();
+    }
+}
 
 // Format Money
 function formatMoney(amount) {
@@ -15,6 +156,7 @@ function updateStatusBar(id, value) {
     const fillElement = document.getElementById(id + '-fill');
     const valueElement = document.getElementById(id + '-value');
     const barElement = document.getElementById(id + '-bar');
+    const circleElement = document.getElementById(id + '-circle');
     
     if (!fillElement || !valueElement) return;
     
@@ -23,6 +165,13 @@ function updateStatusBar(id, value) {
     
     // Update fill width
     fillElement.style.width = value + '%';
+    
+    // Update circular progress
+    if (circleElement) {
+        const circumference = 100.53; // 2 * PI * 16
+        const offset = circumference - (value / 100) * circumference;
+        circleElement.style.strokeDashoffset = offset;
+    }
     
     // Update text value
     valueElement.textContent = Math.floor(value);
@@ -303,11 +452,26 @@ window.addEventListener('message', function(event) {
                 voiceIndicator.classList.remove('talking');
             }
             break;
+            
+        case 'toggleSettings':
+            const settingsPanel = document.getElementById('settings-panel');
+            if (settingsPanel.classList.contains('hidden')) {
+                openSettings();
+            } else {
+                closeSettings();
+            }
+            break;
     }
 });
 
 // Add smooth transitions on page load
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize draggable system
+    initDraggable();
+    
+    // Load user preferences
+    loadPreferences();
+    
     // Staggered animation for status bars
     const statusBars = document.querySelectorAll('.status-bar');
     statusBars.forEach((bar, index) => {
@@ -316,6 +480,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize compass
     updateCompass(0);
+    
+    // Close settings with ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeSettings();
+        }
+    });
     
     // Test animations
     console.log('Modern HUD loaded successfully! 🎮');
