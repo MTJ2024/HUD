@@ -8,58 +8,76 @@
 </head>
 <body>
     <div id="hud-container">
-        <!-- Health Bar -->
-        <div class="hud-element" id="health-bar" data-element="health">
-            <div class="hud-icon">❤️</div>
-            <div class="hud-bar">
-                <div class="hud-bar-fill" style="width: 100%;"></div>
+        <!-- Health Circle -->
+        <div class="hud-element hud-circle" id="health-bar" data-element="health">
+            <svg class="circle-progress" width="80" height="80">
+                <circle class="circle-bg" cx="40" cy="40" r="32"></circle>
+                <circle class="circle-fill health-circle" cx="40" cy="40" r="32" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">❤️</div>
+                <div class="hud-value">100</div>
             </div>
-            <div class="hud-value">100</div>
         </div>
 
-        <!-- Armor Bar -->
-        <div class="hud-element" id="armor-bar" data-element="armor">
-            <div class="hud-icon">🛡️</div>
-            <div class="hud-bar">
-                <div class="hud-bar-fill armor" style="width: 100%;"></div>
+        <!-- Armor Circle -->
+        <div class="hud-element hud-circle" id="armor-bar" data-element="armor">
+            <svg class="circle-progress" width="80" height="80">
+                <circle class="circle-bg" cx="40" cy="40" r="32"></circle>
+                <circle class="circle-fill armor-circle" cx="40" cy="40" r="32" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">🛡️</div>
+                <div class="hud-value">100</div>
             </div>
-            <div class="hud-value">100</div>
         </div>
 
-        <!-- Stamina Bar -->
-        <div class="hud-element" id="stamina-bar" data-element="stamina">
-            <div class="hud-icon">⚡</div>
-            <div class="hud-bar">
-                <div class="hud-bar-fill stamina" style="width: 100%;"></div>
+        <!-- Stamina Circle -->
+        <div class="hud-element hud-circle" id="stamina-bar" data-element="stamina">
+            <svg class="circle-progress" width="80" height="80">
+                <circle class="circle-bg" cx="40" cy="40" r="32"></circle>
+                <circle class="circle-fill stamina-circle" cx="40" cy="40" r="32" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">⚡</div>
+                <div class="hud-value">100</div>
             </div>
-            <div class="hud-value">100</div>
         </div>
 
-        <!-- Oxygen/Lung Bar -->
-        <div class="hud-element" id="oxygen-bar" data-element="oxygen">
-            <div class="hud-icon">🫁</div>
-            <div class="hud-bar">
-                <div class="hud-bar-fill oxygen" style="width: 100%;"></div>
+        <!-- Oxygen/Lung Circle -->
+        <div class="hud-element hud-circle" id="oxygen-bar" data-element="oxygen">
+            <svg class="circle-progress" width="80" height="80">
+                <circle class="circle-bg" cx="40" cy="40" r="32"></circle>
+                <circle class="circle-fill oxygen-circle" cx="40" cy="40" r="32" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">🫁</div>
+                <div class="hud-value">100</div>
             </div>
-            <div class="hud-value">100</div>
         </div>
 
-        <!-- Stress Bar -->
-        <div class="hud-element" id="stress-bar" data-element="stress">
-            <div class="hud-icon">😰</div>
-            <div class="hud-bar">
-                <div class="hud-bar-fill stress" style="width: 0%;"></div>
+        <!-- Stress Circle -->
+        <div class="hud-element hud-circle" id="stress-bar" data-element="stress">
+            <svg class="circle-progress" width="80" height="80">
+                <circle class="circle-bg" cx="40" cy="40" r="32"></circle>
+                <circle class="circle-fill stress-circle" cx="40" cy="40" r="32" style="stroke-dashoffset: 201;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">😰</div>
+                <div class="hud-value">0</div>
             </div>
-            <div class="hud-value">0</div>
         </div>
 
-        <!-- Sprint Energy Bar -->
-        <div class="hud-element" id="sprint-bar" data-element="sprint">
-            <div class="hud-icon">🏃</div>
-            <div class="hud-bar">
-                <div class="hud-bar-fill sprint" style="width: 100%;"></div>
+        <!-- Sprint Energy Circle -->
+        <div class="hud-element hud-circle" id="sprint-bar" data-element="sprint">
+            <svg class="circle-progress" width="80" height="80">
+                <circle class="circle-bg" cx="40" cy="40" r="32"></circle>
+                <circle class="circle-fill sprint-circle" cx="40" cy="40" r="32" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">🏃</div>
+                <div class="hud-value">100</div>
             </div>
-            <div class="hud-value">100</div>
         </div>
 
         <!-- Cash Display -->
@@ -104,6 +122,22 @@
             </div>
         </div>
 
+        <!-- Speedometer (only visible in vehicle) -->
+        <div class="hud-element hud-speedometer" id="speedometer" data-element="speedometer" style="display: none;">
+            <div class="speedo-container">
+                <svg class="speedo-circle" width="140" height="140">
+                    <circle class="speedo-bg" cx="70" cy="70" r="60"></circle>
+                    <circle class="speedo-fill" cx="70" cy="70" r="60" style="stroke-dashoffset: 377;"></circle>
+                </svg>
+                <div class="speedo-content">
+                    <div class="speedo-icon">🚗</div>
+                    <div class="speedo-speed">0</div>
+                    <div class="speedo-unit">km/h</div>
+                    <div class="speedo-gear">N</div>
+                </div>
+            </div>
+        </div>
+
         <!-- Settings Icon - Only visible in edit mode -->
         <div class="settings-icon" id="settings-icon">
             ⚙️
@@ -116,6 +150,85 @@
             <h2>HUD Edit-Modus</h2>
             <p>Ziehe die HUD-Elemente an die gewünschte Position</p>
             <button id="save-btn">Speichern & Beenden (F10)</button>
+        </div>
+        
+        <!-- Settings Panel -->
+        <div class="settings-panel">
+            <h3>HUD-Elemente auswählen</h3>
+            <div class="elements-grid">
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-health" checked>
+                    <span>❤️ Gesundheit</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-armor" checked>
+                    <span>🛡️ Rüstung</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-stamina" checked>
+                    <span>⚡ Ausdauer</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-oxygen" checked>
+                    <span>🫁 Sauerstoff</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-stress" checked>
+                    <span>😰 Stress</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-sprint" checked>
+                    <span>🏃 Sprint</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-cash" checked>
+                    <span>💵 Bargeld</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-bank" checked>
+                    <span>🏦 Bank</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-server" checked>
+                    <span>🖥️ Server</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-compass" checked>
+                    <span>🧭 Kompass</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-street" checked>
+                    <span>📍 Straße</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-weapon" checked>
+                    <span>🔫 Waffe</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-speedometer" checked>
+                    <span>🚗 Tacho</span>
+                </label>
+            </div>
+            
+            <h3 style="margin-top: 20px;">Farbschema wählen</h3>
+            <div class="theme-selector">
+                <button class="theme-btn active" data-theme="blue">
+                    <div class="theme-preview theme-blue"></div>
+                    <span>Blau</span>
+                </button>
+                <button class="theme-btn" data-theme="red">
+                    <div class="theme-preview theme-red"></div>
+                    <span>Rot</span>
+                </button>
+                <button class="theme-btn" data-theme="green">
+                    <div class="theme-preview theme-green"></div>
+                    <span>Grün</span>
+                </button>
+                <button class="theme-btn" data-theme="purple">
+                    <div class="theme-preview theme-purple"></div>
+                    <span>Lila</span>
+                </button>
+            </div>
         </div>
     </div>
 

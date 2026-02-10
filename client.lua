@@ -15,6 +15,32 @@ local function savePositions(positions)
     SetResourceKvp('hud_positions', json.encode(positions))
 end
 
+-- Load element settings
+local function loadElementSettings()
+    local settings = {}
+    local data = GetResourceKvpString('hud_element_settings')
+    if data then
+        settings = json.decode(data)
+    end
+    return settings
+end
+
+-- Save element settings
+local function saveElementSettings(settings)
+    SetResourceKvp('hud_element_settings', json.encode(settings))
+end
+
+-- Load theme
+local function loadTheme()
+    local theme = GetResourceKvpString('hud_theme')
+    return theme or 'blue'
+end
+
+-- Save theme
+local function saveTheme(theme)
+    SetResourceKvp('hud_theme', theme)
+end
+
 -- Toggle edit mode
 local function toggleEditMode()
     editMode = not editMode
@@ -52,15 +78,32 @@ CreateThread(function()
     -- Wait for NUI to be fully loaded before sending initial data
     Wait(1000)
     local savedPositions = loadPositions()
+    local savedElementSettings = loadElementSettings()
+    local savedTheme = loadTheme()
+    
     SendNUIMessage({
         type = 'init',
-        positions = savedPositions
+        positions = savedPositions,
+        elementSettings = savedElementSettings,
+        theme = savedTheme
     })
 end)
 
 -- Receive position updates from NUI
 RegisterNUICallback('savePositions', function(data, cb)
     savePositions(data.positions)
+    cb('ok')
+end)
+
+-- Save element settings from NUI
+RegisterNUICallback('saveElementSettings', function(data, cb)
+    saveElementSettings(data.settings)
+    cb('ok')
+end)
+
+-- Save theme from NUI
+RegisterNUICallback('saveTheme', function(data, cb)
+    saveTheme(data.theme)
     cb('ok')
 end)
 
@@ -150,6 +193,48 @@ CreateThread(function()
             }
         end
         
+        -- Get vehicle info
+        local vehicleData = nil
+        local vehicle = GetVehiclePedIsIn(playerPed, false)
+        
+        if vehicle ~= 0 and GetPedInVehicleSeat(vehicle, -1) == playerPed then
+            local speed = GetEntitySpeed(vehicle) * 3.6 -- Convert to km/h
+            local gear = GetVehicleCurrentGear(vehicle)
+            local maxGears = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'nInitialDriveGears')
+            local rpm = GetVehicleCurrentRpm(vehicle)
+            local vehicleClass = GetVehicleClass(vehicle)
+            
+            -- Determine vehicle icon
+            local vehicleIcon = "🚗"
+            if vehicleClass == 15 then -- Helicopter
+                vehicleIcon = "🚁"
+            elseif vehicleClass == 16 then -- Plane
+                vehicleIcon = "✈️"
+            elseif vehicleClass == 14 then -- Boat
+                vehicleIcon = "🚤"
+            elseif vehicleClass == 8 then -- Motorcycle
+                vehicleIcon = "🏍️"
+            elseif vehicleClass == 18 then -- Emergency
+                vehicleIcon = "🚑"
+            end
+            
+            -- Get gear display
+            local gearDisplay = tostring(gear)
+            if gear == 0 then
+                gearDisplay = "R"
+            elseif not IsVehicleEngineOn(vehicle) then
+                gearDisplay = "N"
+            end
+            
+            vehicleData = {
+                speed = math.floor(speed),
+                gear = gearDisplay,
+                rpm = math.floor(rpm * 100),
+                icon = vehicleIcon,
+                maxSpeed = math.floor(GetVehicleEstimatedMaxSpeed(vehicle) * 3.6)
+            }
+        end
+        
         -- Send all data to NUI
         SendNUIMessage({
             type = 'updateHUD',
@@ -165,7 +250,8 @@ CreateThread(function()
                 serverName = GetConvar('sv_projectName', 'FiveM Server'),
                 compass = direction,
                 street = locationText,
-                weapon = weaponData
+                weapon = weaponData,
+                vehicle = vehicleData
             }
         })
     end

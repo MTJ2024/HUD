@@ -9,6 +9,12 @@ window.addEventListener('message', function(event) {
     
     if (data.type === 'init') {
         loadPositions(data.positions);
+        if (data.elementSettings) {
+            loadElementSettings(data.elementSettings);
+        }
+        if (data.theme) {
+            loadTheme(data.theme);
+        }
     } else if (data.type === 'toggleEditMode') {
         toggleEditMode(data.enabled);
     } else if (data.type === 'updateHUD') {
@@ -137,6 +143,125 @@ document.getElementById('save-btn').addEventListener('click', function() {
     });
 });
 
+// Element visibility toggles
+const elementToggles = {
+    'toggle-health': 'health-bar',
+    'toggle-armor': 'armor-bar',
+    'toggle-stamina': 'stamina-bar',
+    'toggle-oxygen': 'oxygen-bar',
+    'toggle-stress': 'stress-bar',
+    'toggle-sprint': 'sprint-bar',
+    'toggle-cash': 'cash-display',
+    'toggle-bank': 'bank-display',
+    'toggle-server': 'server-display',
+    'toggle-compass': 'compass-display',
+    'toggle-street': 'street-display',
+    'toggle-weapon': 'weapon-display',
+    'toggle-speedometer': 'speedometer'
+};
+
+// Initialize element toggles
+Object.keys(elementToggles).forEach(toggleId => {
+    const checkbox = document.getElementById(toggleId);
+    if (checkbox) {
+        checkbox.addEventListener('change', function() {
+            const elementId = elementToggles[toggleId];
+            const element = document.getElementById(elementId);
+            if (element) {
+                if (this.checked) {
+                    element.classList.remove('hud-hidden');
+                } else {
+                    element.classList.add('hud-hidden');
+                }
+                saveElementSettings();
+            }
+        });
+    }
+});
+
+// Theme selector
+const themeButtons = document.querySelectorAll('.theme-btn');
+themeButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+        const theme = this.dataset.theme;
+        
+        // Update active button
+        themeButtons.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Apply theme to body
+        document.body.className = 'theme-' + theme;
+        
+        // Save theme
+        saveTheme(theme);
+    });
+});
+
+// Save element visibility settings
+function saveElementSettings() {
+    const settings = {};
+    Object.keys(elementToggles).forEach(toggleId => {
+        const checkbox = document.getElementById(toggleId);
+        if (checkbox) {
+            settings[toggleId] = checkbox.checked;
+        }
+    });
+    
+    fetch(`https://${GetParentResourceName()}/saveElementSettings`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ settings: settings })
+    });
+}
+
+// Save theme
+function saveTheme(theme) {
+    fetch(`https://${GetParentResourceName()}/saveTheme`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ theme: theme })
+    });
+}
+
+// Load element settings
+function loadElementSettings(settings) {
+    if (!settings) return;
+    
+    Object.keys(elementToggles).forEach(toggleId => {
+        const checkbox = document.getElementById(toggleId);
+        const elementId = elementToggles[toggleId];
+        const element = document.getElementById(elementId);
+        
+        if (checkbox && element && settings.hasOwnProperty(toggleId)) {
+            checkbox.checked = settings[toggleId];
+            if (!settings[toggleId]) {
+                element.classList.add('hud-hidden');
+            } else {
+                element.classList.remove('hud-hidden');
+            }
+        }
+    });
+}
+
+// Load theme
+function loadTheme(theme) {
+    if (!theme) theme = 'blue';
+    
+    document.body.className = 'theme-' + theme;
+    
+    themeButtons.forEach(btn => {
+        if (btn.dataset.theme === theme) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
 // Helper function to get resource name
 function GetParentResourceName() {
     // Default to the resource folder name
@@ -243,6 +368,41 @@ function updateHUDData(data) {
         if (weaponAmmo) weaponAmmo.textContent = data.weapon.ammoInClip + '/' + data.weapon.ammoReserve;
     } else if (weaponDisplay) {
         weaponDisplay.style.display = 'none';
+    }
+    
+    // Update speedometer display
+    const speedometer = document.getElementById('speedometer');
+    if (data.vehicle && speedometer) {
+        speedometer.style.display = 'flex';
+        
+        const speedoIcon = speedometer.querySelector('.speedo-icon');
+        const speedoSpeed = speedometer.querySelector('.speedo-speed');
+        const speedoGear = speedometer.querySelector('.speedo-gear');
+        const speedoFill = speedometer.querySelector('.speedo-fill');
+        
+        if (speedoIcon) speedoIcon.textContent = data.vehicle.icon;
+        if (speedoSpeed) speedoSpeed.textContent = data.vehicle.speed;
+        if (speedoGear) speedoGear.textContent = data.vehicle.gear;
+        
+        // Update circular progress based on speed (max 240 km/h for visualization)
+        if (speedoFill) {
+            const maxSpeed = 240;
+            const percentage = Math.min(100, (data.vehicle.speed / maxSpeed) * 100);
+            const circumference = 377;
+            const offset = circumference - (circumference * percentage) / 100;
+            speedoFill.style.strokeDashoffset = offset;
+            
+            // Change color based on speed
+            if (data.vehicle.speed > 180) {
+                speedoFill.style.stroke = '#ff3366';
+            } else if (data.vehicle.speed > 120) {
+                speedoFill.style.stroke = '#ffcc00';
+            } else {
+                speedoFill.style.stroke = '#00ccff';
+            }
+        }
+    } else if (speedometer) {
+        speedometer.style.display = 'none';
     }
 }
 

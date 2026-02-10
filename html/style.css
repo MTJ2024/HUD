@@ -32,6 +32,86 @@ body {
     user-select: none;
 }
 
+/* Circular HUD Elements */
+.hud-circle {
+    position: relative;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 8px;
+    border-radius: 50%;
+    width: 96px;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.circle-progress {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    transform: rotate(-90deg);
+}
+
+.circle-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 6;
+}
+
+.circle-fill {
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-dasharray: 201;
+    transition: stroke-dashoffset 0.3s ease, stroke 0.3s ease;
+}
+
+.health-circle {
+    stroke: url(#healthGradient);
+    stroke: #ff3366;
+}
+
+.armor-circle {
+    stroke: #3399ff;
+}
+
+.stamina-circle {
+    stroke: #ffcc00;
+}
+
+.oxygen-circle {
+    stroke: #00ccff;
+}
+
+.stress-circle {
+    stroke: #ff6600;
+}
+
+.sprint-circle {
+    stroke: #00ff66;
+}
+
+.circle-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.hud-circle .hud-icon {
+    font-size: 28px;
+    margin-bottom: 2px;
+}
+
+.hud-circle .hud-value {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
 .hud-element.dragging {
     opacity: 0.8;
     cursor: move;
@@ -42,6 +122,10 @@ body {
 .hud-element.edit-mode {
     border: 2px dashed #ffcc00;
     cursor: move;
+}
+
+.hud-element.hud-hidden {
+    display: none !important;
 }
 
 .hud-icon {
@@ -158,6 +242,12 @@ body {
     transform: translateY(-50%);
 }
 
+#speedometer {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 /* Settings Icon - Hidden by default, only shown in edit mode */
 .settings-icon {
     position: absolute;
@@ -186,12 +276,14 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: flex-start;
     padding-top: 20px;
+    gap: 20px;
     pointer-events: none;
+    overflow-y: auto;
 }
 
 #edit-overlay.hidden {
@@ -239,6 +331,213 @@ body {
     transform: scale(0.95);
 }
 
+/* Settings Panel */
+.settings-panel {
+    background: rgba(0, 0, 0, 0.95);
+    padding: 25px;
+    border-radius: 15px;
+    max-width: 500px;
+    pointer-events: all;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.7);
+    border: 2px solid rgba(255, 204, 0, 0.3);
+}
+
+.settings-panel h3 {
+    color: #ffcc00;
+    margin-bottom: 15px;
+    font-size: 18px;
+    border-bottom: 2px solid rgba(255, 204, 0, 0.3);
+    padding-bottom: 8px;
+}
+
+.elements-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.element-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.element-checkbox:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 204, 0, 0.5);
+}
+
+.element-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #ffcc00;
+}
+
+.element-checkbox span {
+    color: white;
+    font-size: 14px;
+    user-select: none;
+}
+
+.element-checkbox input[type="checkbox"]:checked + span {
+    color: #ffcc00;
+    font-weight: bold;
+}
+
+/* Theme Selector */
+.theme-selector {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.theme-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.theme-btn.active {
+    border-color: #ffcc00;
+    background: rgba(255, 204, 0, 0.1);
+}
+
+.theme-btn span {
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.theme-preview {
+    width: 60px;
+    height: 40px;
+    border-radius: 6px;
+    display: flex;
+    gap: 3px;
+    padding: 5px;
+}
+
+.theme-preview::before,
+.theme-preview::after {
+    content: '';
+    flex: 1;
+    border-radius: 3px;
+}
+
+.theme-blue {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+}
+
+.theme-blue::before {
+    background: #3399ff;
+}
+
+.theme-blue::after {
+    background: #00ccff;
+}
+
+.theme-red {
+    background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+}
+
+.theme-red::before {
+    background: #ff3366;
+}
+
+.theme-red::after {
+    background: #ff6600;
+}
+
+.theme-green {
+    background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+}
+
+.theme-green::before {
+    background: #00ff66;
+}
+
+.theme-green::after {
+    background: #00ccaa;
+}
+
+.theme-purple {
+    background: linear-gradient(135deg, #4a148c 0%, #7b1fa2 100%);
+}
+
+.theme-purple::before {
+    background: #9c27b0;
+}
+
+.theme-purple::after {
+    background: #e040fb;
+}
+
+/* Color Theme Variables */
+body.theme-blue {
+    --primary-color: #3399ff;
+    --secondary-color: #00ccff;
+    --accent-color: #66b3ff;
+}
+
+body.theme-red {
+    --primary-color: #ff3366;
+    --secondary-color: #ff6600;
+    --accent-color: #ff9933;
+}
+
+body.theme-green {
+    --primary-color: #00ff66;
+    --secondary-color: #00ccaa;
+    --accent-color: #66ff99;
+}
+
+body.theme-purple {
+    --primary-color: #9c27b0;
+    --secondary-color: #e040fb;
+    --accent-color: #ba68c8;
+}
+
+/* Apply theme colors to elements */
+body.theme-blue .armor-circle,
+body.theme-blue .speedo-fill { stroke: #3399ff !important; }
+body.theme-blue .oxygen-circle { stroke: #00ccff !important; }
+body.theme-blue .sprint-circle { stroke: #66b3ff !important; }
+
+body.theme-red .armor-circle,
+body.theme-red .speedo-fill { stroke: #ff3366 !important; }
+body.theme-red .oxygen-circle { stroke: #ff6600 !important; }
+body.theme-red .sprint-circle { stroke: #ff9933 !important; }
+
+body.theme-green .armor-circle,
+body.theme-green .speedo-fill { stroke: #00ff66 !important; }
+body.theme-green .oxygen-circle { stroke: #00ccaa !important; }
+body.theme-green .sprint-circle { stroke: #66ff99 !important; }
+
+body.theme-purple .armor-circle,
+body.theme-purple .speedo-fill { stroke: #9c27b0 !important; }
+body.theme-purple .oxygen-circle { stroke: #e040fb !important; }
+body.theme-purple .sprint-circle { stroke: #ba68c8 !important; }
+
 /* Weapon Display Specific Styles */
 .hud-weapon {
     flex-direction: row;
@@ -271,4 +570,91 @@ body {
 .weapon-ammo {
     color: #ff9933;
     font-weight: bold;
+}
+
+/* Speedometer Styles */
+.hud-speedometer {
+    background: rgba(0, 0, 0, 0.85);
+    padding: 12px;
+    border-radius: 50%;
+    width: 164px;
+    height: 164px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 123, 255, 0.3);
+    border: 2px solid rgba(0, 123, 255, 0.3);
+}
+
+.speedo-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+}
+
+.speedo-circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(-90deg);
+}
+
+.speedo-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 8;
+}
+
+.speedo-fill {
+    fill: none;
+    stroke: url(#speedoGradient);
+    stroke: #00ccff;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 377;
+    transition: stroke-dashoffset 0.2s ease;
+}
+
+.speedo-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.speedo-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+    opacity: 0.8;
+}
+
+.speedo-speed {
+    font-size: 36px;
+    font-weight: bold;
+    color: #00ccff;
+    line-height: 1;
+    text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+}
+
+.speedo-unit {
+    font-size: 11px;
+    color: #888;
+    margin-top: 2px;
+    letter-spacing: 1px;
+}
+
+.speedo-gear {
+    position: absolute;
+    bottom: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffcc00;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2px 8px;
+    border-radius: 4px;
+    min-width: 24px;
+    text-align: center;
 }
