@@ -1,0 +1,190 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background: transparent;
+}
+
+#hud-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+}
+
+.hud-element {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    pointer-events: all;
+    transition: transform 0.1s ease;
+    user-select: none;
+}
+
+.hud-element.dragging {
+    opacity: 0.8;
+    cursor: move;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.hud-element.edit-mode {
+    border: 2px dashed #ffcc00;
+    cursor: move;
+}
+
+.hud-icon {
+    font-size: 20px;
+}
+
+.hud-bar {
+    width: 150px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.hud-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff3333, #ff6666);
+    transition: width 0.3s ease;
+    border-radius: 10px;
+}
+
+.hud-bar-fill.armor {
+    background: linear-gradient(90deg, #3399ff, #66b3ff);
+}
+
+.hud-bar-fill.stamina {
+    background: linear-gradient(90deg, #ffcc00, #ffdd66);
+}
+
+.hud-value {
+    font-weight: bold;
+    min-width: 30px;
+    text-align: right;
+}
+
+.hud-text {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Default positions */
+#health-bar {
+    bottom: 20px;
+    left: 20px;
+}
+
+#armor-bar {
+    bottom: 60px;
+    left: 20px;
+}
+
+#stamina-bar {
+    bottom: 100px;
+    left: 20px;
+}
+
+#money-display {
+    top: 20px;
+    right: 20px;
+}
+
+#location-display {
+    bottom: 20px;
+    right: 20px;
+}
+
+/* Settings Icon - Hidden by default, only shown in edit mode */
+.settings-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 32px;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+}
+
+.settings-icon.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Edit Mode Overlay */
+#edit-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px;
+    pointer-events: none;
+}
+
+#edit-overlay.hidden {
+    display: none;
+}
+
+.edit-instructions {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    pointer-events: all;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.edit-instructions h2 {
+    margin-bottom: 10px;
+    color: #ffcc00;
+}
+
+.edit-instructions p {
+    margin-bottom: 20px;
+    color: #ccc;
+}
+
+#save-btn {
+    background: #ffcc00;
+    color: #000;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#save-btn:hover {
+    background: #ffdd33;
+    transform: scale(1.05);
+}
+
+#save-btn:active {
+    transform: scale(0.95);
+}

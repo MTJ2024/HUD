@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUD System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="hud-container">
+        <!-- Health Bar -->
+        <div class="hud-element" id="health-bar" data-element="health">
+            <div class="hud-icon">❤️</div>
+            <div class="hud-bar">
+                <div class="hud-bar-fill" style="width: 100%;"></div>
+            </div>
+            <div class="hud-value">100</div>
+        </div>
+
+        <!-- Armor Bar -->
+        <div class="hud-element" id="armor-bar" data-element="armor">
+            <div class="hud-icon">🛡️</div>
+            <div class="hud-bar">
+                <div class="hud-bar-fill armor" style="width: 100%;"></div>
+            </div>
+            <div class="hud-value">100</div>
+        </div>
+
+        <!-- Stamina Bar -->
+        <div class="hud-element" id="stamina-bar" data-element="stamina">
+            <div class="hud-icon">⚡</div>
+            <div class="hud-bar">
+                <div class="hud-bar-fill stamina" style="width: 100%;"></div>
+            </div>
+            <div class="hud-value">100</div>
+        </div>
+
+        <!-- Money Display -->
+        <div class="hud-element" id="money-display" data-element="money">
+            <div class="hud-icon">💰</div>
+            <div class="hud-text">$0</div>
+        </div>
+
+        <!-- Location Display -->
+        <div class="hud-element" id="location-display" data-element="location">
+            <div class="hud-icon">📍</div>
+            <div class="hud-text">Los Santos</div>
+        </div>
+
+        <!-- Settings Icon - Only visible in edit mode -->
+        <div class="settings-icon" id="settings-icon">
+            ⚙️
+        </div>
+    </div>
+
+    <!-- Edit Mode Overlay -->
+    <div id="edit-overlay" class="hidden">
+        <div class="edit-instructions">
+            <h2>HUD Edit-Modus</h2>
+            <p>Ziehe die HUD-Elemente an die gewünschte Position</p>
+            <button id="save-btn">Speichern & Beenden (F9)</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
