@@ -229,7 +229,7 @@ end)
 -- Pause Menu Detection Thread
 CreateThread(function()
     while true do
-        Wait(200) -- Check every 200ms
+        Wait(100) -- Check every 100ms for responsive UI
         
         local pauseMenuActive = IsPauseMenuActive()
         
