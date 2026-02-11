@@ -7,8 +7,8 @@ Ein hochmodernes, anpassbares HUD-System für FiveM mit kreisförmigen Anzeigen,
 ✅ **Moderne Kreisförmige Anzeigen** - Runde, hochmoderne Icons statt traditioneller Balken
 ✅ **Individual Element Scaling** - Jedes Element EINZELN mit Mausrad skalierbar (0.5x - 2.0x)
 ✅ **ESX-Integration** - Echte Daten von ESX (Cash, Bank, Spieler-ID)
-✅ **Info-Spalte** - Kompakte Übersicht für Cash, Bank, Server, ID, Kompass, Straße
-✅ **14 Wählbare HUD-Elemente** - Jedes Element kann einzeln ein-/ausgeblendet werden
+✅ **Viewport-Schutz** - Elemente bleiben IMMER im sichtbaren Bereich
+✅ **14 Einzelne HUD-Elemente** - Jedes Element kann einzeln positioniert, skaliert und ein-/ausgeblendet werden
 ✅ **Sinnvolle Defaults** - Cleanes Standard-Layout beim ersten Start
 ✅ **4 Farbthemen** - Blau, Rot, Grün, Lila
 ✅ **Toggle Edit-Modus** - Drücke **F10**, um den Edit-Modus ein-/auszuschalten
@@ -17,6 +17,7 @@ Ein hochmodernes, anpassbares HUD-System für FiveM mit kreisförmigen Anzeigen,
 ✅ **Persistente Einstellungen** - Alle Einstellungen bleiben nach Neustart erhalten
 ✅ **Echtzeit-Updates** - Alle Werte werden live vom Spiel aktualisiert
 ✅ **Tacho für Fahrzeuge** - Clean, zentrierter Tacho für Auto, Flugzeug, Hubschrauber
+✅ **Edit-Modus Placeholders** - Speedometer und Waffen-Display auch in F10 positionierbar
 
 ## HUD-Elemente
 
@@ -80,6 +81,32 @@ Das System enthält folgende wählbare HUD-Elemente:
 5. **Gelber Glow** = Visuelles Feedback beim Skalieren
 6. **Jedes Element einzeln** einstellbar!
 7. Wird automatisch gespeichert
+
+### Edit-Modus Placeholders (NEU!)
+**Problem:** Speedometer und Waffen-Display sind nur sichtbar wenn im Fahrzeug bzw. Waffe gezogen - wie positionieren?
+
+**Lösung:** In F10 Edit-Modus werden sie als **Placeholder** angezeigt:
+- ✅ Speedometer zeigt "120 km/h, D4" als Beispiel
+- ✅ Waffen-Display zeigt Beispiel-Waffe
+- ✅ Gelber gestrichelter Rand = Edit-Placeholder
+- ✅ "Position mich!" Badge zur Orientierung
+- ✅ Voll positionierbar und skalierbar
+- ✅ Nach F10 Exit: Normal-Modus (nur wenn aktiv)
+
+### Viewport-Schutz (NEU!)
+**Problem gelöst:** Icons verschwinden nicht mehr!
+
+Das System garantiert, dass **ALLE** Elemente im sichtbaren Bereich bleiben:
+- ✅ Automatische Validierung beim Laden
+- ✅ Schutz vor negativen Positionen
+- ✅ Berücksichtigt Element-Skalierung
+- ✅ Window-Resize Handler
+- ✅ Elemente können nicht verloren gehen
+
+**Technisch:**
+- `constrainElementToViewport()` - Hält jedes Element im Viewport
+- `validateAllElementPositions()` - Prüft alle Elemente auf einmal
+- Aufgerufen bei: Laden, Skalieren, Window-Resize
 
 ### HUD-Elemente wählen
 1. Im Einstellungspanel siehst du alle verfügbaren Elemente
