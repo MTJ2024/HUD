@@ -4,6 +4,39 @@ let offsetX = 0;
 let offsetY = 0;
 let elementScales = {}; // Individual scale for each element
 
+// Ensure element stays within viewport bounds
+function constrainElementToViewport(element) {
+    if (!element) return;
+    
+    const scale = elementScales[element.id] || 1.0;
+    const scaledWidth = element.offsetWidth * scale;
+    const scaledHeight = element.offsetHeight * scale;
+    
+    // Get current position
+    let left = parseFloat(element.style.left) || 0;
+    let top = parseFloat(element.style.top) || 0;
+    
+    // Calculate max positions
+    const maxX = window.innerWidth - scaledWidth;
+    const maxY = window.innerHeight - scaledHeight;
+    
+    // Constrain to viewport
+    left = Math.max(0, Math.min(left, maxX));
+    top = Math.max(0, Math.min(top, maxY));
+    
+    // Apply constrained positions
+    element.style.left = left + 'px';
+    element.style.top = top + 'px';
+}
+
+// Validate all elements are within viewport
+function validateAllElementPositions() {
+    const elements = document.querySelectorAll('.hud-element');
+    elements.forEach(element => {
+        constrainElementToViewport(element);
+    });
+}
+
 // Mouse wheel scaling - PER ELEMENT
 document.addEventListener('wheel', function(e) {
     if (editMode) {
@@ -24,6 +57,9 @@ document.addEventListener('wheel', function(e) {
             // Store and apply scale
             elementScales[hudElement.id] = currentScale;
             hudElement.style.transform = `scale(${currentScale})`;
+            
+            // Ensure element stays within viewport after scaling
+            constrainElementToViewport(hudElement);
             
             // Add visual feedback
             hudElement.style.boxShadow = '0 0 20px rgba(255, 204, 0, 0.8)';
@@ -71,8 +107,26 @@ function loadPositions(positions) {
     Object.keys(positions).forEach(elementId => {
         const element = document.getElementById(elementId);
         if (element && positions[elementId]) {
-            element.style.left = positions[elementId].left;
-            element.style.top = positions[elementId].top;
+            // Parse position values
+            let left = parseFloat(positions[elementId].left) || 0;
+            let top = parseFloat(positions[elementId].top) || 0;
+            
+            // Get element dimensions (with scale if applied)
+            const scale = elementScales[elementId] || 1.0;
+            const scaledWidth = element.offsetWidth * scale;
+            const scaledHeight = element.offsetHeight * scale;
+            
+            // Ensure element stays within viewport bounds
+            const maxX = window.innerWidth - scaledWidth;
+            const maxY = window.innerHeight - scaledHeight;
+            
+            // Constrain position to viewport
+            left = Math.max(0, Math.min(left, maxX));
+            top = Math.max(0, Math.min(top, maxY));
+            
+            // Apply constrained positions
+            element.style.left = left + 'px';
+            element.style.top = top + 'px';
             element.style.bottom = 'auto';
             element.style.right = 'auto';
         }
@@ -347,6 +401,8 @@ function loadElementScales(scales) {
         if (element) {
             const scale = parseFloat(scales[elementId]) || 1.0;
             element.style.transform = `scale(${scale})`;
+            // Ensure element stays within viewport after applying scale
+            constrainElementToViewport(element);
         }
     });
 }
@@ -520,4 +576,14 @@ function updateHUDData(data) {
 function formatNumber(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+// Window resize handler - ensure all elements stay within new viewport
+window.addEventListener('resize', function() {
+    validateAllElementPositions();
+});
+
+// Initialize viewport validation on load
+window.addEventListener('load', function() {
+    validateAllElementPositions();
+});
 
