@@ -133,25 +133,34 @@ function startDrag(e) {
     draggedElement = e.currentTarget;
     draggedElement.classList.add('dragging');
     
+    // Account for any scale transform
     const rect = draggedElement.getBoundingClientRect();
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
+    const scale = elementScales[draggedElement.id] || 1.0;
+    
+    // Calculate offset accounting for scale
+    offsetX = (e.clientX - rect.left) / scale;
+    offsetY = (e.clientY - rect.top) / scale;
     
     document.addEventListener('mousemove', drag);
     document.addEventListener('mouseup', stopDrag);
     
     e.preventDefault();
+    e.stopPropagation();
 }
 
 function drag(e) {
     if (!draggedElement) return;
     
-    let newX = e.clientX - offsetX;
-    let newY = e.clientY - offsetY;
+    const scale = elementScales[draggedElement.id] || 1.0;
+    const scaledWidth = draggedElement.offsetWidth * scale;
+    const scaledHeight = draggedElement.offsetHeight * scale;
+    
+    let newX = e.clientX - (offsetX * scale);
+    let newY = e.clientY - (offsetY * scale);
     
     // Constrain to viewport
-    const maxX = window.innerWidth - draggedElement.offsetWidth;
-    const maxY = window.innerHeight - draggedElement.offsetHeight;
+    const maxX = window.innerWidth - scaledWidth;
+    const maxY = window.innerHeight - scaledHeight;
     
     newX = Math.max(0, Math.min(newX, maxX));
     newY = Math.max(0, Math.min(newY, maxY));
@@ -160,6 +169,8 @@ function drag(e) {
     draggedElement.style.top = newY + 'px';
     draggedElement.style.bottom = 'auto';
     draggedElement.style.right = 'auto';
+    
+    e.preventDefault();
 }
 
 function stopDrag() {

@@ -34,26 +34,27 @@ body {
     transition: transform 0.1s ease, box-shadow 0.2s ease;
     user-select: none;
     transform-origin: center;
+    z-index: 10;  /* Above overlay background */
 }
 
-/* Circular HUD Elements */
+/* Circular HUD Elements - REDUCED SIZE */
 .hud-circle {
     position: relative;
     background: rgba(0, 0, 0, 0.8);
-    padding: 8px;
+    padding: 6px;
     border-radius: 50%;
-    width: 96px;
-    height: 96px;
+    width: 64px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 .circle-progress {
     position: absolute;
-    top: 8px;
-    left: 8px;
+    top: 6px;
+    left: 6px;
     transform: rotate(-90deg);
 }
 
@@ -65,9 +66,9 @@ body {
 
 .circle-fill {
     fill: none;
-    stroke-width: 6;
+    stroke-width: 5;
     stroke-linecap: round;
-    stroke-dasharray: 201;
+    stroke-dasharray: 138;  /* 2 * PI * r = 2 * 3.14159 * 22 = 138 */
     transition: stroke-dashoffset 0.3s ease, stroke 0.3s ease;
 }
 
@@ -106,12 +107,12 @@ body {
 }
 
 .hud-circle .hud-icon {
-    font-size: 28px;
-    margin-bottom: 2px;
+    font-size: 20px;
+    margin-bottom: 1px;
 }
 
 .hud-circle .hud-value {
-    font-size: 14px;
+    font-size: 11px;
     font-weight: bold;
     color: white;
 }
@@ -303,8 +304,8 @@ body {
 
 #edit-overlay:not(.hidden) {
     background: rgba(0, 0, 0, 0.5);
-    pointer-events: all;
-}
+    pointer-events: none;  /* Don't block HUD elements */
+    z-index: 5;  /* Below HUD elements */
 }
 
 .edit-instructions {
@@ -316,6 +317,7 @@ body {
     pointer-events: all;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
     border: 2px solid rgba(255, 204, 0, 0.5);
+    z-index: 20;  /* Above everything */
 }
 
 .edit-instructions h2 {
@@ -358,6 +360,7 @@ body {
     pointer-events: all;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.7);
     border: 2px solid rgba(255, 204, 0, 0.5);
+    z-index: 20;  /* Above everything */
 }
 
 .settings-panel h3 {
