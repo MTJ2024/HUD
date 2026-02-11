@@ -161,6 +161,8 @@ function toggleEditMode(enabled) {
     const overlay = document.getElementById('edit-overlay');
     const settingsIcon = document.getElementById('settings-icon');
     const elements = document.querySelectorAll('.hud-element');
+    const speedometer = document.getElementById('speedometer');
+    const weaponDisplay = document.getElementById('weapon-display');
     
     if (enabled) {
         overlay.classList.remove('hidden');
@@ -169,6 +171,16 @@ function toggleEditMode(enabled) {
             el.classList.add('edit-mode');
             el.addEventListener('mousedown', startDrag);
         });
+        
+        // Show conditional elements in edit mode for positioning
+        if (speedometer) {
+            speedometer.style.display = 'flex';
+            speedometer.classList.add('edit-placeholder');
+        }
+        if (weaponDisplay) {
+            weaponDisplay.style.display = 'block';
+            weaponDisplay.classList.add('edit-placeholder');
+        }
     } else {
         overlay.classList.add('hidden');
         settingsIcon.classList.remove('visible');
@@ -176,6 +188,15 @@ function toggleEditMode(enabled) {
             el.classList.remove('edit-mode');
             el.removeEventListener('mousedown', startDrag);
         });
+        
+        // Remove edit placeholders - elements will be shown/hidden based on game state
+        if (speedometer) {
+            speedometer.classList.remove('edit-placeholder');
+        }
+        if (weaponDisplay) {
+            weaponDisplay.classList.remove('edit-placeholder');
+        }
+        
         savePositions();
     }
 }

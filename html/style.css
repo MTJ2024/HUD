@@ -677,3 +677,26 @@ body.theme-purple .sprint-circle { stroke: #ba68c8 !important; }
 .speedo-content {
     display: none;
 }
+
+/* Edit mode placeholder for conditional elements */
+.edit-placeholder {
+    opacity: 0.7;
+    border: 2px dashed rgba(255, 204, 0, 0.5) !important;
+}
+
+.edit-placeholder::after {
+    content: 'Position mich!';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 204, 0, 0.9);
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 10;
+}
