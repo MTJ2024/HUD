@@ -8,6 +8,7 @@ Ein hochmodernes, anpassbares HUD-System für FiveM mit kreisförmigen Anzeigen,
 ✅ **Individual Element Scaling** - Jedes Element EINZELN mit Mausrad skalierbar (0.5x - 2.0x)
 ✅ **ESX-Integration** - Echte Daten von ESX (Cash, Bank, Spieler-ID)
 ✅ **Viewport-Schutz** - Elemente bleiben IMMER im sichtbaren Bereich
+✅ **Alle Elemente in Edit-Modus sichtbar** - Keine verschwindenden Icons mehr!
 ✅ **14 Einzelne HUD-Elemente** - Jedes Element kann einzeln positioniert, skaliert und ein-/ausgeblendet werden
 ✅ **Sinnvolle Defaults** - Cleanes Standard-Layout beim ersten Start
 ✅ **4 Farbthemen** - Blau, Rot, Grün, Lila
@@ -81,6 +82,39 @@ Das System enthält folgende wählbare HUD-Elemente:
 5. **Gelber Glow** = Visuelles Feedback beim Skalieren
 6. **Jedes Element einzeln** einstellbar!
 7. Wird automatisch gespeichert
+
+### Alle Elemente in Edit-Modus sichtbar (KRITISCH!)
+**Problem gelöst:** Icons verschwinden NIEMALS mehr in F10!
+
+**Was war das Problem?**
+- Wenn ein Element in den Einstellungen deaktiviert wurde (Checkbox aus)
+- Verschwand es komplett - auch im Edit-Modus
+- Konnte nicht mehr positioniert werden
+- Frustrierend für Benutzer ❌
+
+**Wie funktioniert es jetzt?**
+- **ALLE 14 Elemente sind IMMER sichtbar im Edit-Modus (F10)**
+- Deaktivierte Elemente haben:
+  - 50% Transparenz (halbtransparent)
+  - Roten gestrichelten Rand
+  - Können trotzdem positioniert und skaliert werden
+- Aktivierte Elemente: Normale Darstellung
+- Im Normal-Modus (nicht F10): Nur aktivierte Elemente sichtbar
+
+**Visuelles Feedback:**
+```
+Aktiviert (Checkbox ✓):
+  - ✅ Normal sichtbar
+  - ✅ Volle Deckkraft
+  - ✅ Normaler Rand
+
+Deaktiviert (Checkbox ✗):
+  - ✅ Im F10: Halbtransparent mit rotem gestrichelten Rand
+  - ❌ Im Normal-Modus: Versteckt
+  - ✅ Kann trotzdem positioniert werden!
+```
+
+**Keine verschwindenden Icons mehr - GARANTIERT!** 🎉
 
 ### Edit-Modus Placeholders (NEU!)
 **Problem:** Speedometer und Waffen-Display sind nur sichtbar wenn im Fahrzeug bzw. Waffe gezogen - wie positionieren?
