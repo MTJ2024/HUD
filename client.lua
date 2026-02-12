@@ -332,6 +332,22 @@ CreateThread(function()
             end
         end
         
+        -- Get hunger and thirst from ESX status
+        local hunger = 0
+        local thirst = 0
+        
+        TriggerEvent('esx_status:getStatus', 'hunger', function(status)
+            if status then
+                hunger = math.floor(status.getPercent())
+            end
+        end)
+        
+        TriggerEvent('esx_status:getStatus', 'thirst', function(status)
+            if status then
+                thirst = math.floor(status.getPercent())
+            end
+        end)
+        
         -- Send all data to NUI
         SendNUIMessage({
             type = 'updateHUD',
@@ -343,6 +359,8 @@ CreateThread(function()
                 oxygen = math.floor(oxygen),
                 stress = stress,
                 sprint = math.floor(sprintEnergy),
+                hunger = hunger,
+                thirst = thirst,
                 cash = cash,
                 bank = bank,
                 serverName = GetConvar('sv_projectName', 'FiveM Server'),

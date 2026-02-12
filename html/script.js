@@ -285,6 +285,8 @@ const elementToggles = {
     'toggle-oxygen': 'oxygen-bar',
     'toggle-stress': 'stress-bar',
     'toggle-sprint': 'sprint-bar',
+    'toggle-hunger': 'hunger-bar',
+    'toggle-thirst': 'thirst-bar',
     'toggle-cash': 'cash-display',
     'toggle-bank': 'bank-display',
     'toggle-server': 'server-display',
@@ -303,6 +305,8 @@ const defaultElementSettings = {
     'toggle-oxygen': false,  // Hidden by default
     'toggle-stress': false,  // Hidden by default
     'toggle-sprint': false,  // Hidden by default
+    'toggle-hunger': true,   // Visible by default
+    'toggle-thirst': true,   // Visible by default
     'toggle-cash': true,     // Visible individually
     'toggle-bank': true,     // Visible individually
     'toggle-server': true,   // Visible individually
@@ -476,53 +480,66 @@ function GetParentResourceName() {
 }
 
 // Update HUD data from game
+// Helper function to update circular progress indicators
+function updateCircleProgress(elementId, value) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    const circle = element.querySelector('.circle-fill');
+    const valueDisplay = element.querySelector('.hud-value');
+    
+    if (circle) {
+        // Calculate stroke-dashoffset based on percentage
+        // Full circle = 138 (2 * PI * r = 2 * 3.14159 * 22)
+        const circumference = 138;
+        const offset = circumference - (value / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
+    }
+    
+    if (valueDisplay) {
+        valueDisplay.textContent = Math.floor(value);
+    }
+}
+
 function updateHUDData(data) {
     // Update health
     if (data.health !== undefined) {
-        const healthBar = document.querySelector('#health-bar .hud-bar-fill');
-        const healthValue = document.querySelector('#health-bar .hud-value');
-        if (healthBar) healthBar.style.width = data.health + '%';
-        if (healthValue) healthValue.textContent = data.health;
+        updateCircleProgress('health-bar', data.health);
     }
     
     // Update armor
     if (data.armor !== undefined) {
-        const armorBar = document.querySelector('#armor-bar .hud-bar-fill');
-        const armorValue = document.querySelector('#armor-bar .hud-value');
-        if (armorBar) armorBar.style.width = data.armor + '%';
-        if (armorValue) armorValue.textContent = data.armor;
+        updateCircleProgress('armor-bar', data.armor);
     }
     
     // Update stamina
     if (data.stamina !== undefined) {
-        const staminaBar = document.querySelector('#stamina-bar .hud-bar-fill');
-        const staminaValue = document.querySelector('#stamina-bar .hud-value');
-        if (staminaBar) staminaBar.style.width = data.stamina + '%';
-        if (staminaValue) staminaValue.textContent = data.stamina;
+        updateCircleProgress('stamina-bar', data.stamina);
     }
     
     // Update oxygen
     if (data.oxygen !== undefined) {
-        const oxygenBar = document.querySelector('#oxygen-bar .hud-bar-fill');
-        const oxygenValue = document.querySelector('#oxygen-bar .hud-value');
-        if (oxygenBar) oxygenBar.style.width = data.oxygen + '%';
-        if (oxygenValue) oxygenValue.textContent = data.oxygen;
+        updateCircleProgress('oxygen-bar', data.oxygen);
     }
     
     // Update stress
     if (data.stress !== undefined) {
-        const stressBar = document.querySelector('#stress-bar .hud-bar-fill');
-        const stressValue = document.querySelector('#stress-bar .hud-value');
-        if (stressBar) stressBar.style.width = data.stress + '%';
-        if (stressValue) stressValue.textContent = data.stress;
+        updateCircleProgress('stress-bar', data.stress);
     }
     
     // Update sprint energy
     if (data.sprint !== undefined) {
-        const sprintBar = document.querySelector('#sprint-bar .hud-bar-fill');
-        const sprintValue = document.querySelector('#sprint-bar .hud-value');
-        if (sprintBar) sprintBar.style.width = data.sprint + '%';
-        if (sprintValue) sprintValue.textContent = data.sprint;
+        updateCircleProgress('sprint-bar', data.sprint);
+    }
+    
+    // Update hunger
+    if (data.hunger !== undefined) {
+        updateCircleProgress('hunger-bar', data.hunger);
+    }
+    
+    // Update thirst
+    if (data.thirst !== undefined) {
+        updateCircleProgress('thirst-bar', data.thirst);
     }
     
     // Update cash

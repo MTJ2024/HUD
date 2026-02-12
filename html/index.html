@@ -80,6 +80,30 @@
             </div>
         </div>
 
+        <!-- Hunger Circle -->
+        <div class="hud-element hud-circle" id="hunger-bar" data-element="hunger">
+            <svg class="circle-progress" width="52" height="52">
+                <circle class="circle-bg" cx="26" cy="26" r="22"></circle>
+                <circle class="circle-fill hunger-circle" cx="26" cy="26" r="22" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">🍔</div>
+                <div class="hud-value">100</div>
+            </div>
+        </div>
+
+        <!-- Thirst Circle -->
+        <div class="hud-element hud-circle" id="thirst-bar" data-element="thirst">
+            <svg class="circle-progress" width="52" height="52">
+                <circle class="circle-bg" cx="26" cy="26" r="22"></circle>
+                <circle class="circle-fill thirst-circle" cx="26" cy="26" r="22" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">💧</div>
+                <div class="hud-value">100</div>
+            </div>
+        </div>
+
         <!-- Cash Display -->
         <div class="hud-element" id="cash-display" data-element="cash">
             <div class="hud-icon">💵</div>
@@ -188,20 +212,12 @@
                     <span>🏃 Sprint</span>
                 </label>
                 <label class="element-checkbox">
-                    <input type="checkbox" id="toggle-cash" checked>
-                    <span>💵 Bargeld</span>
+                    <input type="checkbox" id="toggle-hunger" checked>
+                    <span>🍔 Hunger</span>
                 </label>
                 <label class="element-checkbox">
-                    <input type="checkbox" id="toggle-bank" checked>
-                    <span>🏦 Bank</span>
-                </label>
-                <label class="element-checkbox">
-                    <input type="checkbox" id="toggle-server" checked>
-                    <span>🖥️ Server</span>
-                </label>
-                <label class="element-checkbox">
-                    <input type="checkbox" id="toggle-compass" checked>
-                    <span>🧭 Kompass</span>
+                    <input type="checkbox" id="toggle-thirst" checked>
+                    <span>💧 Durst</span>
                 </label>
                 <label class="element-checkbox">
                     <input type="checkbox" id="toggle-cash" checked>

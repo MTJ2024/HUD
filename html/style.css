@@ -97,6 +97,14 @@ body {
     stroke: #00ff66;
 }
 
+.hunger-circle {
+    stroke: #ff9800;  /* Orange for hunger */
+}
+
+.thirst-circle {
+    stroke: #03a9f4;  /* Blue for thirst */
+}
+
 .circle-content {
     position: relative;
     display: flex;
@@ -224,6 +232,16 @@ body {
 
 #sprint-bar {
     bottom: 480px;
+    left: 30px;
+}
+
+#hunger-bar {
+    bottom: 570px;
+    left: 30px;
+}
+
+#thirst-bar {
+    bottom: 660px;
     left: 30px;
 }
 
