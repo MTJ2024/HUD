@@ -203,6 +203,9 @@ CreateThread(function()
         local playerPed = PlayerPedId()
         local playerId = PlayerId()
         
+        -- Check if pause menu is active (ESC menu)
+        local isPauseMenuActive = IsPauseMenuActive()
+        
         -- Get player stats
         local health = GetEntityHealth(playerPed) - 100 -- Remove base 100
         local maxHealth = GetEntityMaxHealth(playerPed) - 100
@@ -332,6 +335,7 @@ CreateThread(function()
         -- Send all data to NUI
         SendNUIMessage({
             type = 'updateHUD',
+            isPauseMenuActive = isPauseMenuActive,
             data = {
                 health = healthPercent,
                 armor = armor,

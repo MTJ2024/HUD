@@ -94,6 +94,14 @@ window.addEventListener('message', function(event) {
     } else if (data.type === 'toggleEditMode') {
         toggleEditMode(data.enabled);
     } else if (data.type === 'updateHUD') {
+        // Hide HUD when pause menu is active (ESC pressed)
+        const hudContainer = document.getElementById('hud-container');
+        if (data.isPauseMenuActive) {
+            hudContainer.style.display = 'none';
+        } else {
+            hudContainer.style.display = 'block';
+        }
+        
         updateHUDData(data.data);
     }
 });
