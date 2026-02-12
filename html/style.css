@@ -129,8 +129,21 @@ body {
     cursor: move;
 }
 
+/* Hidden elements - but still visible in edit mode for positioning */
 .hud-element.hud-hidden {
     display: none !important;
+}
+
+/* In edit mode, show ALL elements even if toggled off */
+.hud-element.edit-mode.hud-hidden {
+    display: block !important;
+    opacity: 0.5;
+    border: 2px dashed rgba(255, 68, 68, 0.6) !important;
+}
+
+/* Special handling for flex elements */
+#speedometer.edit-mode.hud-hidden {
+    display: flex !important;
 }
 
 .hud-icon {
@@ -411,6 +424,11 @@ body {
 .element-checkbox input[type="checkbox"]:checked + span {
     color: #ffcc00;
     font-weight: bold;
+}
+
+.element-checkbox input[type="checkbox"]:not(:checked) + span {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: line-through;
 }
 
 /* Theme Selector */
