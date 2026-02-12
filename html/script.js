@@ -139,6 +139,11 @@ function loadPositions(positions) {
             element.style.right = 'auto';
         }
     });
+    
+    // Validate all positions after a short delay to ensure DOM is updated
+    setTimeout(() => {
+        validateAllElementPositions();
+    }, 100);
 }
 
 // Save current positions
@@ -189,6 +194,11 @@ function toggleEditMode(enabled) {
             weaponDisplay.style.display = 'block';
             weaponDisplay.classList.add('edit-placeholder');
         }
+        
+        // Validate all elements are within viewport when entering edit mode
+        setTimeout(() => {
+            validateAllElementPositions();
+        }, 50);
     } else {
         overlay.classList.add('hidden');
         settingsIcon.classList.remove('visible');
@@ -205,6 +215,8 @@ function toggleEditMode(enabled) {
             weaponDisplay.classList.remove('edit-placeholder');
         }
         
+        // Final validation before saving
+        validateAllElementPositions();
         savePositions();
     }
 }
@@ -331,6 +343,13 @@ Object.keys(elementToggles).forEach(toggleId => {
                     element.classList.add('hud-hidden');
                 }
                 saveElementSettings();
+                
+                // Validate position when toggling visibility in edit mode
+                if (editMode) {
+                    setTimeout(() => {
+                        constrainElementToViewport(element);
+                    }, 50);
+                }
             }
         });
     }
@@ -438,6 +457,11 @@ function loadElementScales(scales) {
             constrainElementToViewport(element);
         }
     });
+    
+    // Additional validation after all scales are applied
+    setTimeout(() => {
+        validateAllElementPositions();
+    }, 100);
 }
 
 // Save individual element scales
