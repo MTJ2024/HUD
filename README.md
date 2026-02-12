@@ -128,20 +128,34 @@ Deaktiviert (Checkbox ✗):
 - ✅ Voll positionierbar und skalierbar
 - ✅ Nach F10 Exit: Normal-Modus (nur wenn aktiv)
 
-### Viewport-Schutz (NEU!)
-**Problem gelöst:** Icons verschwinden nicht mehr!
+### Viewport-Schutz (VERSTÄRKT!)
+**Problem gelöst:** Icons verschwinden nicht mehr - auch nicht beim Einstellen!
 
-Das System garantiert, dass **ALLE** Elemente im sichtbaren Bereich bleiben:
-- ✅ Automatische Validierung beim Laden
+Das System garantiert, dass **ALLE** Elemente IMMER im sichtbaren Bereich bleiben:
+- ✅ **8-fache Validierung** an kritischen Punkten
+- ✅ Automatische Prüfung beim Laden (100ms Delay)
+- ✅ Validierung beim Öffnen Edit-Modus (50ms Delay)
+- ✅ Finale Prüfung vor dem Speichern
 - ✅ Schutz vor negativen Positionen
 - ✅ Berücksichtigt Element-Skalierung
+- ✅ Element-Toggle Validierung
 - ✅ Window-Resize Handler
-- ✅ Elemente können nicht verloren gehen
+- ✅ Elemente können NICHT verloren gehen
+
+**Validierungs-Punkte:**
+1. `loadPositions()` - Nach Laden + 100ms Delay
+2. `loadElementScales()` - Nach Skalierung + 100ms Delay
+3. `toggleEditMode(true)` - Beim Öffnen + 50ms Delay
+4. `toggleEditMode(false)` - Vor dem Speichern (SOFORT)
+5. Element Toggle - Bei Sichtbarkeitsänderung + 50ms Delay
+6. Mouse Wheel - Nach Skalierung (SOFORT)
+7. Window Resize - Bei Fenstergrößenänderung (SOFORT)
+8. Window Load - Nach Seitenladung (SOFORT)
 
 **Technisch:**
-- `constrainElementToViewport()` - Hält jedes Element im Viewport
+- `constrainElementToViewport(element)` - Hält jedes Element im Viewport
 - `validateAllElementPositions()` - Prüft alle Elemente auf einmal
-- Aufgerufen bei: Laden, Skalieren, Window-Resize
+- Smart Timing: 0ms/50ms/100ms delays je nach Kritikalität
 
 ### HUD-Elemente wählen
 1. Im Einstellungspanel siehst du alle verfügbaren Elemente
