@@ -9,6 +9,7 @@ Ein hochmodernes, anpassbares HUD-System für FiveM mit kreisförmigen Anzeigen,
 ✅ **ESX-Integration** - Echte Daten von ESX (Cash, Bank, Spieler-ID)
 ✅ **Viewport-Schutz** - Elemente bleiben IMMER im sichtbaren Bereich
 ✅ **Alle Elemente in Edit-Modus sichtbar** - Keine verschwindenden Icons mehr!
+✅ **Pause-Menü Integration** - HUD blendet sich automatisch aus wenn ESC gedrückt wird
 ✅ **14 Einzelne HUD-Elemente** - Jedes Element kann einzeln positioniert, skaliert und ein-/ausgeblendet werden
 ✅ **Sinnvolle Defaults** - Cleanes Standard-Layout beim ersten Start
 ✅ **4 Farbthemen** - Blau, Rot, Grün, Lila
@@ -232,6 +233,44 @@ Ersetze in `client.lua`:
 ```lua
 stress = 0 -- Ersetze mit deinem Stress-System, z.B.: exports['hud']:GetStress()
 ```
+
+## Pause-Menü Integration
+
+Das HUD blendet sich **automatisch aus**, wenn das Pause-Menü (ESC) geöffnet wird!
+
+### Funktionsweise
+```lua
+-- client.lua prüft jede 100ms
+local isPauseMenuActive = IsPauseMenuActive()
+
+-- Sendet Status an NUI
+SendNUIMessage({
+    type = 'updateHUD',
+    isPauseMenuActive = isPauseMenuActive,
+    data = { ... }
+})
+```
+
+```javascript
+// html/script.js versteckt HUD
+if (data.isPauseMenuActive) {
+    hudContainer.style.display = 'none';  // HUD versteckt
+} else {
+    hudContainer.style.display = 'block'; // HUD sichtbar
+}
+```
+
+### Vorteile
+- ✅ **Automatisch** - Keine Konfiguration nötig
+- ✅ **Echtzeit** - Reagiert sofort auf ESC
+- ✅ **Clean** - Komplettes HUD wird ausgeblendet
+- ✅ **Kompatibel** - Funktioniert auf allen FiveM Servern
+
+### Native Funktion
+Verwendet die GTA V Native `IsPauseMenuActive()`:
+- Gibt `true` zurück wenn Pause-Menü offen ist
+- Gibt `false` zurück wenn Pause-Menü geschlossen ist
+- Keine zusätzlichen Abhängigkeiten
 
 ### Standard-Farbthema ändern
 In `html/script.js`, Zeile ~265:
