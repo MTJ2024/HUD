@@ -257,18 +257,141 @@ CreateThread(function()
             direction = "NW"
         end
         
+        -- Weapon name mapping table
+        local weaponNames = {
+            -- Melee
+            [GetHashKey("WEAPON_UNARMED")] = "Fäuste",
+            [GetHashKey("WEAPON_KNIFE")] = "Messer",
+            [GetHashKey("WEAPON_NIGHTSTICK")] = "Schlagstock",
+            [GetHashKey("WEAPON_HAMMER")] = "Hammer",
+            [GetHashKey("WEAPON_BAT")] = "Baseballschläger",
+            [GetHashKey("WEAPON_GOLFCLUB")] = "Golfschläger",
+            [GetHashKey("WEAPON_CROWBAR")] = "Brechstange",
+            [GetHashKey("WEAPON_BOTTLE")] = "Flasche",
+            [GetHashKey("WEAPON_DAGGER")] = "Dolch",
+            [GetHashKey("WEAPON_HATCHET")] = "Beil",
+            [GetHashKey("WEAPON_KNUCKLE")] = "Schlagring",
+            [GetHashKey("WEAPON_MACHETE")] = "Machete",
+            [GetHashKey("WEAPON_FLASHLIGHT")] = "Taschenlampe",
+            [GetHashKey("WEAPON_SWITCHBLADE")] = "Springmesser",
+            [GetHashKey("WEAPON_POOLCUE")] = "Billardqueue",
+            [GetHashKey("WEAPON_WRENCH")] = "Schraubenschlüssel",
+            [GetHashKey("WEAPON_BATTLEAXE")] = "Streitaxt",
+            
+            -- Handguns
+            [GetHashKey("WEAPON_PISTOL")] = "Pistole",
+            [GetHashKey("WEAPON_PISTOL_MK2")] = "Pistole Mk II",
+            [GetHashKey("WEAPON_COMBATPISTOL")] = "Kampfpistole",
+            [GetHashKey("WEAPON_APPISTOL")] = "AP Pistole",
+            [GetHashKey("WEAPON_STUNGUN")] = "Taser",
+            [GetHashKey("WEAPON_PISTOL50")] = "Pistol .50",
+            [GetHashKey("WEAPON_SNSPISTOL")] = "SNS Pistole",
+            [GetHashKey("WEAPON_SNSPISTOL_MK2")] = "SNS Pistole Mk II",
+            [GetHashKey("WEAPON_HEAVYPISTOL")] = "Schwere Pistole",
+            [GetHashKey("WEAPON_VINTAGEPISTOL")] = "Vintage Pistole",
+            [GetHashKey("WEAPON_FLAREGUN")] = "Leuchtpistole",
+            [GetHashKey("WEAPON_MARKSMANPISTOL")] = "Marksman Pistole",
+            [GetHashKey("WEAPON_REVOLVER")] = "Revolver",
+            [GetHashKey("WEAPON_REVOLVER_MK2")] = "Revolver Mk II",
+            [GetHashKey("WEAPON_DOUBLEACTION")] = "Doppel-Action Revolver",
+            [GetHashKey("WEAPON_RAYPISTOL")] = "Up-n-Atomizer",
+            [GetHashKey("WEAPON_CERAMICPISTOL")] = "Keramikpistole",
+            [GetHashKey("WEAPON_NAVYREVOLVER")] = "Navy Revolver",
+            [GetHashKey("WEAPON_GADGETPISTOL")] = "Perico Pistole",
+            
+            -- SMG
+            [GetHashKey("WEAPON_MICROSMG")] = "Micro SMG",
+            [GetHashKey("WEAPON_SMG")] = "SMG",
+            [GetHashKey("WEAPON_SMG_MK2")] = "SMG Mk II",
+            [GetHashKey("WEAPON_ASSAULTSMG")] = "Assault SMG",
+            [GetHashKey("WEAPON_COMBATPDW")] = "Combat PDW",
+            [GetHashKey("WEAPON_MACHINEPISTOL")] = "Maschinenpistole",
+            [GetHashKey("WEAPON_MINISMG")] = "Mini SMG",
+            [GetHashKey("WEAPON_RAYCARBINE")] = "Unholy Hellbringer",
+            
+            -- Shotguns
+            [GetHashKey("WEAPON_PUMPSHOTGUN")] = "Pumpgun",
+            [GetHashKey("WEAPON_PUMPSHOTGUN_MK2")] = "Pumpgun Mk II",
+            [GetHashKey("WEAPON_SAWNOFFSHOTGUN")] = "Abgesägte Schrotflinte",
+            [GetHashKey("WEAPON_ASSAULTSHOTGUN")] = "Assault Shotgun",
+            [GetHashKey("WEAPON_BULLPUPSHOTGUN")] = "Bullpup Shotgun",
+            [GetHashKey("WEAPON_MUSKET")] = "Muskete",
+            [GetHashKey("WEAPON_HEAVYSHOTGUN")] = "Schwere Schrotflinte",
+            [GetHashKey("WEAPON_DBSHOTGUN")] = "Doppelläufige Schrotflinte",
+            [GetHashKey("WEAPON_AUTOSHOTGUN")] = "Sweeper Shotgun",
+            [GetHashKey("WEAPON_COMBATSHOTGUN")] = "Combat Shotgun",
+            
+            -- Assault Rifles
+            [GetHashKey("WEAPON_ASSAULTRIFLE")] = "Sturmgewehr",
+            [GetHashKey("WEAPON_ASSAULTRIFLE_MK2")] = "Sturmgewehr Mk II",
+            [GetHashKey("WEAPON_CARBINERIFLE")] = "Karabiner",
+            [GetHashKey("WEAPON_CARBINERIFLE_MK2")] = "Karabiner Mk II",
+            [GetHashKey("WEAPON_ADVANCEDRIFLE")] = "Fortschrittliches Gewehr",
+            [GetHashKey("WEAPON_SPECIALCARBINE")] = "Spezialkarabiner",
+            [GetHashKey("WEAPON_SPECIALCARBINE_MK2")] = "Spezialkarabiner Mk II",
+            [GetHashKey("WEAPON_BULLPUPRIFLE")] = "Bullpup Gewehr",
+            [GetHashKey("WEAPON_BULLPUPRIFLE_MK2")] = "Bullpup Gewehr Mk II",
+            [GetHashKey("WEAPON_COMPACTRIFLE")] = "Kompaktgewehr",
+            [GetHashKey("WEAPON_MILITARYRIFLE")] = "Militärgewehr",
+            [GetHashKey("WEAPON_HEAVYRIFLE")] = "Schweres Gewehr",
+            [GetHashKey("WEAPON_TACTICALRIFLE")] = "Taktisches Gewehr",
+            
+            -- LMG
+            [GetHashKey("WEAPON_MG")] = "MG",
+            [GetHashKey("WEAPON_COMBATMG")] = "Combat MG",
+            [GetHashKey("WEAPON_COMBATMG_MK2")] = "Combat MG Mk II",
+            [GetHashKey("WEAPON_GUSENBERG")] = "Gusenberg",
+            
+            -- Sniper Rifles
+            [GetHashKey("WEAPON_SNIPERRIFLE")] = "Scharfschützengewehr",
+            [GetHashKey("WEAPON_HEAVYSNIPER")] = "Schweres Scharfschützengewehr",
+            [GetHashKey("WEAPON_HEAVYSNIPER_MK2")] = "Schweres Scharfschützengewehr Mk II",
+            [GetHashKey("WEAPON_MARKSMANRIFLE")] = "Marksman Gewehr",
+            [GetHashKey("WEAPON_MARKSMANRIFLE_MK2")] = "Marksman Gewehr Mk II",
+            [GetHashKey("WEAPON_PRECISIONRIFLE")] = "Präzisionsgewehr",
+            
+            -- Heavy Weapons
+            [GetHashKey("WEAPON_RPG")] = "RPG",
+            [GetHashKey("WEAPON_GRENADELAUNCHER")] = "Granatwerfer",
+            [GetHashKey("WEAPON_GRENADELAUNCHER_SMOKE")] = "Rauchgranatwerfer",
+            [GetHashKey("WEAPON_MINIGUN")] = "Minigun",
+            [GetHashKey("WEAPON_FIREWORK")] = "Feuerwerk",
+            [GetHashKey("WEAPON_RAILGUN")] = "Railgun",
+            [GetHashKey("WEAPON_HOMINGLAUNCHER")] = "Zielsuchender Raketenwerfer",
+            [GetHashKey("WEAPON_COMPACTLAUNCHER")] = "Kompakter Granatwerfer",
+            [GetHashKey("WEAPON_RAYMINIGUN")] = "Widowmaker",
+            [GetHashKey("WEAPON_EMPLAUNCHER")] = "Compact EMP Launcher",
+            
+            -- Thrown
+            [GetHashKey("WEAPON_GRENADE")] = "Granate",
+            [GetHashKey("WEAPON_BZGAS")] = "BZ Gas",
+            [GetHashKey("WEAPON_MOLOTOV")] = "Molotowcocktail",
+            [GetHashKey("WEAPON_STICKYBOMB")] = "Haftbombe",
+            [GetHashKey("WEAPON_PROXMINE")] = "Näherungsmine",
+            [GetHashKey("WEAPON_SNOWBALL")] = "Schneeball",
+            [GetHashKey("WEAPON_PIPEBOMB")] = "Rohrbombe",
+            [GetHashKey("WEAPON_BALL")] = "Ball",
+            [GetHashKey("WEAPON_SMOKEGRENADE")] = "Rauchgranate",
+            [GetHashKey("WEAPON_FLARE")] = "Leuchtrakete",
+            
+            -- Misc
+            [GetHashKey("WEAPON_PETROLCAN")] = "Benzinkanister",
+            [GetHashKey("WEAPON_FIREEXTINGUISHER")] = "Feuerlöscher",
+            [GetHashKey("WEAPON_PARACHUTE")] = "Fallschirm",
+        }
+        
         -- Get weapon info
         local hasWeapon, currentWeapon = GetCurrentPedWeapon(playerPed, true)
         local weaponData = nil
         
         if hasWeapon and currentWeapon ~= GetHashKey("WEAPON_UNARMED") then
-            local weaponName = GetWeapontypeGroup(currentWeapon)
+            local weaponName = weaponNames[currentWeapon] or "Waffe"
             local ammoInClip = GetAmmoInClip(playerPed, currentWeapon)
             local ammoTotal = GetAmmoInPedWeapon(playerPed, currentWeapon)
             local ammoReserve = ammoTotal - ammoInClip
             
             weaponData = {
-                name = GetLabelText(GetWeapontypeModel(currentWeapon)) or "Unknown",
+                name = weaponName,
                 id = currentWeapon,
                 ammoInClip = ammoInClip,
                 ammoReserve = ammoReserve,
