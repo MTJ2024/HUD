@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUD System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="hud-container">
+        <!-- Health Circle -->
+        <div class="hud-element hud-circle" id="health-bar" data-element="health">
+            <svg class="circle-progress" width="52" height="52">
+                <circle class="circle-bg" cx="26" cy="26" r="22"></circle>
+                <circle class="circle-fill health-circle" cx="26" cy="26" r="22" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">❤️</div>
+                <div class="hud-value">100</div>
+            </div>
+        </div>
+
+        <!-- Armor Circle -->
+        <div class="hud-element hud-circle" id="armor-bar" data-element="armor">
+            <svg class="circle-progress" width="52" height="52">
+                <circle class="circle-bg" cx="26" cy="26" r="22"></circle>
+                <circle class="circle-fill armor-circle" cx="26" cy="26" r="22" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">🛡️</div>
+                <div class="hud-value">100</div>
+            </div>
+        </div>
+
+        <!-- Stamina Circle -->
+        <div class="hud-element hud-circle" id="stamina-bar" data-element="stamina">
+            <svg class="circle-progress" width="52" height="52">
+                <circle class="circle-bg" cx="26" cy="26" r="22"></circle>
+                <circle class="circle-fill stamina-circle" cx="26" cy="26" r="22" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">⚡</div>
+                <div class="hud-value">100</div>
+            </div>
+        </div>
+
+        <!-- Oxygen/Lung Circle -->
+        <div class="hud-element hud-circle hud-hidden" id="oxygen-bar" data-element="oxygen">
+            <svg class="circle-progress" width="52" height="52">
+                <circle class="circle-bg" cx="26" cy="26" r="22"></circle>
+                <circle class="circle-fill oxygen-circle" cx="26" cy="26" r="22" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">🫁</div>
+                <div class="hud-value">100</div>
+            </div>
+        </div>
+
+        <!-- Stress Circle -->
+        <div class="hud-element hud-circle hud-hidden" id="stress-bar" data-element="stress">
+            <svg class="circle-progress" width="52" height="52">
+                <circle class="circle-bg" cx="26" cy="26" r="22"></circle>
+                <circle class="circle-fill stress-circle" cx="26" cy="26" r="22" style="stroke-dashoffset: 201;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">😰</div>
+                <div class="hud-value">0</div>
+            </div>
+        </div>
+
+        <!-- Sprint Energy Circle -->
+        <div class="hud-element hud-circle hud-hidden" id="sprint-bar" data-element="sprint">
+            <svg class="circle-progress" width="52" height="52">
+                <circle class="circle-bg" cx="26" cy="26" r="22"></circle>
+                <circle class="circle-fill sprint-circle" cx="26" cy="26" r="22" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">🏃</div>
+                <div class="hud-value">100</div>
+            </div>
+        </div>
+
+        <!-- Hunger Circle -->
+        <div class="hud-element hud-circle" id="hunger-bar" data-element="hunger">
+            <svg class="circle-progress" width="52" height="52">
+                <circle class="circle-bg" cx="26" cy="26" r="22"></circle>
+                <circle class="circle-fill hunger-circle" cx="26" cy="26" r="22" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">🍔</div>
+                <div class="hud-value">100</div>
+            </div>
+        </div>
+
+        <!-- Thirst Circle -->
+        <div class="hud-element hud-circle" id="thirst-bar" data-element="thirst">
+            <svg class="circle-progress" width="52" height="52">
+                <circle class="circle-bg" cx="26" cy="26" r="22"></circle>
+                <circle class="circle-fill thirst-circle" cx="26" cy="26" r="22" style="stroke-dashoffset: 0;"></circle>
+            </svg>
+            <div class="circle-content">
+                <div class="hud-icon">💧</div>
+                <div class="hud-value">100</div>
+            </div>
+        </div>
+
+        <!-- Cash Display -->
+        <div class="hud-element" id="cash-display" data-element="cash">
+            <div class="hud-icon">💵</div>
+            <div class="hud-text">$0</div>
+        </div>
+
+        <!-- Bank Money Display -->
+        <div class="hud-element" id="bank-display" data-element="bank">
+            <div class="hud-icon">🏦</div>
+            <div class="hud-text">$0</div>
+        </div>
+
+        <!-- Server Name Display -->
+        <div class="hud-element" id="server-display" data-element="server">
+            <div class="hud-icon">🖥️</div>
+            <div class="hud-text">Server Name</div>
+        </div>
+
+        <!-- Player ID Display -->
+        <div class="hud-element" id="id-display" data-element="id">
+            <div class="hud-icon">🆔</div>
+            <div class="hud-text">ID: 0</div>
+        </div>
+
+        <!-- Compass Display -->
+        <div class="hud-element" id="compass-display" data-element="compass">
+            <div class="hud-icon">🧭</div>
+            <div class="hud-text">N</div>
+        </div>
+
+        <!-- Street Name Display -->
+        <div class="hud-element" id="street-display" data-element="street">
+            <div class="hud-icon">📍</div>
+            <div class="hud-text">Los Santos</div>
+        </div>
+
+        <!-- Weapon Display (only visible when weapon is active) -->
+        <div class="hud-element hud-weapon" id="weapon-display" data-element="weapon" style="display: none;">
+            <div class="hud-icon">🔫</div>
+            <div class="weapon-info">
+                <div class="weapon-name">Pistol</div>
+                <div class="weapon-details">
+                    <span class="weapon-id">ID: 453432689</span>
+                    <span class="weapon-ammo">15/120</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Speedometer (only visible in vehicle) -->
+        <!-- Speedometer - Professional Design -->
+        <div class="hud-element hud-speedometer" id="speedometer" data-element="speedometer" style="display: none;">
+            <div class="speedo-container">
+                <div class="speedo-icon">🚗</div>
+                <div class="speedo-data">
+                    <div class="speedo-speed-row">
+                        <div class="speedo-speed">120</div>
+                        <div class="speedo-unit">km/h</div>
+                    </div>
+                    <div class="speedo-gear">D4</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Icon - Only visible in edit mode -->
+        <div class="settings-icon" id="settings-icon">
+            ⚙️
+        </div>
+    </div>
+
+    <!-- Edit Mode Overlay -->
+    <div id="edit-overlay" class="hidden">
+        <div class="edit-instructions">
+            <h2>HUD Edit-Modus</h2>
+            <p>Ziehe die HUD-Elemente an die gewünschte Position</p>
+            <p style="font-size: 12px; color: #ffcc00; margin-top: 5px;">🖱️ Mausrad über Element zum einzeln Zoomen</p>
+            <p style="font-size: 11px; color: #ff6666; margin-top: 5px;">📌 Alle Elemente sind sichtbar zum Positionieren (rot gestrichelt = deaktiviert)</p>
+            <button id="save-btn">Speichern & Beenden (F10)</button>
+        </div>
+        
+        <!-- Settings Panel -->
+        <div class="settings-panel">
+            <h3>HUD-Elemente auswählen</h3>
+            <div class="elements-grid">
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-health" checked>
+                    <span>❤️ Gesundheit</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-armor" checked>
+                    <span>🛡️ Rüstung</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-stamina" checked>
+                    <span>⚡ Ausdauer</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-oxygen" checked>
+                    <span>🫁 Sauerstoff</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-stress" checked>
+                    <span>😰 Stress</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-sprint" checked>
+                    <span>🏃 Sprint</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-hunger" checked>
+                    <span>🍔 Hunger</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-thirst" checked>
+                    <span>💧 Durst</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-cash" checked>
+                    <span>💵 Bargeld</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-bank" checked>
+                    <span>🏦 Bank</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-server" checked>
+                    <span>🖥️ Server</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-id" checked>
+                    <span>🆔 Spieler-ID</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-compass" checked>
+                    <span>🧭 Kompass</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-street" checked>
+                    <span>📍 Straße</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-weapon" checked>
+                    <span>🔫 Waffe</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-speedometer" checked>
+                    <span>🚗 Tacho</span>
+                </label>
+            </div>
+            
+            <h3 style="margin-top: 20px;">Farbschema wählen</h3>
+            <div class="theme-selector">
+                <button class="theme-btn active" data-theme="blue">
+                    <div class="theme-preview theme-blue"></div>
+                    <span>Blau</span>
+                </button>
+                <button class="theme-btn" data-theme="red">
+                    <div class="theme-preview theme-red"></div>
+                    <span>Rot</span>
+                </button>
+                <button class="theme-btn" data-theme="green">
+                    <div class="theme-preview theme-green"></div>
+                    <span>Grün</span>
+                </button>
+                <button class="theme-btn" data-theme="purple">
+                    <div class="theme-preview theme-purple"></div>
+                    <span>Lila</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -525,81 +525,98 @@ function updateCircleProgress(elementId, value) {
     }
 }
 
+// Helper function to update bar progress
+function updateBarProgress(elementId, value) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    const barProgress = element.querySelector('.bar-progress');
+    const barValue = element.querySelector('.bar-value');
+    
+    if (barProgress) {
+        barProgress.style.width = value + '%';
+    }
+    
+    if (barValue) {
+        barValue.textContent = Math.floor(value);
+    }
+}
+
 function updateHUDData(data) {
     // Update health
     if (data.health !== undefined) {
-        updateCircleProgress('health-bar', data.health);
+        updateBarProgress('health-bar', data.health);
     }
     
     // Update armor
     if (data.armor !== undefined) {
-        updateCircleProgress('armor-bar', data.armor);
+        updateBarProgress('armor-bar', data.armor);
     }
     
     // Update stamina
     if (data.stamina !== undefined) {
-        updateCircleProgress('stamina-bar', data.stamina);
+        updateBarProgress('stamina-bar', data.stamina);
     }
     
     // Update oxygen
     if (data.oxygen !== undefined) {
-        updateCircleProgress('oxygen-bar', data.oxygen);
+        updateBarProgress('oxygen-bar', data.oxygen);
     }
     
     // Update stress
     if (data.stress !== undefined) {
-        updateCircleProgress('stress-bar', data.stress);
+        updateBarProgress('stress-bar', data.stress);
     }
     
     // Update sprint energy
     if (data.sprint !== undefined) {
-        updateCircleProgress('sprint-bar', data.sprint);
+        updateBarProgress('sprint-bar', data.sprint);
     }
     
     // Update hunger
     if (data.hunger !== undefined) {
-        updateCircleProgress('hunger-bar', data.hunger);
+        updateBarProgress('hunger-bar', data.hunger);
     }
     
     // Update thirst
     if (data.thirst !== undefined) {
-        updateCircleProgress('thirst-bar', data.thirst);
+        updateBarProgress('thirst-bar', data.thirst);
     }
     
     // Update cash
     if (data.cash !== undefined) {
-        const cashText = document.querySelector('#cash-display .hud-text');
-        if (cashText) cashText.textContent = '$' + formatNumber(data.cash);
+        const cashValue = document.querySelector('#cash-display .bar-value');
+        if (cashValue) cashValue.textContent = '$' + formatNumber(data.cash);
     }
     
     // Update bank
     if (data.bank !== undefined) {
-        const bankText = document.querySelector('#bank-display .hud-text');
-        if (bankText) bankText.textContent = '$' + formatNumber(data.bank);
+        const bankValue = document.querySelector('#bank-display .bar-value');
+        if (bankValue) bankValue.textContent = '$' + formatNumber(data.bank);
     }
     
     // Update server name
     if (data.serverName !== undefined) {
-        const serverText = document.querySelector('#server-display .hud-text');
-        if (serverText) serverText.textContent = data.serverName;
+        const serverValue = document.querySelector('#server-display .bar-value');
+        if (serverValue) serverValue.textContent = data.serverName;
     }
     
     // Update player ID
     if (data.playerId !== undefined) {
-        const idText = document.querySelector('#id-display .hud-text');
-        if (idText) idText.textContent = 'ID: ' + data.playerId;
+        const idValue = document.querySelector('#id-display .bar-value');
+        if (idValue) idValue.textContent = data.playerId;
     }
     
     // Update compass
     if (data.compass !== undefined) {
-        const compassText = document.querySelector('#compass-display .hud-text');
-        if (compassText) compassText.textContent = data.compass;
+        const compassValue = document.querySelector('#compass-display .bar-value');
+        if (compassValue) compassValue.textContent = data.compass;
     }
     
     // Update street name
     if (data.street !== undefined) {
-        const streetText = document.querySelector('#street-display .hud-text');
-        if (streetText) streetText.textContent = data.street;
+        const streetValue = document.querySelector('#street-display .bar-value');
+        if (streetValue) streetValue.textContent = data.street;
     }
     
     // Update weapon display
@@ -607,38 +624,73 @@ function updateHUDData(data) {
     if (data.weapon && weaponDisplay) {
         weaponDisplay.style.display = 'flex';
         const weaponName = weaponDisplay.querySelector('.weapon-name');
-        const weaponId = weaponDisplay.querySelector('.weapon-id');
         const weaponAmmo = weaponDisplay.querySelector('.weapon-ammo');
         
         if (weaponName) weaponName.textContent = data.weapon.name;
-        if (weaponId) weaponId.textContent = 'ID: ' + data.weapon.id;
-        if (weaponAmmo) weaponAmmo.textContent = data.weapon.ammoInClip + '/' + data.weapon.ammoReserve;
-    } else if (weaponDisplay) {
+        if (weaponAmmo) weaponAmmo.textContent = data.weapon.ammoInClip + ' / ' + data.weapon.ammoReserve;
+    } else if (weaponDisplay && !editMode) {
         weaponDisplay.style.display = 'none';
     }
     
-    // Update speedometer display
+    // Update professional speedometer with indicators
     const speedometer = document.getElementById('speedometer');
     if (data.vehicle && speedometer) {
-        speedometer.style.display = 'flex';
+        speedometer.style.display = 'block';
         
-        const speedoIcon = speedometer.querySelector('.speedo-icon');
-        const speedoSpeed = speedometer.querySelector('.speedo-speed');
-        const speedoGear = speedometer.querySelector('.speedo-gear');
+        const speedNumber = speedometer.querySelector('.speed-number');
+        const gearNumber = speedometer.querySelector('.gear-number');
+        const fuelFill = speedometer.querySelector('.fuel-fill');
         
-        if (speedoIcon) speedoIcon.textContent = data.vehicle.icon;
-        if (speedoSpeed) {
-            speedoSpeed.textContent = data.vehicle.speed;
+        // Update speed
+        if (speedNumber) {
+            speedNumber.textContent = data.vehicle.speed;
             // Add high-speed indicator
             if (data.vehicle.speed > 160) {
-                speedoSpeed.classList.add('high-speed');
+                speedNumber.classList.add('high-speed');
             } else {
-                speedoSpeed.classList.remove('high-speed');
+                speedNumber.classList.remove('high-speed');
             }
         }
-        if (speedoGear) speedoGear.textContent = data.vehicle.gear;
-    } else if (speedometer) {
+        
+        // Update gear
+        if (gearNumber) gearNumber.textContent = data.vehicle.gear;
+        
+        // Update fuel bar
+        if (fuelFill && data.vehicle.fuel !== undefined) {
+            fuelFill.style.width = data.vehicle.fuel + '%';
+            fuelFill.classList.remove('low', 'critical');
+            if (data.vehicle.fuel < 25) {
+                fuelFill.classList.add('low');
+            }
+            if (data.vehicle.fuel < 10) {
+                fuelFill.classList.add('critical');
+            }
+        }
+        
+        // Update indicators
+        updateIndicator('ind-engine', data.vehicle.engineOn || false);
+        updateIndicator('ind-lights', data.vehicle.lightsOn || false, data.vehicle.lightsOn ? 'active' : '');
+        updateIndicator('ind-door', data.vehicle.doorOpen || false, data.vehicle.doorOpen ? 'warning' : '');
+        updateIndicator('ind-lock', data.vehicle.locked || false, data.vehicle.locked ? 'active' : '');
+        updateIndicator('ind-fuel', data.vehicle.fuel !== undefined ? (data.vehicle.fuel < 25) : false, data.vehicle.fuel < 10 ? 'danger' : (data.vehicle.fuel < 25 ? 'warning' : ''));
+        updateIndicator('ind-belt', data.vehicle.seatbelt || false, data.vehicle.seatbelt ? 'active' : 'warning');
+        
+    } else if (speedometer && !editMode) {
         speedometer.style.display = 'none';
+    }
+}
+
+// Helper to update vehicle indicators
+function updateIndicator(indicatorId, isActive, statusClass = '') {
+    const indicator = document.getElementById(indicatorId);
+    if (!indicator) return;
+    
+    indicator.classList.remove('active', 'warning', 'danger');
+    
+    if (isActive && statusClass) {
+        indicator.classList.add(statusClass);
+    } else if (isActive) {
+        indicator.classList.add('active');
     }
 }
 
