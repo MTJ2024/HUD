@@ -45,7 +45,7 @@ body {
 /* Modern Bar-style HUD Elements - ESX Style */
 .hud-bar {
     position: relative;
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(15, 15, 20, 0.45) 100%);
+    background: rgba(0, 0, 0, 0) !important;  /* 100% transparent - NO black background */
     padding: 0;
     border-radius: 2px;
     min-width: 200px;
@@ -54,8 +54,9 @@ body {
     align-items: center;
     justify-content: space-between;
     border-left: 3px solid;
-    backdrop-filter: blur(3px);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: none;  /* No blur on transparent background */
+    box-shadow: 0 0 10px rgba(126, 211, 33, 0.15);  /* Subtle colored glow instead */
     overflow: hidden;
 }
 
@@ -104,6 +105,7 @@ body {
 /* GTA V-style color scheme */
 #health-bar {
     border-left-color: #c93a40;
+    box-shadow: 0 0 10px rgba(201, 58, 64, 0.2) !important;  /* Red glow */
 }
 #health-bar .bar-progress {
     background: linear-gradient(90deg, rgba(201, 58, 64, 0.4) 0%, rgba(201, 58, 64, 0.25) 100%);
@@ -111,6 +113,7 @@ body {
 
 #armor-bar {
     border-left-color: #4a90e2;
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.2) !important;  /* Blue glow */
 }
 #armor-bar .bar-progress {
     background: linear-gradient(90deg, rgba(74, 144, 226, 0.4) 0%, rgba(74, 144, 226, 0.25) 100%);
@@ -118,6 +121,7 @@ body {
 
 #stamina-bar {
     border-left-color: #f5a623;
+    box-shadow: 0 0 10px rgba(245, 166, 35, 0.2) !important;  /* Orange glow */
 }
 #stamina-bar .bar-progress {
     background: linear-gradient(90deg, rgba(245, 166, 35, 0.4) 0%, rgba(245, 166, 35, 0.25) 100%);
@@ -125,6 +129,7 @@ body {
 
 #oxygen-bar {
     border-left-color: #50c8e8;
+    box-shadow: 0 0 10px rgba(80, 200, 232, 0.2) !important;  /* Cyan glow */
 }
 #oxygen-bar .bar-progress {
     background: linear-gradient(90deg, rgba(80, 200, 232, 0.4) 0%, rgba(80, 200, 232, 0.25) 100%);
@@ -132,6 +137,7 @@ body {
 
 #stress-bar {
     border-left-color: #e85050;
+    box-shadow: 0 0 10px rgba(232, 80, 80, 0.2) !important;  /* Red glow */
 }
 #stress-bar .bar-progress {
     background: linear-gradient(90deg, rgba(232, 80, 80, 0.4) 0%, rgba(232, 80, 80, 0.25) 100%);
@@ -139,6 +145,7 @@ body {
 
 #sprint-bar {
     border-left-color: #7ed321;
+    box-shadow: 0 0 10px rgba(126, 211, 33, 0.2) !important;  /* Green glow */
 }
 #sprint-bar .bar-progress {
     background: linear-gradient(90deg, rgba(126, 211, 33, 0.4) 0%, rgba(126, 211, 33, 0.25) 100%);
@@ -146,6 +153,7 @@ body {
 
 #hunger-bar {
     border-left-color: #ff9500;
+    box-shadow: 0 0 10px rgba(255, 149, 0, 0.2) !important;  /* Orange glow */
 }
 #hunger-bar .bar-progress {
     background: linear-gradient(90deg, rgba(255, 149, 0, 0.4) 0%, rgba(255, 149, 0, 0.25) 100%);
@@ -153,6 +161,7 @@ body {
 
 #thirst-bar {
     border-left-color: #5ac8fa;
+    box-shadow: 0 0 10px rgba(90, 200, 250, 0.2) !important;  /* Light blue glow */
 }
 #thirst-bar .bar-progress {
     background: linear-gradient(90deg, rgba(90, 200, 250, 0.4) 0%, rgba(90, 200, 250, 0.25) 100%);
@@ -281,34 +290,37 @@ body {
 /* Compact money displays - Top-right */
 #cash-display,
 #bank-display {
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(15, 15, 20, 0.45) 100%);
+    background: rgba(0, 0, 0, 0) !important;  /* 100% transparent */
     padding: 6px 12px;
     border-left: 3px solid #7ed321;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     min-width: 140px;
     height: 28px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    backdrop-filter: blur(3px);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    backdrop-filter: none;
+    box-shadow: 0 0 10px rgba(126, 211, 33, 0.15);  /* Green glow */
 }
 
 #cash-display {
     top: 20px;
     right: 20px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.15) !important;  /* Gold glow */
 }
 
 #bank-display {
     top: 52px;
     right: 20px;
     border-left-color: #4a90e2;
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.15) !important;  /* Blue glow */
 }
 
 /* Hide server info by default - minimalist ESX style */
 #server-display,
 #id-display,
 #compass-display {
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(15, 15, 20, 0.45) 100%);
+    background: rgba(0, 0, 0, 0) !important;  /* 100% transparent */
     padding: 5px 15px;
     border-left: 3px solid rgba(255, 255, 255, 0.2);
     height: 24px;
@@ -339,9 +351,10 @@ body {
 }
 
 #street-display {
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(15, 15, 20, 0.45) 100%);
+    background: rgba(0, 0, 0, 0) !important;  /* 100% transparent */
     padding: 6px 12px;
     border-left: 3px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     min-width: 180px;
     height: 28px;
     bottom: 170px;
@@ -349,23 +362,23 @@ body {
     transform: translateX(-50%);
     font-size: 11px;
     letter-spacing: 0.5px;
-    backdrop-filter: blur(3px);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-}
+    backdrop-filter: none;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
 /* Weapon display */
 #weapon-display {
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(15, 15, 20, 0.45) 100%);
+    background: rgba(0, 0, 0, 0) !important;  /* 100% transparent */
     padding: 8px 12px;
     border-left: 3px solid #c93a40;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     min-width: 160px;
     bottom: 140px;
     left: 50%;
     transform: translateX(-50%);
     display: none;
-    backdrop-filter: blur(3px);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    backdrop-filter: none;
+    box-shadow: 0 0 10px rgba(201, 58, 64, 0.15);  /* Red glow */
 }
 
 .weapon-info {
@@ -389,10 +402,10 @@ body {
 
 /* Professional Vehicle HUD - ESX Style */
 #speedometer {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(15, 15, 20, 0.45) 100%);
+    background: rgba(0, 0, 0, 0) !important;  /* 100% transparent */
     padding: 0;
     border-radius: 2px;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-top: 3px solid rgba(245, 166, 35, 0.7);
     min-width: 300px;
     height: auto;
@@ -400,8 +413,8 @@ body {
     left: 50%;
     transform: translateX(-50%);
     display: none;
-    backdrop-filter: blur(3px);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    backdrop-filter: none;
+    box-shadow: 0 0 10px rgba(245, 166, 35, 0.2);  /* Orange glow */
 }
 
 .vehicle-hud {

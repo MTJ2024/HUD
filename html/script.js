@@ -4,6 +4,96 @@ let offsetX = 0;
 let offsetY = 0;
 let elementScales = {}; // Individual scale for each element
 
+// Layout Presets
+const layoutPresets = {
+    'esx-classic': {
+        'health-bar': { left: '20px', top: 'auto', bottom: '240px', right: 'auto' },
+        'armor-bar': { left: '20px', top: 'auto', bottom: '272px', right: 'auto' },
+        'stamina-bar': { left: '20px', top: 'auto', bottom: '304px', right: 'auto' },
+        'hunger-bar': { left: '20px', top: 'auto', bottom: '336px', right: 'auto' },
+        'thirst-bar': { left: '20px', top: 'auto', bottom: '368px', right: 'auto' },
+        'sprint-bar': { left: '20px', top: 'auto', bottom: '400px', right: 'auto' },
+        'oxygen-bar': { left: '20px', top: 'auto', bottom: '432px', right: 'auto' },
+        'stress-bar': { left: '20px', top: 'auto', bottom: '464px', right: 'auto' },
+        'cash-display': { left: 'auto', top: '20px', bottom: 'auto', right: '20px' },
+        'bank-display': { left: 'auto', top: '56px', bottom: 'auto', right: '20px' },
+        'server-display': { left: '50%', top: '20px', bottom: 'auto', right: 'auto', transform: 'translateX(-50%)' },
+        'id-display': { left: '50%', top: '56px', bottom: 'auto', right: 'auto', transform: 'translateX(-50%)' },
+        'compass-display': { left: '50%', top: '92px', bottom: 'auto', right: 'auto', transform: 'translateX(-50%)' },
+        'street-display': { left: '50%', top: 'auto', bottom: '170px', right: 'auto', transform: 'translateX(-50%)' },
+        'weapon-display': { left: '50%', top: 'auto', bottom: '140px', right: 'auto', transform: 'translateX(-50%)' },
+        'speedometer': { left: '50%', top: 'auto', bottom: '20px', right: 'auto', transform: 'translateX(-50%)' }
+    },
+    'minimal-clean': {
+        'health-bar': { left: '20px', top: '20px', bottom: 'auto', right: 'auto' },
+        'armor-bar': { left: '20px', top: '52px', bottom: 'auto', right: 'auto' },
+        'stamina-bar': { left: '20px', top: '84px', bottom: 'auto', right: 'auto' },
+        'hunger-bar': { left: '20px', top: '116px', bottom: 'auto', right: 'auto' },
+        'thirst-bar': { left: '20px', top: '148px', bottom: 'auto', right: 'auto' },
+        'sprint-bar': { left: '20px', top: '180px', bottom: 'auto', right: 'auto' },
+        'oxygen-bar': { left: '20px', top: '212px', bottom: 'auto', right: 'auto' },
+        'stress-bar': { left: '20px', top: '244px', bottom: 'auto', right: 'auto' },
+        'cash-display': { left: 'auto', top: '20px', bottom: 'auto', right: '20px' },
+        'bank-display': { left: 'auto', top: '56px', bottom: 'auto', right: '20px' },
+        'server-display': { left: 'auto', top: '92px', bottom: 'auto', right: '20px' },
+        'id-display': { left: 'auto', top: '128px', bottom: 'auto', right: '20px' },
+        'compass-display': { left: 'auto', top: '164px', bottom: 'auto', right: '20px' },
+        'street-display': { left: '50%', top: 'auto', bottom: '170px', right: 'auto', transform: 'translateX(-50%)' },
+        'weapon-display': { left: '50%', top: 'auto', bottom: '140px', right: 'auto', transform: 'translateX(-50%)' },
+        'speedometer': { left: '50%', top: 'auto', bottom: '20px', right: 'auto', transform: 'translateX(-50%)' }
+    },
+    'traditional': {
+        'health-bar': { left: '20px', top: '20px', bottom: 'auto', right: 'auto' },
+        'armor-bar': { left: '20px', top: '52px', bottom: 'auto', right: 'auto' },
+        'stamina-bar': { left: '20px', top: 'auto', bottom: '120px', right: 'auto' },
+        'hunger-bar': { left: '20px', top: 'auto', bottom: '152px', right: 'auto' },
+        'thirst-bar': { left: '20px', top: 'auto', bottom: '184px', right: 'auto' },
+        'sprint-bar': { left: '20px', top: 'auto', bottom: '216px', right: 'auto' },
+        'oxygen-bar': { left: 'auto', top: 'auto', bottom: '120px', right: '20px' },
+        'stress-bar': { left: 'auto', top: 'auto', bottom: '152px', right: '20px' },
+        'cash-display': { left: 'auto', top: '20px', bottom: 'auto', right: '20px' },
+        'bank-display': { left: 'auto', top: '56px', bottom: 'auto', right: '20px' },
+        'server-display': { left: 'auto', top: '92px', bottom: 'auto', right: '20px' },
+        'id-display': { left: 'auto', top: '128px', bottom: 'auto', right: '20px' },
+        'compass-display': { left: 'auto', top: '164px', bottom: 'auto', right: '20px' },
+        'street-display': { left: '50%', top: 'auto', bottom: '170px', right: 'auto', transform: 'translateX(-50%)' },
+        'weapon-display': { left: '50%', top: 'auto', bottom: '140px', right: 'auto', transform: 'translateX(-50%)' },
+        'speedometer': { left: '50%', top: 'auto', bottom: '20px', right: 'auto', transform: 'translateX(-50%)' }
+    }
+};
+
+function applyPreset(presetName) {
+    if (presetName === 'custom') return; // Don't apply preset in custom mode
+    
+    const preset = layoutPresets[presetName];
+    if (!preset) return;
+    
+    Object.keys(preset).forEach(elementId => {
+        const element = document.getElementById(elementId);
+        if (element) {
+            const pos = preset[elementId];
+            element.style.left = pos.left;
+            element.style.top = pos.top;
+            element.style.bottom = pos.bottom;
+            element.style.right = pos.right;
+            if (pos.transform) {
+                element.style.transform = pos.transform;
+            } else {
+                element.style.transform = elementScales[elementId] ? `scale(${elementScales[elementId]})` : '';
+            }
+        }
+    });
+}
+
+function saveSelectedPreset(presetName) {
+    localStorage.setItem('hud_selected_preset', presetName);
+    fetch(`https://${GetParentResourceName()}/savePreset`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ preset: presetName })
+    });
+}
+
 // Ensure element stays within viewport bounds
 function constrainElementToViewport(element) {
     if (!element) return;
@@ -706,8 +796,61 @@ window.addEventListener('resize', function() {
     validateAllElementPositions();
 });
 
+// Load preset on page load (BEFORE elements display - no jumping!)
+window.addEventListener('DOMContentLoaded', function() {
+    // 1. Load selected preset immediately
+    const savedPreset = localStorage.getItem('hud_selected_preset') || 'esx-classic';
+    const presetSelector = document.getElementById('layout-preset');
+    if (presetSelector) {
+        presetSelector.value = savedPreset;
+    }
+    
+    // 2. Apply preset BEFORE anything else (prevents jumping)
+    applyPreset(savedPreset);
+    
+    // 3. Load custom positions only if in custom mode
+    if (savedPreset === 'custom') {
+        setTimeout(() => {
+            loadPositions();
+            loadElementScales();
+        }, 50);
+    }
+    
+    // 4. Load element settings (visibility toggles)
+    setTimeout(() => {
+        loadElementSettings();
+    }, 100);
+    
+    // 5. Final validation after everything loaded
+    setTimeout(() => {
+        validateAllElementPositions();
+    }, 150);
+});
+
 // Initialize viewport validation on load
 window.addEventListener('load', function() {
     validateAllElementPositions();
+});
+
+// Layout preset selector event handler
+document.addEventListener('DOMContentLoaded', function() {
+    const presetSelector = document.getElementById('layout-preset');
+    if (presetSelector) {
+        presetSelector.addEventListener('change', function() {
+            const selectedPreset = this.value;
+            
+            // Save selection
+            saveSelectedPreset(selectedPreset);
+            
+            // Apply immediately
+            if (selectedPreset !== 'custom') {
+                applyPreset(selectedPreset);
+                validateAllElementPositions();
+            }
+            
+            // Show feedback
+            console.log(`Layout changed to: ${selectedPreset}`);
+        });
+    }
 });
 

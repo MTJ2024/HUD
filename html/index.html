@@ -190,7 +190,23 @@
         </div>
 
         <div class="settings-panel">
-            <h3>⚙️ HUD-Elemente</h3>
+            <h3>⚙️ HUD-Einstellungen</h3>
+            
+            <!-- Layout Preset Selection -->
+            <div class="setting-group">
+                <label for="layout-preset" style="display:block; margin-bottom:8px; font-weight:600; color:#f5a623;">📐 HUD Layout:</label>
+                <select id="layout-preset" style="width:100%; padding:8px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:4px; font-size:13px; margin-bottom:12px;">
+                    <option value="esx-classic">ESX Classic (Bottom-Left Stack)</option>
+                    <option value="minimal-clean">Minimal Clean (Top-Left Compact)</option>
+                    <option value="traditional">Traditional (Corners)</option>
+                    <option value="custom">Custom (F10 Positionieren)</option>
+                </select>
+                <p style="font-size:11px; color:rgba(255,255,255,0.6); margin:0 0 16px 0; line-height:1.4;">
+                    Wähle ein vordefiniertes Layout oder "Custom" für freie Positionierung per F10.
+                </p>
+            </div>
+            
+            <h4 style="margin:0 0 12px 0; font-size:14px; color:rgba(255,255,255,0.8);">Elemente Ein/Aus:</h4>
             <div class="elements-grid">
                 <label class="element-checkbox">
                     <input type="checkbox" id="toggle-health" checked>
