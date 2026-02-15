@@ -632,13 +632,14 @@ function updateHUDData(data) {
         weaponDisplay.style.display = 'none';
     }
     
-    // Update professional speedometer with indicators
+    // Update professional speedometer with indicators for all vehicle types
     const speedometer = document.getElementById('speedometer');
     if (data.vehicle && speedometer) {
         speedometer.style.display = 'block';
         
         const speedNumber = speedometer.querySelector('.speed-number');
         const gearNumber = speedometer.querySelector('.gear-number');
+        const gearLabel = speedometer.querySelector('.gear-label');
         const fuelFill = speedometer.querySelector('.fuel-fill');
         
         // Update speed
@@ -652,8 +653,9 @@ function updateHUDData(data) {
             }
         }
         
-        // Update gear
+        // Update gear/altitude
         if (gearNumber) gearNumber.textContent = data.vehicle.gear;
+        if (gearLabel && data.vehicle.gearLabel) gearLabel.textContent = data.vehicle.gearLabel;
         
         // Update fuel bar
         if (fuelFill && data.vehicle.fuel !== undefined) {

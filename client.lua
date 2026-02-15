@@ -276,45 +276,83 @@ CreateThread(function()
             }
         end
         
-        -- Get vehicle info
+        -- Get vehicle info with all indicators
         local vehicleData = nil
         local vehicle = GetVehiclePedIsIn(playerPed, false)
         
         if vehicle ~= 0 and GetPedInVehicleSeat(vehicle, -1) == playerPed then
             local speed = GetEntitySpeed(vehicle) * 3.6 -- Convert to km/h
             local gear = GetVehicleCurrentGear(vehicle)
-            local maxGears = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'nInitialDriveGears')
-            local rpm = GetVehicleCurrentRpm(vehicle)
             local vehicleClass = GetVehicleClass(vehicle)
             
-            -- Determine vehicle icon
-            local vehicleIcon = "🚗"
+            -- Determine vehicle type
+            local vehicleType = "car"
+            local gearLabel = "GEAR"
             if vehicleClass == 15 then -- Helicopter
-                vehicleIcon = "🚁"
+                vehicleType = "heli"
+                gearLabel = "ALT"
             elseif vehicleClass == 16 then -- Plane
-                vehicleIcon = "✈️"
+                vehicleType = "plane"
+                gearLabel = "ALT"
             elseif vehicleClass == 14 then -- Boat
-                vehicleIcon = "🚤"
-            elseif vehicleClass == 8 then -- Motorcycle
-                vehicleIcon = "🏍️"
-            elseif vehicleClass == 18 then -- Emergency
-                vehicleIcon = "🚑"
+                vehicleType = "boat"
+                gearLabel = "GEAR"
             end
             
             -- Get gear display
             local gearDisplay = tostring(gear)
-            if gear == 0 then
-                gearDisplay = "R"
-            elseif not IsVehicleEngineOn(vehicle) then
-                gearDisplay = "N"
+            if vehicleType == "heli" or vehicleType == "plane" then
+                -- For aircraft, show altitude in meters
+                local altitude = GetEntityHeightAboveGround(vehicle)
+                gearDisplay = math.floor(altitude) .. "m"
+            else
+                -- For cars/boats
+                if gear == 0 then
+                    gearDisplay = "R"
+                elseif not IsVehicleEngineOn(vehicle) then
+                    gearDisplay = "P"
+                end
             end
+            
+            -- Get vehicle indicators
+            local engineOn = IsVehicleEngineOn(vehicle)
+            local lightsOn = GetVehicleLightsState(vehicle)
+            local doorOpen = false
+            
+            -- Check if any door is open
+            for i = 0, 5 do
+                if GetVehicleDoorAngleRatio(vehicle, i) > 0.1 then
+                    doorOpen = true
+                    break
+                end
+            end
+            
+            local locked = GetVehicleDoorLockStatus(vehicle) == 2 or GetVehicleDoorLockStatus(vehicle) == 3
+            
+            -- Get fuel (if you have a fuel script, replace this)
+            local fuel = GetVehicleFuelLevel(vehicle)
+            local maxFuel = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fPetrolTankVolume')
+            local fuelPercent = 100
+            if maxFuel > 0 then
+                fuelPercent = math.floor((fuel / maxFuel) * 100)
+            end
+            
+            -- Seatbelt (if you have a seatbelt script, replace this)
+            -- For now, we'll assume it's always off unless you have a seatbelt resource
+            local seatbelt = false -- Set to true if player has seatbelt on
             
             vehicleData = {
                 speed = math.floor(speed),
                 gear = gearDisplay,
-                rpm = math.floor(rpm * 100),
-                icon = vehicleIcon,
-                maxSpeed = math.floor(GetVehicleEstimatedMaxSpeed(vehicle) * 3.6)
+                gearLabel = gearLabel,
+                vehicleType = vehicleType,
+                -- Indicators
+                engineOn = engineOn,
+                lightsOn = lightsOn,
+                doorOpen = doorOpen,
+                locked = locked,
+                fuel = fuelPercent,
+                seatbelt = seatbelt
             }
         end
         
