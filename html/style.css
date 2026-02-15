@@ -1,0 +1,1063 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Pricedown', 'Roboto Condensed', 'Arial Narrow', sans-serif;
+    overflow: hidden;
+    background: transparent !important;
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#hud-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    background: transparent !important;
+}
+
+.hud-element {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.75) 100%);
+    padding: 6px 12px;
+    border-radius: 2px;
+    color: #ffffff;
+    font-size: 13px;
+    pointer-events: all;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+    user-select: none;
+    transform-origin: center;
+    z-index: 10;
+    border-left: 2px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(3px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Modern Bar-style HUD Elements - ESX Style */
+.hud-bar {
+    position: relative;
+    background: rgba(0, 0, 0, 0) !important;  /* 100% transparent - NO black background */
+    padding: 0;
+    border-radius: 2px;
+    min-width: 200px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-left: 3px solid;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: none;  /* No blur on transparent background */
+    box-shadow: 0 0 10px rgba(126, 211, 33, 0.15);  /* Subtle colored glow instead */
+    overflow: hidden;
+}
+
+/* Professional Bar Progress Indicator */
+.bar-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.14) 0%, 
+        rgba(255, 255, 255, 0.10) 100%);
+    transition: width 0.3s ease;
+    z-index: 0;
+}
+
+.bar-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 12px;
+    z-index: 1;
+}
+
+.bar-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.bar-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95);
+    min-width: 40px;
+    text-align: right;
+}
+
+/* GTA V-style color scheme */
+#health-bar {
+    border-left-color: #c93a40;
+    box-shadow: 0 0 10px rgba(201, 58, 64, 0.2) !important;  /* Red glow */
+}
+#health-bar .bar-progress {
+    background: linear-gradient(90deg, rgba(201, 58, 64, 0.4) 0%, rgba(201, 58, 64, 0.25) 100%);
+}
+
+#armor-bar {
+    border-left-color: #4a90e2;
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.2) !important;  /* Blue glow */
+}
+#armor-bar .bar-progress {
+    background: linear-gradient(90deg, rgba(74, 144, 226, 0.4) 0%, rgba(74, 144, 226, 0.25) 100%);
+}
+
+#stamina-bar {
+    border-left-color: #f5a623;
+    box-shadow: 0 0 10px rgba(245, 166, 35, 0.2) !important;  /* Orange glow */
+}
+#stamina-bar .bar-progress {
+    background: linear-gradient(90deg, rgba(245, 166, 35, 0.4) 0%, rgba(245, 166, 35, 0.25) 100%);
+}
+
+#oxygen-bar {
+    border-left-color: #50c8e8;
+    box-shadow: 0 0 10px rgba(80, 200, 232, 0.2) !important;  /* Cyan glow */
+}
+#oxygen-bar .bar-progress {
+    background: linear-gradient(90deg, rgba(80, 200, 232, 0.4) 0%, rgba(80, 200, 232, 0.25) 100%);
+}
+
+#stress-bar {
+    border-left-color: #e85050;
+    box-shadow: 0 0 10px rgba(232, 80, 80, 0.2) !important;  /* Red glow */
+}
+#stress-bar .bar-progress {
+    background: linear-gradient(90deg, rgba(232, 80, 80, 0.4) 0%, rgba(232, 80, 80, 0.25) 100%);
+}
+
+#sprint-bar {
+    border-left-color: #7ed321;
+    box-shadow: 0 0 10px rgba(126, 211, 33, 0.2) !important;  /* Green glow */
+}
+#sprint-bar .bar-progress {
+    background: linear-gradient(90deg, rgba(126, 211, 33, 0.4) 0%, rgba(126, 211, 33, 0.25) 100%);
+}
+
+#hunger-bar {
+    border-left-color: #ff9500;
+    box-shadow: 0 0 10px rgba(255, 149, 0, 0.2) !important;  /* Orange glow */
+}
+#hunger-bar .bar-progress {
+    background: linear-gradient(90deg, rgba(255, 149, 0, 0.4) 0%, rgba(255, 149, 0, 0.25) 100%);
+}
+
+#thirst-bar {
+    border-left-color: #5ac8fa;
+    box-shadow: 0 0 10px rgba(90, 200, 250, 0.2) !important;  /* Light blue glow */
+}
+#thirst-bar .bar-progress {
+    background: linear-gradient(90deg, rgba(90, 200, 250, 0.4) 0%, rgba(90, 200, 250, 0.25) 100%);
+}
+
+.hud-element.dragging {
+    opacity: 0.8;
+    cursor: move;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.hud-element.edit-mode {
+    border: 2px dashed #ffcc00;
+    cursor: move;
+}
+
+/* Hidden elements - but still visible in edit mode for positioning */
+.hud-element.hud-hidden {
+    display: none !important;
+}
+
+/* In edit mode, show ALL elements even if toggled off */
+.hud-element.edit-mode.hud-hidden {
+    display: block !important;
+    opacity: 0.5;
+    border: 2px dashed rgba(255, 68, 68, 0.6) !important;
+}
+
+/* Special handling for flex elements */
+#speedometer.edit-mode.hud-hidden {
+    display: flex !important;
+}
+
+.hud-icon {
+    font-size: 20px;
+}
+
+.hud-bar {
+    width: 150px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.hud-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff3333, #ff6666);
+    transition: width 0.3s ease;
+    border-radius: 10px;
+}
+
+.hud-bar-fill.armor {
+    background: linear-gradient(90deg, #3399ff, #66b3ff);
+}
+
+.hud-bar-fill.stamina {
+    background: linear-gradient(90deg, #ffcc00, #ffdd66);
+}
+
+.hud-bar-fill.oxygen {
+    background: linear-gradient(90deg, #00ccff, #66ddff);
+}
+
+.hud-bar-fill.stress {
+    background: linear-gradient(90deg, #ff6600, #ff9933);
+}
+
+.hud-bar-fill.sprint {
+    background: linear-gradient(90deg, #00ff66, #66ff99);
+}
+
+.hud-value {
+    font-weight: bold;
+    min-width: 30px;
+    text-align: right;
+}
+
+.hud-text {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* ESX-style positioning - Bottom-left stack ABOVE minimap */
+#health-bar {
+    bottom: 240px;
+    left: 20px;
+}
+
+#armor-bar {
+    bottom: 272px;
+    left: 20px;
+}
+
+#stamina-bar {
+    bottom: 304px;
+    left: 20px;
+}
+
+#hunger-bar {
+    bottom: 336px;
+    left: 20px;
+}
+
+#thirst-bar {
+    bottom: 368px;
+    left: 20px;
+}
+
+#sprint-bar {
+    bottom: 400px;
+    left: 20px;
+}
+
+#oxygen-bar {
+    bottom: 432px;
+    left: 20px;
+}
+
+#stress-bar {
+    bottom: 464px;
+    left: 20px;
+}
+
+/* Compact money displays - Top-right */
+#cash-display,
+#bank-display {
+    background: rgba(0, 0, 0, 0) !important;  /* 100% transparent */
+    padding: 6px 12px;
+    border-left: 3px solid #7ed321;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 140px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: none;
+    box-shadow: 0 0 10px rgba(126, 211, 33, 0.15);  /* Green glow */
+}
+
+#cash-display {
+    top: 20px;
+    right: 20px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.15) !important;  /* Gold glow */
+}
+
+#bank-display {
+    top: 52px;
+    right: 20px;
+    border-left-color: #4a90e2;
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.15) !important;  /* Blue glow */
+}
+
+/* Hide server info by default - minimalist ESX style */
+#server-display,
+#id-display,
+#compass-display {
+    background: rgba(0, 0, 0, 0) !important;  /* 100% transparent */
+    padding: 5px 15px;
+    border-left: 3px solid rgba(255, 255, 255, 0.2);
+    height: 24px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(3px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+#server-display {
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#id-display {
+    top: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#compass-display {
+    border-left-color: #f5a623;
+    font-weight: 700;
+    top: 76px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#street-display {
+    background: rgba(0, 0, 0, 0) !important;  /* 100% transparent */
+    padding: 6px 12px;
+    border-left: 3px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 180px;
+    height: 28px;
+    bottom: 170px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    backdrop-filter: none;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Weapon display */
+#weapon-display {
+    background: rgba(0, 0, 0, 0) !important;  /* 100% transparent */
+    padding: 8px 12px;
+    border-left: 3px solid #c93a40;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 160px;
+    bottom: 140px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    backdrop-filter: none;
+    box-shadow: 0 0 10px rgba(201, 58, 64, 0.15);  /* Red glow */
+}
+
+.weapon-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.weapon-name {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.weapon-ammo {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Professional Vehicle HUD - ESX Style */
+#speedometer {
+    background: rgba(0, 0, 0, 0) !important;  /* 100% transparent */
+    padding: 0;
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 3px solid rgba(245, 166, 35, 0.7);
+    min-width: 300px;
+    height: auto;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    backdrop-filter: none;
+    box-shadow: 0 0 10px rgba(245, 166, 35, 0.2);  /* Orange glow */
+}
+
+.vehicle-hud {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 16px;
+}
+
+/* Speed and Gear Row */
+.vehicle-hud > div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.speed-display {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.speed-number {
+    font-size: 38px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.95);
+    letter-spacing: -1.5px;
+    line-height: 1;
+    font-family: 'Roboto Condensed', 'Arial Narrow', sans-serif;
+}
+
+.speed-number.high-speed {
+    color: #ff4444;
+    text-shadow: 0 3px 12px rgba(255, 68, 68, 0.8);
+}
+
+.speed-unit {
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 6px;
+}
+
+.gear-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: rgba(255, 255, 255, 0.09);
+    padding: 8px 14px;
+    border-radius: 2px;
+    border-left: 3px solid rgba(245, 166, 35, 0.6);
+    min-width: 60px;
+}
+
+.gear-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.gear-number {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+    line-height: 1;
+}
+
+/* Vehicle Indicators - Clean and Readable */
+.vehicle-indicators {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: rgba(255, 255, 255, 0.22);
+    transition: all 0.25s ease;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 2px;
+}
+
+.indicator svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Active Indicators with Better Visibility */
+.indicator.active {
+    color: #7ed321;
+    background: rgba(126, 211, 33, 0.12);
+    filter: drop-shadow(0 0 6px rgba(126, 211, 33, 0.7));
+}
+
+.indicator.warning {
+    color: #f5a623;
+    background: rgba(245, 166, 35, 0.12);
+    filter: drop-shadow(0 0 6px rgba(245, 166, 35, 0.7));
+    animation: pulse 1.5s infinite;
+}
+
+.indicator.danger {
+    color: #c93a40;
+    background: rgba(201, 58, 64, 0.12);
+    filter: drop-shadow(0 0 6px rgba(201, 58, 64, 0.7));
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* Fuel Bar - More Visible */
+.fuel-bar {
+    width: 100%;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.fuel-fill {
+    height: 100%;
+    background: linear-gradient(90deg, 
+        rgba(126, 211, 33, 0.9) 0%, 
+        rgba(126, 211, 33, 0.7) 100%);
+    transition: width 0.3s ease, background 0.3s ease;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(126, 211, 33, 0.5);
+}
+
+.fuel-fill.low {
+    background: linear-gradient(90deg, 
+        rgba(245, 166, 35, 0.9) 0%, 
+        rgba(245, 166, 35, 0.7) 100%);
+    box-shadow: 0 0 8px rgba(245, 166, 35, 0.5);
+}
+
+.fuel-fill.critical {
+    background: linear-gradient(90deg, 
+        rgba(201, 58, 64, 0.9) 0%, 
+        rgba(201, 58, 64, 0.7) 100%);
+    box-shadow: 0 0 8px rgba(201, 58, 64, 0.5);
+    animation: pulse 1s infinite;
+}
+
+
+/* Settings Icon - Hidden by default, only shown in edit mode */
+.settings-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 25, 0.9) 100%);
+    padding: 10px 12px;
+    border-radius: 3px;
+    border: 2px solid rgba(255, 204, 0, 0.6);
+    color: #ffcc00;
+    backdrop-filter: blur(3px);
+}
+
+.settings-icon.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Edit Mode Overlay */
+#edit-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px;
+    gap: 20px;
+    pointer-events: none;
+    overflow-y: auto;
+}
+
+#edit-overlay.hidden {
+    display: none;
+}
+
+#edit-overlay:not(.hidden) {
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 5;
+}
+
+.edit-instructions {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(20, 20, 25, 0.95) 100%);
+    padding: 18px 28px;
+    border-radius: 3px;
+    text-align: center;
+    color: white;
+    pointer-events: all;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.7);
+    border: 2px solid rgba(255, 204, 0, 0.4);
+    z-index: 20;
+    backdrop-filter: blur(3px);
+}
+
+.edit-instructions h2 {
+    margin-bottom: 10px;
+    color: #ffcc00;
+}
+
+.edit-instructions p {
+    margin-bottom: 20px;
+    color: #ccc;
+}
+
+#save-btn {
+    background: #ffcc00;
+    color: #000;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#save-btn:hover {
+    background: #ffdd33;
+    transform: scale(1.05);
+}
+
+#save-btn:active {
+    transform: scale(0.95);
+}
+
+/* Professional Settings Panel */
+.settings-panel {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(20, 20, 25, 0.95) 100%);
+    padding: 22px;
+    border-radius: 3px;
+    max-width: 480px;
+    pointer-events: all;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.8);
+    border: 2px solid rgba(255, 204, 0, 0.4);
+    z-index: 20;
+    backdrop-filter: blur(3px);
+}
+
+.settings-panel h3 {
+    color: #ffcc00;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid rgba(255, 204, 0, 0.3);
+    padding-bottom: 8px;
+}
+
+.elements-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.element-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.element-checkbox:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 204, 0, 0.5);
+}
+
+.element-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #f5a623;
+}
+
+.element-checkbox span {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    font-weight: 600;
+    user-select: none;
+    letter-spacing: 0.3px;
+}
+
+.element-checkbox input[type="checkbox"]:checked + span {
+    color: #f5a623;
+    font-weight: 700;
+}
+
+.element-checkbox input[type="checkbox"]:not(:checked) + span {
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: line-through;
+}
+
+/* Edit Mode Placeholder Visual Feedback */
+.edit-placeholder {
+    opacity: 0.65;
+    border: 2px dashed rgba(255, 149, 0, 0.5) !important;
+}
+
+.edit-placeholder::after {
+    content: 'POSITION';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(245, 166, 35, 0.95);
+    color: #000;
+    padding: 3px 6px;
+    border-radius: 2px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+/* Theme Selector - Simplified */
+.theme-selector {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.theme-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.theme-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+.theme-btn.active {
+    border-color: #f5a623;
+    background: rgba(245, 166, 35, 0.1);
+}
+
+.theme-btn span {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.theme-preview {
+    width: 55px;
+    height: 35px;
+    border-radius: 2px;
+    display: flex;
+    gap: 2px;
+    padding: 4px;
+}
+
+.theme-preview::before,
+.theme-preview::after {
+    content: '';
+    flex: 1;
+    border-radius: 2px;
+}
+
+/* Keep existing theme colors but update gradients */
+.theme-blue {
+    background: linear-gradient(135deg, rgba(30, 60, 114, 0.8) 0%, rgba(42, 82, 152, 0.8) 100%);
+}
+
+.theme-blue::before {
+    background: #4a90e2;
+}
+
+.theme-blue::after {
+    background: #5ac8fa;
+}
+
+.theme-red {
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.8) 0%, rgba(220, 20, 60, 0.8) 100%);
+}
+
+.theme-red::before {
+    background: #c93a40;
+}
+
+.theme-red::after {
+    background: #e85050;
+}
+
+.theme-green {
+    background: linear-gradient(135deg, rgba(15, 32, 39, 0.8) 0%, rgba(44, 83, 100, 0.8) 100%);
+}
+
+.theme-green::before {
+    background: #7ed321;
+}
+
+.theme-green::after {
+    background: #00ccaa;
+}
+
+.theme-purple {
+    background: linear-gradient(135deg, #4a148c 0%, #7b1fa2 100%);
+}
+
+.theme-purple::before {
+    background: #9c27b0;
+}
+
+.theme-purple::after {
+    background: #e040fb;
+}
+
+/* Color Theme Variables */
+body.theme-blue {
+    --primary-color: #3399ff;
+    --secondary-color: #00ccff;
+    --accent-color: #66b3ff;
+}
+
+body.theme-red {
+    --primary-color: #ff3366;
+    --secondary-color: #ff6600;
+    --accent-color: #ff9933;
+}
+
+body.theme-green {
+    --primary-color: #00ff66;
+    --secondary-color: #00ccaa;
+    --accent-color: #66ff99;
+}
+
+body.theme-purple {
+    --primary-color: #9c27b0;
+    --secondary-color: #e040fb;
+    --accent-color: #ba68c8;
+}
+
+/* Apply theme colors to elements */
+body.theme-blue .armor-circle,
+body.theme-blue .speedo-fill { stroke: #3399ff !important; }
+body.theme-blue .oxygen-circle { stroke: #00ccff !important; }
+body.theme-blue .sprint-circle { stroke: #66b3ff !important; }
+
+body.theme-red .armor-circle,
+body.theme-red .speedo-fill { stroke: #ff3366 !important; }
+body.theme-red .oxygen-circle { stroke: #ff6600 !important; }
+body.theme-red .sprint-circle { stroke: #ff9933 !important; }
+
+body.theme-green .armor-circle,
+body.theme-green .speedo-fill { stroke: #00ff66 !important; }
+body.theme-green .oxygen-circle { stroke: #00ccaa !important; }
+body.theme-green .sprint-circle { stroke: #66ff99 !important; }
+
+body.theme-purple .armor-circle,
+body.theme-purple .speedo-fill { stroke: #9c27b0 !important; }
+body.theme-purple .oxygen-circle { stroke: #e040fb !important; }
+body.theme-purple .sprint-circle { stroke: #ba68c8 !important; }
+
+/* Weapon Display Specific Styles */
+.hud-weapon {
+    flex-direction: row;
+    gap: 12px;
+}
+
+.weapon-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.weapon-name {
+    font-weight: bold;
+    font-size: 16px;
+    color: #ffcc00;
+}
+
+.weapon-details {
+    display: flex;
+    gap: 15px;
+    font-size: 12px;
+    color: #ccc;
+}
+
+.weapon-id {
+    color: #66b3ff;
+}
+
+.weapon-ammo {
+    color: #ff9933;
+    font-weight: bold;
+}
+
+/* Speedometer Styles */
+/* Speedometer - Professional Design */
+.hud-speedometer {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 30, 0.95) 100%);
+    padding: 16px 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(3px);
+}
+
+.speedo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.speedo-icon {
+    font-size: 28px;
+    opacity: 0.9;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.speedo-data {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.speedo-speed-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.speedo-speed {
+    font-size: 42px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    letter-spacing: -1px;
+    text-shadow: 0 2px 8px rgba(0, 204, 255, 0.4);
+}
+
+.speedo-unit {
+    font-size: 14px;
+    color: #999;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    align-self: flex-end;
+    margin-bottom: 4px;
+}
+
+.speedo-gear {
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffcc00;
+    background: rgba(255, 204, 0, 0.1);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 204, 0, 0.3);
+    min-width: 32px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+/* High speed indicator */
+.speedo-speed.high-speed {
+    color: #ff4444;
+    text-shadow: 0 2px 8px rgba(255, 68, 68, 0.6);
+}
+
+/* Circle elements removed - using modern bar design */
+.speedo-circle,
+.speedo-bg,
+.speedo-fill,
+.speedo-content {
+    display: none;
+}
+
+/* Edit mode placeholder for conditional elements */
+.edit-placeholder {
+    opacity: 0.7;
+    border: 2px dashed rgba(255, 204, 0, 0.5) !important;
+}
+
+.edit-placeholder::after {
+    content: 'Position mich!';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 204, 0, 0.9);
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 10;
+}

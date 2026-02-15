@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional HUD System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="hud-container">
+        <!-- Health Bar -->
+        <div class="hud-element hud-bar" id="health-bar" data-element="health">
+            <div class="bar-progress" style="width: 100%;"></div>
+            <div class="bar-content">
+                <span class="bar-label">HEALTH</span>
+                <span class="bar-value">100</span>
+            </div>
+        </div>
+
+        <!-- Armor Bar -->
+        <div class="hud-element hud-bar" id="armor-bar" data-element="armor">
+            <div class="bar-progress" style="width: 100%;"></div>
+            <div class="bar-content">
+                <span class="bar-label">ARMOR</span>
+                <span class="bar-value">100</span>
+            </div>
+        </div>
+
+        <!-- Stamina Bar -->
+        <div class="hud-element hud-bar" id="stamina-bar" data-element="stamina">
+            <div class="bar-progress" style="width: 100%;"></div>
+            <div class="bar-content">
+                <span class="bar-label">STAMINA</span>
+                <span class="bar-value">100</span>
+            </div>
+        </div>
+
+        <!-- Oxygen Bar -->
+        <div class="hud-element hud-bar hud-hidden" id="oxygen-bar" data-element="oxygen">
+            <div class="bar-progress" style="width: 100%;"></div>
+            <div class="bar-content">
+                <span class="bar-label">OXYGEN</span>
+                <span class="bar-value">100</span>
+            </div>
+        </div>
+
+        <!-- Stress Bar -->
+        <div class="hud-element hud-bar hud-hidden" id="stress-bar" data-element="stress">
+            <div class="bar-progress" style="width: 0%;"></div>
+            <div class="bar-content">
+                <span class="bar-label">STRESS</span>
+                <span class="bar-value">0</span>
+            </div>
+        </div>
+
+        <!-- Sprint Bar -->
+        <div class="hud-element hud-bar hud-hidden" id="sprint-bar" data-element="sprint">
+            <div class="bar-progress" style="width: 100%;"></div>
+            <div class="bar-content">
+                <span class="bar-label">SPRINT</span>
+                <span class="bar-value">100</span>
+            </div>
+        </div>
+
+        <!-- Hunger Bar -->
+        <div class="hud-element hud-bar" id="hunger-bar" data-element="hunger">
+            <div class="bar-progress" style="width: 100%;"></div>
+            <div class="bar-content">
+                <span class="bar-label">HUNGER</span>
+                <span class="bar-value">100</span>
+            </div>
+        </div>
+
+        <!-- Thirst Bar -->
+        <div class="hud-element hud-bar" id="thirst-bar" data-element="thirst">
+            <div class="bar-progress" style="width: 100%;"></div>
+            <div class="bar-content">
+                <span class="bar-label">THIRST</span>
+                <span class="bar-value">100</span>
+            </div>
+        </div>
+
+        <!-- Cash Display -->
+        <div class="hud-element" id="cash-display" data-element="cash">
+            <span class="bar-label">CASH</span>
+            <span class="bar-value">$0</span>
+        </div>
+
+        <!-- Bank Display -->
+        <div class="hud-element" id="bank-display" data-element="bank">
+            <span class="bar-label">BANK</span>
+            <span class="bar-value">$0</span>
+        </div>
+
+        <!-- Server Display -->
+        <div class="hud-element" id="server-display" data-element="server">
+            <span class="bar-value">FiveM Server</span>
+        </div>
+
+        <!-- ID Display -->
+        <div class="hud-element" id="id-display" data-element="id">
+            <span class="bar-label">ID:</span>
+            <span class="bar-value">1</span>
+        </div>
+
+        <!-- Compass Display -->
+        <div class="hud-element" id="compass-display" data-element="compass">
+            <span class="bar-value">N</span>
+        </div>
+
+        <!-- Street Display -->
+        <div class="hud-element" id="street-display" data-element="street">
+            <span class="bar-value">Unknown Street</span>
+        </div>
+
+        <!-- Weapon Display -->
+        <div class="hud-element" id="weapon-display" data-element="weapon">
+            <div class="weapon-info">
+                <span class="weapon-name">PISTOL</span>
+                <span class="weapon-ammo">12 / 120</span>
+            </div>
+        </div>
+
+        <!-- Professional Speedometer with Vehicle Indicators -->
+        <div class="hud-element" id="speedometer" data-element="speedometer">
+            <div class="vehicle-hud">
+                <!-- Speed Display -->
+                <div class="speed-display">
+                    <div class="speed-number">0</div>
+                    <div class="speed-unit">KM/H</div>
+                </div>
+                
+                <!-- Gear Display -->
+                <div class="gear-display">
+                    <div class="gear-label">GEAR</div>
+                    <div class="gear-number">P</div>
+                </div>
+                
+                <!-- Vehicle Indicators -->
+                <div class="vehicle-indicators">
+                    <div class="indicator" id="ind-engine" title="Engine">
+                        <svg width="16" height="16" viewBox="0 0 24 24">
+                            <path d="M7 4h10v2H7zm0 14h10v2H7zm3-9h4v6h-4z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="indicator" id="ind-lights" title="Lights">
+                        <svg width="16" height="16" viewBox="0 0 24 24">
+                            <path d="M12 2l8 8-8 8-8-8z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="indicator" id="ind-door" title="Door">
+                        <svg width="16" height="16" viewBox="0 0 24 24">
+                            <rect x="6" y="4" width="12" height="16" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="16" cy="12" r="1.5" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="indicator" id="ind-lock" title="Lock">
+                        <svg width="16" height="16" viewBox="0 0 24 24">
+                            <path d="M12 2C9.24 2 7 4.24 7 7v3H6c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2h-1V7c0-2.76-2.24-5-5-5zm0 2c1.66 0 3 1.34 3 3v3H9V7c0-1.66 1.34-3 3-3z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="indicator" id="ind-fuel" title="Fuel">
+                        <svg width="16" height="16" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="indicator" id="ind-belt" title="Seatbelt">
+                        <svg width="16" height="16" viewBox="0 0 24 24">
+                            <path d="M8 8.5l8 8M16 8.5l-8 8" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Fuel Bar -->
+                <div class="fuel-bar">
+                    <div class="fuel-fill" style="width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Mode Overlay -->
+    <div id="edit-overlay" class="hidden">
+        <div class="edit-instructions">
+            <h2>HUD Edit Mode</h2>
+            <p>🎮 Ziehe Elemente per Drag & Drop<br>
+            🖱️ Mausrad über Element zum Skalieren<br>
+            📌 Alle Elemente sind sichtbar zum Positionieren</p>
+            <button id="save-btn">Speichern & Beenden (F10)</button>
+        </div>
+
+        <div class="settings-panel">
+            <h3>⚙️ HUD-Einstellungen</h3>
+            
+            <!-- Layout Preset Selection -->
+            <div class="setting-group">
+                <label for="layout-preset" style="display:block; margin-bottom:8px; font-weight:600; color:#f5a623;">📐 HUD Layout:</label>
+                <select id="layout-preset" style="width:100%; padding:8px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:4px; font-size:13px; margin-bottom:12px;">
+                    <option value="esx-classic">ESX Classic (Bottom-Left Stack)</option>
+                    <option value="minimal-clean">Minimal Clean (Top-Left Compact)</option>
+                    <option value="traditional">Traditional (Corners)</option>
+                    <option value="custom">Custom (F10 Positionieren)</option>
+                </select>
+                <p style="font-size:11px; color:rgba(255,255,255,0.6); margin:0 0 16px 0; line-height:1.4;">
+                    Wähle ein vordefiniertes Layout oder "Custom" für freie Positionierung per F10.
+                </p>
+            </div>
+            
+            <h4 style="margin:0 0 12px 0; font-size:14px; color:rgba(255,255,255,0.8);">Elemente Ein/Aus:</h4>
+            <div class="elements-grid">
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-health" checked>
+                    <span>HEALTH</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-armor" checked>
+                    <span>ARMOR</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-stamina" checked>
+                    <span>STAMINA</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-oxygen">
+                    <span>OXYGEN</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-stress">
+                    <span>STRESS</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-sprint">
+                    <span>SPRINT</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-hunger" checked>
+                    <span>HUNGER</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-thirst" checked>
+                    <span>THIRST</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-cash" checked>
+                    <span>CASH</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-bank" checked>
+                    <span>BANK</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-server" checked>
+                    <span>SERVER</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-id" checked>
+                    <span>ID</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-compass" checked>
+                    <span>COMPASS</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-street" checked>
+                    <span>STREET</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-weapon" checked>
+                    <span>WEAPON</span>
+                </label>
+                <label class="element-checkbox">
+                    <input type="checkbox" id="toggle-speedometer" checked>
+                    <span>SPEEDO</span>
+                </label>
+            </div>
+
+            <h3 style="margin-top: 20px;">🎨 Farbschema</h3>
+            <div class="theme-selector">
+                <div class="theme-btn active" data-theme="blue">
+                    <div class="theme-preview theme-blue"></div>
+                    <span>BLUE</span>
+                </div>
+                <div class="theme-btn" data-theme="red">
+                    <div class="theme-preview theme-red"></div>
+                    <span>RED</span>
+                </div>
+                <div class="theme-btn" data-theme="green">
+                    <div class="theme-preview theme-green"></div>
+                    <span>GREEN</span>
+                </div>
+                <div class="theme-btn" data-theme="purple">
+                    <div class="theme-preview theme-purple"></div>
+                    <span>PURPLE</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings-icon">⚙️</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
