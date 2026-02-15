@@ -1,53 +1,55 @@
-# HUD System
+# Professional GTA V HUD System
 
-Ein hochmodernes, anpassbares HUD-System für FiveM mit kreisförmigen Anzeigen, **individueller Element-Skalierung**, Drag-and-Drop-Positionierung und **ESX-Integration**.
+Ein professionelles, anpassbares HUD-System für FiveM im **GTA V-Stil** mit horizontalen Balken, **individueller Element-Skalierung**, Drag-and-Drop-Positionierung und **vollständiger ESX-Integration**.
 
 ## Features
 
-✅ **Moderne Kreisförmige Anzeigen** - Runde, hochmoderne Icons statt traditioneller Balken
+✅ **Professionelles GTA V Design** - Dunkle, sleeke horizontale Balken statt bunter Circles
 ✅ **Individual Element Scaling** - Jedes Element EINZELN mit Mausrad skalierbar (0.5x - 2.0x)
-✅ **ESX-Integration** - Echte Daten von ESX (Cash, Bank, Spieler-ID)
-✅ **Viewport-Schutz** - Elemente bleiben IMMER im sichtbaren Bereich
+✅ **ESX-Integration** - Echte Daten von ESX (Cash, Bank, Hunger, Durst, Spieler-ID)
+✅ **Viewport-Schutz** - Elemente bleiben IMMER im sichtbaren Bereich (8-fache Validierung)
 ✅ **Alle Elemente in Edit-Modus sichtbar** - Keine verschwindenden Icons mehr!
 ✅ **Pause-Menü Integration** - HUD blendet sich automatisch aus wenn ESC gedrückt wird
-✅ **14 Einzelne HUD-Elemente** - Jedes Element kann einzeln positioniert, skaliert und ein-/ausgeblendet werden
-✅ **Sinnvolle Defaults** - Cleanes Standard-Layout beim ersten Start
-✅ **4 Farbthemen** - Blau, Rot, Grün, Lila
+✅ **16 Einzelne HUD-Elemente** - Jedes Element kann einzeln positioniert, skaliert und ein-/ausgeblendet werden
+✅ **120+ Waffennamen** - Deutsche Waffennamen (Pistole, Sturmgewehr, etc.) statt "null"
+✅ **Professioneller Speedometer** - Mit 6 Fahrzeugindikatoren (Engine, Lights, Doors, Lock, Fuel, Seatbelt)
+✅ **Alle Fahrzeugtypen** - Auto, Boot, Flugzeug, Hubschrauber (mit Höhenanzeige)
+✅ **Clean & Readable** - Größere Schrift, besserer Kontrast, optimale Lesbarkeit
 ✅ **Toggle Edit-Modus** - Drücke **F10**, um den Edit-Modus ein-/auszuschalten
 ✅ **Drag-and-Drop** - Ziehe HUD-Elemente per Maus an die gewünschte Position
 ✅ **Automatisches Speichern** - Positionen, Sichtbarkeit, individuelle Größen und Farbschema
 ✅ **Persistente Einstellungen** - Alle Einstellungen bleiben nach Neustart erhalten
-✅ **Echtzeit-Updates** - Alle Werte werden live vom Spiel aktualisiert
-✅ **Tacho für Fahrzeuge** - Clean, zentrierter Tacho für Auto, Flugzeug, Hubschrauber
-✅ **Edit-Modus Placeholders** - Speedometer und Waffen-Display auch in F10 positionierbar
+✅ **Echtzeit-Updates** - Alle Werte werden live vom Spiel aktualisiert (100ms Intervall)
+✅ **Minimap-Integration** - Status-Balken links neben Minimap positioniert
+✅ **Transparente Backgrounds** - 50% transparent mit 3px Blur für cleane Optik
 
 ## HUD-Elemente
 
-Das System enthält folgende wählbare HUD-Elemente:
+Das System enthält **16 professionelle HUD-Elemente** im GTA V-Stil:
 
-### Kreisförmige Anzeigen
-- ❤️ **Gesundheit** (Health) - Lebensenergie in Prozent *(Standard: Sichtbar)*
-- 🛡️ **Rüstung** (Armor) - Rüstungswert in Prozent *(Standard: Sichtbar)*
-- ⚡ **Ausdauer** (Stamina) - Allgemeine Ausdauer *(Standard: Sichtbar)*
-- 🫁 **Sauerstoff** (Oxygen) - Atemluft unter Wasser *(Standard: Versteckt)*
-- 😰 **Stress** - Stresslevel *(Standard: Versteckt)*
-- 🏃 **Sprint-Energie** - Verbleibende Sprint-Ausdauer *(Standard: Versteckt)*
+### Status-Balken (Links neben Minimap)
+- **HEALTH** - Lebensenergie mit roter Akzentfarbe *(Standard: Sichtbar)*
+- **ARMOR** - Rüstungswert mit blauer Akzentfarbe *(Standard: Sichtbar)*
+- **STAMINA** - Allgemeine Ausdauer mit orange Akzentfarbe *(Standard: Sichtbar)*
+- **OXYGEN** - Atemluft unter Wasser mit cyan Akzentfarbe *(Standard: Versteckt)*
+- **STRESS** - Stresslevel mit roter Akzentfarbe *(Standard: Versteckt)*
+- **SPRINT** - Sprint-Energie mit grüner Akzentfarbe *(Standard: Versteckt)*
+- **HUNGER** - Hungerstatus mit orange Akzentfarbe **[ESX Status]** *(Standard: Sichtbar)*
+- **THIRST** - Durstlevel mit hellblauer Akzentfarbe **[ESX Status]** *(Standard: Sichtbar)*
 
-### Info-Spalte *(MIT ESX-DATEN!)*
-📊 **Info-Spalte** - Kompakte Übersicht in einer Spalte *(Standard: Sichtbar)*
-- 💵 Cash - **Echtes Bargeld aus ESX Account** (live)
-- 🏦 Bank - **Echtes Bank-Guthaben aus ESX Account** (live)
-- 🖥️ Server - Name des Servers
-- 🆔 ID - **Echte Spieler-ID vom Server** (automatisch)
-- 🧭 Kompass - Himmelsrichtung (live: N, NE, E, SE, S, SW, W, NW)
-- 📍 Straße - Aktueller Straßenname mit Kreuzung (live)
+### Geld-Anzeigen (Rechts oben)
+- **CASH** - Bargeld **[ESX Account 'money']** *(Standard: Sichtbar)*
+- **BANK** - Bank-Guthaben **[ESX Account 'bank']** *(Standard: Sichtbar)*
 
-### Einzelne Informations-Anzeigen
-- 💵 **Bargeld** (Cash) - Einzelanzeige *(Standard: Versteckt, nutze Info-Spalte)*
-- 🏦 **Bank** - Einzelanzeige *(Standard: Versteckt, nutze Info-Spalte)*
-- 🖥️ **Server Name** - Einzelanzeige *(Standard: Versteckt, nutze Info-Spalte)*
-- 🧭 **Kompass** - Einzelanzeige *(Standard: Versteckt, nutze Info-Spalte)*
-- 📍 **Straßenname** - Einzelanzeige *(Standard: Versteckt, nutze Info-Spalte)*
+### Server-Informationen (Oben mittig)
+- **SERVER** - Servername *(Standard: Sichtbar)*
+- **ID** - Spieler-ID (automatisch vom Server) *(Standard: Sichtbar)*
+- **COMPASS** - Himmelsrichtung (N, NE, E, SE, S, SW, W, NW) *(Standard: Sichtbar)*
+
+### Fahrzeug & Position (Unten mittig)
+- **SPEEDOMETER** - Professioneller Tacho mit Fahrzeugindikatoren *(Standard: Konditional - nur in Fahrzeugen)*
+- **STREET** - Aktueller Straßenname mit Kreuzung *(Standard: Sichtbar)*
+- **WEAPON** - Waffenname mit Munitionsanzeige *(Standard: Konditional - nur wenn Waffe gezogen)*
 
 ### Konditionale Anzeigen
 - 🔫 **Waffen-Display** - Erscheint nur wenn Waffe gezogen *(Standard: Aktiviert)*
