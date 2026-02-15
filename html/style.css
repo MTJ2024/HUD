@@ -38,7 +38,7 @@ body {
     transform-origin: center;
     z-index: 10;
     border-left: 2px solid rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(3px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
@@ -583,7 +583,7 @@ body {
     border-radius: 3px;
     border: 2px solid rgba(255, 204, 0, 0.6);
     color: #ffcc00;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(3px);
 }
 
 .settings-icon.visible {
@@ -628,7 +628,7 @@ body {
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.7);
     border: 2px solid rgba(255, 204, 0, 0.4);
     z-index: 20;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(3px);
 }
 
 .edit-instructions h2 {
@@ -672,7 +672,7 @@ body {
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.8);
     border: 2px solid rgba(255, 204, 0, 0.4);
     z-index: 20;
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(3px);
 }
 
 .settings-panel h3 {
@@ -952,7 +952,7 @@ body.theme-purple .sprint-circle { stroke: #ba68c8 !important; }
     gap: 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(3px);
 }
 
 .speedo-container {
